@@ -1,0 +1,21 @@
+# 1101 B是A的多少倍
+#
+# 题目描述：
+#   设一个数 A 的最低 D 位形成的数是 a_d。如果把 a_d 截下来移到 A 的最高位前面，就形成了一个新的数 B。B 是 A 的多少倍？例如将 12345 的最低 2 位 45 截下来放到 123 的前面，就得到 45123，它约是 12345 的 3.66 倍。
+#
+# 实现原理：
+#   将A的最后D位移到最前面得到B；计算B是A的多少倍；处理大数和循环位移
+#
+
+if __FILE__ == $PROGRAM_NAME
+  a = gets.to_i
+  target = a.digits.sum
+
+  (2..1000).each do |k|
+    b = k * a
+    if b.digits.sum == target
+      puts "#{b} #{k}"
+      break
+    end
+  end
+end

@@ -1,49 +1,63 @@
-/*
- * 1118 如需挪车请致电
- *
- * 【实现原理】
- * 题目给定 N 条停车记录，每条记录包含车牌号、进入时间、离开时间（格式 hh:mm）。
- * 需要累计每辆车的总停车分钟数，然后输出停车时间最长的车牌号及其总停车分钟数。
- * 若存在并列，输出最先出现的那辆车。
- *
- * 【算法思路】
- * 1. 实现 toMin() 函数将 "hh:mm" 格式的时间转换为从 00:00 开始的分钟数。
- * 2. 使用 map<string, int> 累计每辆车的总停车分钟数。
- * 3. 每次更新某辆车的累计时间后，检查是否更新最长停车记录（严格大于才更新，保证最先出现）。
- * 4. 输出车牌号和总分钟数。
- *
- * 【复杂度分析】
- * - 时间复杂度：O(N × log(N))，map 操作 O(log N)。
- * - 空间复杂度：O(N)，存储车辆信息。
- */
+// 1118 如需挪车请致电
+//
+// 实现原理：
+// 给定 11 行计算式，每行至多含 1 个运算符，运算结果都是 1 位整数。
+// 支持的运算：加（+）、减（-）、乘（*）、除（/）、取余（%）、开平方根（sqrt）、
+// 指数（^）以及文字（0~9 的全小写汉语拼音，如 ling 表示 0）。
+// 将 11 个结果依次拼接成电话号码输出。
+//
+// 关键步骤：
+// 1. 建立汉语拼音（ling~jiu）到数字（0~9）的映射。
+// 2. 对每行：若是拼音则直接取对应数字；若以 "sqrt" 开头则开平方；
+//    否则定位运算符，解析左右操作数并计算。
+// 3. 将每个结果转为一位数字字符，拼接成电话号码。
+//
+// 复杂度分析：
+// 时间复杂度：O(11 * L)，L 为单行计算式长度。
+// 空间复杂度：O(1)，仅使用常数个变量。
 #include <iostream>
 #include <string>
 #include <map>
+#include <cmath>
 
 using namespace std;
 
-/*
- * 将 "hh:mm" 格式的时间转换为从午夜开始的分钟数
- */
-int toMin(const string& t) {
-    int h = stoi(t.substr(0, 2));                // 提取小时
-    int m = stoi(t.substr(3, 2));                // 提取分钟
-    return h * 60 + m;                           // 转换为总分钟数
-}
-
 int main() {
-    int n;
-    if (!(cin >> n)) return 0;
-    map<string, int> total;                      // 车牌号 -> 累计停车分钟数
-    string best = "";
-    int bestMin = -1;
-    for (int i = 0; i < n; ++i) {
-        string plate, tin, tout;
-        cin >> plate >> tin >> tout;
-        int dur = toMin(tout) - toMin(tin);      // 计算本次停车时长（分钟）
-        total[plate] += dur;                     // 累加总时长
-        if (total[plate] > bestMin) { bestMin = total[plate]; best = plate; } // 更新最长记录
+    map<string, int> py = {
+        {"ling", 0}, {"yi", 1}, {"er", 2}, {"san", 3}, {"si", 4},
+        {"wu", 5}, {"liu", 6}, {"qi", 7}, {"ba", 8}, {"jiu", 9}
+    };
+
+    string phone;
+    for (int i = 0; i < 11; ++i) {
+        string s;
+        cin >> s;
+        int res;
+        if (py.count(s)) {                    // 文字（汉语拼音）
+            res = py[s];
+        } else if (s.substr(0, 4) == "sqrt") {  // 开平方根
+            int v = stoi(s.substr(4));
+            res = (int)sqrt(v);
+        } else {                              // 二元运算
+            size_t pos = string::npos;
+            char op;
+            for (char c : {'+', '-', '*', '/', '%', '^'}) {
+                size_t p = s.find(c);
+                if (p != string::npos) { pos = p; op = c; break; }
+            }
+            int a = stoi(s.substr(0, pos));
+            int b = stoi(s.substr(pos + 1));
+            switch (op) {
+                case '+': res = a + b; break;
+                case '-': res = a - b; break;
+                case '*': res = a * b; break;
+                case '/': res = a / b; break;
+                case '%': res = a % b; break;
+                case '^': res = (int)pow(a, b); break;
+            }
+        }
+        phone += char('0' + res);             // 拼接一位数字
     }
-    cout << best << " " << bestMin << endl;       // 输出车牌号和总分钟数
+    cout << phone << endl;
     return 0;
 }

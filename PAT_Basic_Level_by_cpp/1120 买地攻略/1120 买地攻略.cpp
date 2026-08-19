@@ -1,23 +1,18 @@
-/*
- * 1120 买地攻略
- *
- * 【实现原理】
- * 题目给定预算 M 元，以及 N 块土地（每块有价格和面积），要求在预算内选择若干块土地
- * 使得总面积最大。这是一个典型的 0-1 背包问题：
- * - 背包容量：预算 M
- * - 物品重量：土地价格
- * - 物品价值：土地面积
- *
- * 【算法思路】
- * 1. 将价格视为重量，面积视为价值，使用 DP 数组 dp[j] 表示预算为 j 时能获得的最大面积。
- * 2. 使用一维滚动数组优化空间：对每块土地 i，从 M 向下遍历到 price[i]，
- *    状态转移方程：dp[j] = max(dp[j], dp[j - price[i]] + area[i])。
- * 3. dp[M] 即为预算 M 下能获得的最大总面积。
- *
- * 【复杂度分析】
- * - 时间复杂度：O(N × M)，其中 N 为土地数量，M 为预算上限。
- * - 空间复杂度：O(M)，一维 DP 数组。
- */
+// 1120 买地攻略
+//
+// 实现原理：
+// 给定 N 块连续土地的价格和客户手中的现金量 M，客户只能购买连续相邻的土地。
+// 求有多少种不同的购买方案，使得所选连续土地的总价不超过 M。
+//
+// 关键步骤：
+// 1. 使用滑动窗口（双指针）：维护窗口 [left, right] 的和 sum。
+// 2. 右指针 right 逐步右移，累加价格；当 sum > M 时，左指针 left 右移并减去价格。
+// 3. 对每个 right，以 right 结尾且和不超过 M 的连续子数组个数为 (right - left + 1)，
+//    累加到答案。
+//
+// 复杂度分析：
+// 时间复杂度：O(N)，每个元素最多进出窗口一次。
+// 空间复杂度：O(N)，存储价格数组。
 #include <iostream>
 #include <vector>
 
@@ -27,15 +22,16 @@ int main() {
     int n;
     long long m;
     if (!(cin >> n >> m)) return 0;
-    vector<int> price(n), area(n);
-    for (int i = 0; i < n; ++i) cin >> price[i] >> area[i]; // 读入每块地的价格和面积
+    vector<long long> a(n);
+    for (int i = 0; i < n; ++i) cin >> a[i];
 
-    vector<long long> dp(m + 1, 0);              // dp[j] = 预算 j 时的最大总面积
-    for (int i = 0; i < n; ++i) {
-        // 一维 0-1 背包，逆向遍历避免重复选择
-        for (long long j = m; j >= price[i]; --j)
-            dp[j] = max(dp[j], dp[j - price[i]] + area[i]);
+    long long cnt = 0, sum = 0;
+    int left = 0;
+    for (int right = 0; right < n; ++right) {
+        sum += a[right];
+        while (sum > m) { sum -= a[left]; ++left; }  // 收缩窗口使和不超过 M
+        cnt += (right - left + 1);                   // 以 right 结尾的合法方案数
     }
-    cout << dp[m] << endl;                       // 输出最大总面积
+    cout << cnt << endl;
     return 0;
 }

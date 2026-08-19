@@ -1,34 +1,49 @@
-/*
- * 1116 多二了一点
- *
- * 【实现原理】
- * 题目给定 N 个整数，计算它们的平均值，然后统计序列中有多少个元素严格大于这个平均值，
- * 输出统计结果。
- *
- * 【算法思路】
- * 1. 读入 N 个整数，同时累加所有数值的和。
- * 2. 计算平均值 avg = sum / N（使用浮点数）。
- * 3. 遍历数组，统计大于 avg 的元素个数。
- * 4. 输出计数结果。
- *
- * 【复杂度分析】
- * - 时间复杂度：O(N)，一次遍历求和，一次遍历统计。
- * - 空间复杂度：O(N)，存储整数数组。
- */
+// 1116 多二了一点
+//
+// 实现原理：
+// 若一个正整数有 2n 个数位，后 n 个数位组成的数恰好比前 n 个数位组成的数多 2，
+// 则称这个数字"多二了一点"。给定一个正整数 N（可达 10^1000），判断它是否多二了一点。
+//
+// 关键步骤：
+// 1. 若 N 的位数是奇数，输出 "Error: X digit(s)"，X 为位数。
+// 2. 否则将 N 从中间分成前一半 Y 和后一半 X。
+// 3. 用大数减法计算 X - Y（题目保证多二了一点时 Y 的个位数不大于 7，无需借位）。
+// 4. 若差为 2 输出 "Yes: X - Y = 2"，否则输出 "No: X - Y != 2"。
+//
+// 复杂度分析：
+// 时间复杂度：O(L)，L 为 N 的位数。
+// 空间复杂度：O(L)，存储字符串。
 #include <iostream>
-#include <vector>
+#include <string>
 
 using namespace std;
 
 int main() {
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<int> a(n);
-    long long sum = 0;
-    for (int i = 0; i < n; ++i) { cin >> a[i]; sum += a[i]; } // 读入并累加
-    double avg = (double)sum / n;                // 计算平均值
-    int cnt = 0;
-    for (int v : a) if (v > avg) ++cnt;          // 统计大于平均值的元素个数
-    cout << cnt << endl;
+    string s;
+    if (!(cin >> s)) return 0;
+
+    int len = (int)s.size();
+    if (len % 2 != 0) {                       // 奇数位
+        cout << "Error: " << len << " digit(s)" << endl;
+        return 0;
+    }
+
+    string Y = s.substr(0, len / 2);          // 前一半
+    string X = s.substr(len / 2);             // 后一半
+
+    // 大数减法 X - Y（逐位相减，处理借位）
+    string diff;
+    int borrow = 0;
+    for (int i = (int)X.size() - 1; i >= 0; --i) {
+        int d = (X[i] - '0') - (Y[i] - '0') - borrow;
+        if (d < 0) { d += 10; borrow = 1; } else borrow = 0;
+        diff = char('0' + d) + diff;
+    }
+    // 去掉前导零
+    size_t pos = diff.find_first_not_of('0');
+    string dstr = (pos == string::npos) ? "0" : diff.substr(pos);
+
+    if (dstr == "2") cout << "Yes: " << X << " - " << Y << " = 2" << endl;
+    else cout << "No: " << X << " - " << Y << " != 2" << endl;
     return 0;
 }

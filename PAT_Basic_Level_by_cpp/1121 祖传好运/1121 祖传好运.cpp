@@ -1,45 +1,38 @@
-/*
- * 1121 祖传好运
- *
- * 【实现原理】
- * 题目给定 N 个幸运数字，每个数字的"运气"定义为它的各位数字之和。
- * 找出运气最大的数字并输出。若存在多个数字拥有相同的最大运气值，
- * 则输出最先出现的那一个。
- *
- * 【算法思路】
- * 1. 实现 digitSum() 函数计算整数的各位数字之和。
- * 2. 顺序读入每个数字，计算其各位和（运气），
- *    若当前运气大于已记录的最大运气，则更新最佳数字和最大运气。
- * 3. 使用严格大于（>）比较，保证运气相同时保留最先出现的。
- * 4. 输出最佳数字。
- *
- * 【复杂度分析】
- * - 时间复杂度：O(N × log₁₀(maxValue))，每个数需计算各位数字之和。
- * - 空间复杂度：O(1)，仅使用常数个变量。
- */
+// 1121 祖传好运
+//
+// 实现原理：
+// 0~9 都是好运数。一个大于 9 的数字 N 具有祖传好运，如果它是由某个好运数添加一个
+// 个位数字得到的，并且它能被自己的位数整除。等价地：对 N 的每个前缀（长度 1 到 d），
+// 该前缀对应的数值都能被其位数整除。
+//
+// 关键步骤：
+// 1. 对每个待评测数字，从最高位开始逐位构造前缀数值。
+// 2. 对每个前缀，检查其数值是否能被当前位数整除。
+// 3. 若所有前缀都满足，则输出 "Yes"，否则输出 "No"。
+//
+// 复杂度分析：
+// 时间复杂度：O(K * L)，K 为数字个数，L 为单个数字的位数（最多 10 位）。
+// 空间复杂度：O(1)，仅使用常数个变量。
 #include <iostream>
-#include <vector>
+#include <string>
 
 using namespace std;
 
-/*
- * 计算整数 x 的各位数字之和
- */
-int digitSum(int x) {
-    int s = 0;
-    while (x) { s += x % 10; x /= 10; }
-    return s;
-}
-
 int main() {
-    int n;
-    if (!(cin >> n)) return 0;
-    int best = 0, bestLuck = -1;
-    for (int i = 0; i < n; ++i) {
-        int x; cin >> x;
-        int luck = digitSum(x);                  // 计算各位数字之和（运气）
-        if (luck > bestLuck) { bestLuck = luck; best = x; } // 更新最大运气和对应数字
+    int k;
+    if (!(cin >> k)) return 0;
+
+    while (k--) {
+        string s;
+        cin >> s;
+        bool ok = true;
+        long long val = 0;
+        for (size_t i = 0; i < s.size(); ++i) {
+            val = val * 10 + (s[i] - '0');   // 构造前缀数值
+            int len = (int)i + 1;            // 当前位数
+            if (val % len != 0) { ok = false; break; }  // 前缀必须能被位数整除
+        }
+        cout << (ok ? "Yes" : "No") << endl;
     }
-    cout << best << endl;
     return 0;
 }

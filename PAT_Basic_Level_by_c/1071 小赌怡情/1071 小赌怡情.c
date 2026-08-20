@@ -26,15 +26,15 @@ int main() {
             break;
         }
         if (t > T) {  // 下注超过当前筹码：提示不足并跳过本局
-            printf("Not enough tokens. Total = %d.\n", T);
+            printf("Not enough tokens.  Total = %d.\n", T);
             continue;
         }
         if ((n1 > n2 && b == 0) || (n1 < n2 && b == 1)) {  // 押小(b=0)且 n1>n2 或押大(b=1)且 n1<n2：赢
             T += t;
-            printf("Win %d! Total = %d.\n", t, T);
+            printf("Win %d!  Total = %d.\n", t, T);
         } else {  // 猜错：扣除筹码
             T -= t;
-            printf("Lose %d. Total = %d.\n", t, T);
+            printf("Lose %d.  Total = %d.\n", t, T);
             if (T == 0) {  // 输光筹码：游戏结束
                 printf("Game Over.\n");
                 break;

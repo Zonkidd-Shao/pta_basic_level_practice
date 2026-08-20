@@ -16,7 +16,7 @@ int main() {
     int n;
     scanf("%d", &n);
     char name[100], max_name[100], min_name[100];  // 当前姓名、最年轻者姓名、最年长者姓名
-    char birthday[10], max_birth[10] = "1814/09/06", min_birth[10] = "2014/09/06";
+    char birthday[11], max_birth[11] = "1814/09/06", min_birth[11] = "2014/09/06";
     // 注意：max_birth 存最大的生日（最年轻者），min_birth 存最小的生日（最年长者）；
     // 初始值分别设为有效范围的下限和上限，方便后续比较更新
     int count = 0;  // 生日有效的人数

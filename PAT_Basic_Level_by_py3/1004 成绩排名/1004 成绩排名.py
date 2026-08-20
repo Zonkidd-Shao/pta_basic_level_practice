@@ -30,5 +30,5 @@ import sys
 
 students = [sys.stdin.readline().split() for _ in range(int(sys.stdin.readline()))]
 students.sort(key=lambda x: int(x[2]))
-print(*students[0][:2])
 print(*students[-1][:2])
+print(*students[0][:2])

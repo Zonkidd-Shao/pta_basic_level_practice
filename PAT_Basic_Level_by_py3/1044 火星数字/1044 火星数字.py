@@ -23,7 +23,7 @@
 #
 import sys
 
-low = 'tret jan feb mar apr may jun jly aug sep oct nov dec'.split(); high = 'tam hel maa huh tou kes hei elo syy lok mer jou'.split()
+low = 'tret jan feb mar apr may jun jly aug sep oct nov dec'.split(); high = ['', 'tam', 'hel', 'maa', 'huh', 'tou', 'kes', 'hei', 'elo', 'syy', 'lok', 'mer', 'jou']
 for _ in range(int(sys.stdin.readline())):
     s = sys.stdin.readline().strip()
     if s[0].isdigit():

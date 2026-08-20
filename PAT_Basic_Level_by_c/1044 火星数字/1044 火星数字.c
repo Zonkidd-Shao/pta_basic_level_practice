@@ -73,9 +73,11 @@ int main() {
             int h = 0, l = 0;  // 高位值、低位值
             h = find_index(part1, high, 13);
             if (h == -1) {  // 第一个词不在高位表中 → 整个是低位词
+                h = 0;
                 l = find_index(part1, low, 13);
             } else {  // 第一个词是高位，第二个词是低位
-                l = find_index(part2, low, 13);
+                if (h != -1 && part2[0] == '\0') l = 0;
+                else l = find_index(part2, low, 13);
             }
             
             printf("%d", h * 13 + l);

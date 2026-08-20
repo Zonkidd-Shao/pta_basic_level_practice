@@ -21,4 +21,4 @@ import sys
 
 for i, line in enumerate(sys.stdin.read().splitlines()[1:], 1):
     a, b, c = map(int, line.split())
-    print(f'Case #{i}: {a + b > c}')
+    print(f'Case #{i}: {str(a + b > c).lower()}')

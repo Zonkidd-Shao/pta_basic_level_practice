@@ -26,9 +26,9 @@ int main() {
     int m, n, a, b, rep;
     if (!(cin >> m >> n >> a >> b >> rep)) return 0;
 
-    // 逐行逐列处理每个像素
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
+    // M行N列：M为行数，N为列数
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
             int v;
             cin >> v;
             if (v >= a && v <= b) v = rep;  // 在区间内则替换

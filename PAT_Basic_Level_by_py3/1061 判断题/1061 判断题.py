@@ -18,5 +18,5 @@
 #
 import sys
 
-n,m=map(int,sys.stdin.readline().split()); ans=list(map(int,sys.stdin.readline().split())); score=list(map(int,sys.stdin.readline().split()))
+n,m=map(int,sys.stdin.readline().split()); score=list(map(int,sys.stdin.readline().split())); ans=list(map(int,sys.stdin.readline().split()))
 for _ in range(n): print(sum(s for x,a,s in zip(map(int,sys.stdin.readline().split()),ans,score) if x==a))

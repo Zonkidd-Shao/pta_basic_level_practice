@@ -25,9 +25,10 @@
 import sys
 
 for _ in range(int(sys.stdin.readline())):
- s=sys.stdin.readline().strip()
+ s=sys.stdin.readline().rstrip('\n')
+ # 保留行首空格？密码以回车结束，strip 会去掉首尾空格但题目密码可含空格？按题意用 rstrip('\n')后不用strip，非法字符包含空格需判断；此处用 rstrip('\n') 后若用strip会误删。这里按原逻辑用 rstrip('\n') 的原始串判断，但长度判断需按原串？PAT题中密码不含首尾空格，用strip不影响；保留原实现但修正合法字符判断
  if len(s)<6:print('Your password is tai duan le.')
- elif not s.isalnum():print('Your password is tai luan le.')
+ elif not all(c.isalnum() or c=='.' for c in s):print('Your password is tai luan le.')
  elif not any(x.isalpha() for x in s):print('Your password needs zi mu.')
  elif not any(x.isdigit() for x in s):print('Your password needs shu zi.')
  else:print('Your password is wan mei.')

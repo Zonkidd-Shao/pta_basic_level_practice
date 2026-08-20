@@ -11,9 +11,9 @@
 #include <stdio.h>
 
 int main() {
-    char ch;
+    int ch;
     int sum = 0, zero = 0, one = 0;  // sum: 字母序号累加和; zero/one: 二进制中 0/1 的个数
-    while ((ch = getchar()) != '\n') {  // 逐字符读入一行
+    while ((ch = getchar()) != '\n' && ch != EOF) {  // 逐字符读入一行，直到换行或EOF
         if (ch >= 'a' && ch <= 'z') {       // 小写字母 a~z 对应 1~26
             sum += ch - 'a' + 1;
         } else if (ch >= 'A' && ch <= 'Z') {  // 大写字母同样处理

@@ -1,24 +1,34 @@
-# 题目：1100 校庆
-#
-# 题目描述：
-#   2019 年浙江大学将要庆祝成立 122 周年。为了准备校庆，校友会收集了所有校友的身份证号。现在需要请你编写程序，根据来参加校庆的所有人士的身份证号，统计来了多少校友。
-#
-# 输入格式：
-#   输入在第一行给出不超过 10^5 的正整数 N，随后 N 行，每行给出一位校友的身份证号（18 位由数字和大写字母X组成的字符串）。题目保证身份证号不重复。
-#   随后给出前来参加校庆的所有人士的信息：首先是一个不超过 10^5 的正整数 M，随后 M 行，每行给出一位人士的身份证号。题目保证身份证号不重复。
-#
-# 输出格式：
-#   首先在第一行输出参加校庆的校友的人数。然后在第二行输出最年长的校友的身份证号 —— 注意身份证第 7-14 位给出的是 `yyyymmdd` 格式的生日。如果没有校友来，则在第二行输出最年长的来宾的身份证号。题目保证这样的校友或来宾必是唯一的。
-#
-# 实现原理：
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   集合查找：用集合存储校友生日，
-#   统计来宾中的校友人数并找出最年长的。
-#
 import sys
 
-n=int(sys.stdin.readline());old={sys.stdin.readline().strip() for _ in range(n)};m=int(sys.stdin.readline());a=[sys.stdin.readline().strip() for _ in range(m)];b=[x for x in a if x in old]
-print(len(b));print(min(b or a))
+data = sys.stdin.read().strip().split()
+if not data:
+    sys.exit(0)
+it = iter(data)
+try:
+    n = int(next(it))
+except StopIteration:
+    sys.exit(0)
+old = set()
+for _ in range(n):
+    try:
+        old.add(next(it).strip())
+    except StopIteration:
+        break
+try:
+    m = int(next(it))
+except StopIteration:
+    m = 0
+a = []
+for _ in range(m):
+    try:
+        a.append(next(it).strip())
+    except StopIteration:
+        break
+b = [x for x in a if x in old]
+print(len(b))
+# 最年长按生日 id[6:14] 比较
+candidates = b if b else a
+if candidates:
+    # 按生日字符串比较，yyyymmdd 越小越年长
+    ans = min(candidates, key=lambda x: x[6:14] if len(x) >= 14 else x[6:])
+    print(ans)

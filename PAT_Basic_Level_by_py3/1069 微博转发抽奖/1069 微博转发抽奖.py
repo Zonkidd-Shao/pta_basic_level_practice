@@ -1,28 +1,29 @@
-# 题目：1069 微博转发抽奖
-#
-# 题目描述：
-#   小明 PAT 考了满分，高兴之余决定发起微博转发抽奖活动，从转发的网友中按顺序每隔 N 个人就发出一个红包。请你编写程序帮助他确定中奖名单。
-#
-# 输入格式：
-#   输入第一行给出三个正整数 M（\le 1000）、N 和 S，分别是转发的总量、小明决定的中奖间隔、以及第一位中奖者的序号（编号从 1 开始）。随后 M 行，顺序给出转发微博的网友的昵称（不超过 20 个字符、不包含空格回车的非空字符串）。
-#   注意：可能有人转发多次，但不能中奖多次。所以如果处于当前中奖位置的网友已经中过奖，则跳过他顺次取下一位。
-#
-# 输出格式：
-#   按照输入的顺序输出中奖名单，每个昵称占一行。如果没有人中奖，则输出 `Keep going...`。
-#
-# 实现原理：
-#   - 使用集合(Set)进行去重和快速查找
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   抽奖模拟：按间隔选取获奖者，
-#   跳过已中奖的人。
-#
+# 1069 微博转发抽奖
 import sys
-
-m,n,s=map(int,sys.stdin.readline().split()); a=sys.stdin.readline().split(); win=[]; used=set(); i=s-1
-while i<m:
- if a[i] not in used: win.append(a[i]);used.add(a[i]);i+=n
- else:i+=1
-print('\n'.join(win) if win else 'Keep going...')
+data = sys.stdin.read().strip().split()
+if not data:
+    print("Keep going...")
+    sys.exit(0)
+m, n, s = map(int, data[:3])
+names = data[3:3+m]
+# In case names contain spaces? they don't, so split works
+if len(names) < m:
+    # fallback read lines
+    names += [""] * (m - len(names))
+if s > m:
+    print("Keep going...")
+    sys.exit(0)
+used = set()
+win = []
+i = s - 1
+while i < m:
+    if names[i] not in used:
+        win.append(names[i])
+        used.add(names[i])
+        i += n
+    else:
+        i += 1
+if win:
+    sys.stdout.write("\n".join(win))
+else:
+    print("Keep going...")

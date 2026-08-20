@@ -16,18 +16,28 @@
 #   输出拍照的队形。即K排人名，其间以空格分隔，行末不得有多余空格。注意：假设你面对拍照者，后排的人输出在上方，前排输出在下方。
 #
 # 实现原理：
-#   - 排序算法
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   排序与排列：按身高排序后按行排列，
-#   每行中间最高，左右交替排列。
+#   按身高降序（同高按名字升序），按行分配，中间最高，左右交替。
 #
 import sys
 
-n,k=map(int,sys.stdin.readline().split()); a=sorted([sys.stdin.readline().split() for _ in range(n)],key=lambda x:(-int(x[1]),x[0])); first=n-(n//k)*(k-1)
-for r,size in enumerate([first]+[n//k]*(k-1)):
-    row=[]
-    for i,x in enumerate(a[:size]): row.insert((len(row)+1)//2 if i%2==0 else len(row)//2,x[0])
-    print(*row); a=a[size:]
+n, k = map(int, sys.stdin.readline().split())
+a = sorted([sys.stdin.readline().split() for _ in range(n)], key=lambda x: (-int(x[1]), x[0]))
+first = n - (n // k) * (k - 1)
+sizes = [first] + [n // k] * (k - 1)
+idx = 0
+for size in sizes:
+    m = size
+    row = [None] * m
+    mid = m // 2
+    row[mid] = a[idx][0]
+    left = mid - 1
+    right = mid + 1
+    for i in range(1, m):
+        if i % 2 == 1:
+            row[left] = a[idx + i][0]
+            left -= 1
+        else:
+            row[right] = a[idx + i][0]
+            right += 1
+    print(*row)
+    idx += m

@@ -33,11 +33,11 @@ int main() {
     for (int i = 0; i < n; ++i) {
         int aShout, aHand, bShout, bHand;
         cin >> aShout >> aHand >> bShout >> bHand;
-        int sum = aHand + bHand;  // 两人出手指数之和
-        // 甲猜中且乙没猜中 -> 乙喝
-        if (sum == aShout && sum != bShout) ++bDrink;
+        int sum = aShout + bShout;  // 两人喊数之和
+        // 甲猜中（甲划==sum）且乙没猜中 -> 乙喝
+        if (aHand == sum && bHand != sum) ++bDrink;
         // 乙猜中且甲没猜中 -> 甲喝
-        else if (sum == bShout && sum != aShout) ++aDrink;
+        else if (bHand == sum && aHand != sum) ++aDrink;
         // 同时猜中或同时未中：都不喝
     }
     cout << aDrink << ' ' << bDrink << endl;

@@ -1,39 +1,40 @@
 /*
  * 1109 擅长C
- *
- * 【实现原理】
- * 题目给定 N 个字符串，要求统计每个字符串出现的次数，输出出现次数最多的字符串。
- * 若出现次数并列，则取字典序最小的字符串。
- *
- * 【算法思路】
- * 1. 使用 map<string, int> 统计每个字符串的出现次数。
- * 2. 每次读入字符串时，更新其计数。
- * 3. 记录当前出现次数最多的字符串（次数相同则取字典序较小的）。
- * 4. 输出最终结果。
- *
- * 【复杂度分析】
- * - 时间复杂度：O(N × L × log(N))，其中 L 为字符串平均长度，map 操作 O(log N)。
- * - 空间复杂度：O(N × L)，存储所有不同字符串及其计数。
+ * 直接复制 by_c 逻辑转为 C++：点阵打印
  */
-#include <iostream>
-#include <string>
-#include <map>
-
+#include <bits/stdc++.h>
 using namespace std;
-
-int main() {
-    int n;
-    if (!(cin >> n)) return 0;
-    map<string, int> cnt;                        // 哈希表，统计每个字符串出现次数
-    string best = "";
-    int maxc = 0;
-    for (int i = 0; i < n; ++i) {
-        string s;
-        cin >> s;
-        int c = ++cnt[s];                        // 更新计数
-        // 比较：次数更多，或次数相同但字典序更小
-        if (c > maxc || (c == maxc && s < best)) { maxc = c; best = s; }
+string letters[26][7];
+void print_word(const string& word){
+    int len=word.size();
+    for(int i=0;i<7;++i){
+        for(int j=0;j<len;++j){
+            int idx=word[j]-'A';
+            cout<<letters[idx][i];
+            if(j<len-1) cout<<' ';
+        }
+        cout<<"\n";
     }
-    cout << best << endl;
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    for(int i=0;i<26;++i) for(int j=0;j<7;++j) if(!(cin>>letters[i][j])) return 0;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    string sentence;
+    getline(cin, sentence);
+    string word;
+    bool first=true;
+    for(size_t i=0;i<=sentence.size();++i){
+        bool isUpper = (i < sentence.size() && sentence[i]>='A' && sentence[i]<='Z');
+        if(i==sentence.size() || !isUpper){
+            if(!word.empty()){
+                if(!first) cout<<"\n";
+                print_word(word);
+                first=false;
+                word.clear();
+            }
+        }else word.push_back(sentence[i]);
+    }
     return 0;
 }

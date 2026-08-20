@@ -49,17 +49,14 @@ int main() {
         }
         
         char row[10000][9];  // 本行按最终站位顺序存放姓名
-        int pos = m / 2;     // 最高的人站在中间位置
-        int order = 1;       // 控制向左右交替放置：1 向右，-1 向左
-        
-        for (int i = 0; i < m; i++) {  // 按从高到低依次向两边穿插
-            strcpy(row[pos], arr[index + i].name);
-            if (order > 0) {
-                pos += order * (i + 1);  // 向右跳 1、2、3... 格（下一人放右侧）
-                order = -order;
+        int mid = m / 2;     // 最高的人站在中间位置
+        strcpy(row[mid], arr[index].name);
+        int left = mid - 1, right = mid + 1;
+        for (int i = 1; i < m; i++) {  // 按从高到低依次向两边穿插：先左后右
+            if (i % 2 == 1) {
+                strcpy(row[left--], arr[index + i].name);  // 奇数位放左侧
             } else {
-                pos += order * (i + 1);  // 向左跳 1、2、3... 格（再下一人放左侧）
-                order = -order;
+                strcpy(row[right++], arr[index + i].name); // 偶数位放右侧
             }
         }
         

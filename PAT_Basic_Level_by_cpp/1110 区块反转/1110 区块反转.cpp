@@ -45,7 +45,7 @@ int main() {
     // 将 order 按每 K 个结点分为一块
     vector<vector<int>> blocks;
     for (size_t i = 0; i < order.size(); i += k)
-        blocks.emplace_back(order.begin() + i, order.begin() + min(i + k, (int)order.size()));
+        blocks.emplace_back(order.begin() + i, order.begin() + i + min((size_t)k, order.size() - i));
     reverse(blocks.begin(), blocks.end());       // 反转块顺序
 
     vector<int> res;

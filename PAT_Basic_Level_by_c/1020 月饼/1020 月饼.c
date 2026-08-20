@@ -24,7 +24,8 @@ int cmp(const void *a, const void *b) {         // 按单价从高到低排序
     Mooncake *m1 = (Mooncake *)a;
     Mooncake *m2 = (Mooncake *)b;
     if (m1->unit_price < m2->unit_price) return 1;
-    return -1;
+    if (m1->unit_price > m2->unit_price) return -1;
+    return 0;
 }
 
 int main() {

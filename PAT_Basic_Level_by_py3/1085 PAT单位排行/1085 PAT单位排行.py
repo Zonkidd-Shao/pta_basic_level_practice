@@ -1,41 +1,36 @@
-# 题目：1085 PAT单位排行
-#
-# 题目描述：
-#   每次 PAT 考试结束后，考试中心都会发布一个考生单位排行榜。本题就请你实现这个功能。
-#
-# 输入格式：
-#   输入第一行给出一个正整数 N（\le 10^5），即考生人数。随后 N 行，每行按下列格式给出一个考生的信息：
-#   ```
-#   准考证号 得分 学校
-#   ```
-#   其中`准考证号`是由 6 个字符组成的字符串，其首字母表示考试的级别：`B`代表乙级，`A`代表甲级，`T`代表顶级；`得分`是 [0, 100] 区间内的整数；`学校`是由不超过 6 个英文字母组成的单位码（大小写无关）。注意：题目保证每个考生的准考证号是不同的。
-#
-# 输出格式：
-#   首先在一行中输出单位个数。随后按以下格式非降序输出单位的排行榜：
-#   ```
-#   排名 学校 加权总分 考生人数
-#   ```
-#   其中`排名`是该单位的排名（从 1 开始）；`学校`是全部按小写字母输出的单位码；`加权总分`定义为`乙级总分/1.5 + 甲级总分 + 顶级总分*1.5`的**整数部分**；`考生人数`是该属于单位的考生的总人数。
-#   学校首先按加权总分排行。如有并列，则应对应相同的排名，并按考生人数升序输出。如果仍然并列，则按单位码的字典序输出。
-#
-# 实现原理：
-#   - 使用集合(Set)进行去重和快速查找
-#   - 使用字典(Dict)存储键值对映射
-#   - 排序算法
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   数据聚合与排序：按学校汇总成绩，
-#   计算加权总分并排名。
-#
 import sys
 from collections import defaultdict
 
-d=defaultdict(lambda:[0,set()])
-for _ in range(int(sys.stdin.readline())):
- a,b,c=sys.stdin.readline().split();v=float(b);c=c.lower();d[c][0]+=int(v*(1 if a[0]=='B' else 1.5 if a[0]=='A' else 1.5/1.5));d[c][1].add(a)
-ans=sorted([(int(v[0]),k,len(v[1])) for k,v in d.items()],key=lambda x:(-x[0],x[1]));rank=0;last=None
-for i,x in enumerate(ans):
- if x[0]!=last:rank=i+1;last=x[0]
- print(rank,*x)
+n = int(sys.stdin.readline())
+d = defaultdict(lambda: [0.0, 0])  # score_weighted_sum, cnt
+for _ in range(n):
+    line = sys.stdin.readline()
+    if not line:
+        continue
+    a, b, c = line.split()
+    v = int(b)
+    c = c.lower()
+    if a[0] == 'B':
+        d[c][0] += v / 1.5
+    elif a[0] == 'A':
+        d[c][0] += v
+    else:  # T
+        d[c][0] += v * 1.5
+    d[c][1] += 1
+
+ans = []
+for k, (score, cnt) in d.items():
+    total = int(score)
+    ans.append((total, k, cnt))
+
+ans.sort(key=lambda x: (-x[0], x[2], x[1]))
+
+print(len(ans))
+rank = 0
+last = None
+for i, x in enumerate(ans):
+    if x[0] != last:
+        rank = i + 1
+        last = x[0]
+    # x = (score, school, cnt)
+    print(rank, x[1], x[0], x[2])

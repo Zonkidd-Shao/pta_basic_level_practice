@@ -21,6 +21,7 @@ import sys
 
 out=[]
 for line in sys.stdin.read().splitlines()[1:]:
- for i,x in enumerate(line.split()):
-  if x[-1]=='T':out.append(str(i+1))
+ for token in line.split():
+  if token[2]=='T':
+   out.append(str(ord(token[0])-ord('A')+1))
 print(''.join(out))

@@ -6,9 +6,10 @@
  *   算法步骤：
  *   1. 定位E的位置，提取符号和尾数部分
  *   2. 解析指数部分（包括符号）
- *   3. 根据指数符号处理：
- *      - 指数为负：输出0.，然后输出|exp|-1个0，再输出所有数字
- *      - 指数为正：先输出整数部分，再输出小数部分，根据指数大小决定是否补0或加小数点
+ *   3. 设 digits = 去掉点的数字部分，pos = 1+exp，分三路：
+ *      - pos<=0 -> "0."+(-pos)个0+digits
+ *      - pos>=len(digits) -> digits+pos-len 个0
+ *      - 否则 digits[:pos]+'.'+digits[pos:]
  *   注意：输入格式保证只有一个小数点和一个E。
  */
 #include <stdio.h>
@@ -27,34 +28,31 @@ int main() {
         exp = exp * 10 + (s[i] - '0');
     }
     exp *= exp_sign;                    // 得到带符号的指数值
+
+    // 构造 digits = 去掉点的数字部分
+    char digits[10000];
+    int dlen = 0;
+    digits[dlen++] = s[1];              // 整数部分
+    for (int i = 3; i < e_pos; i++) {   // 小数部分，跳过 s[2] 的 '.'
+        digits[dlen++] = s[i];
+    }
+    digits[dlen] = '\0';
+    int pos = 1 + exp;                  // 小数点应插入的位置
+
     if (sign == '-') {                  // 负数先输出负号
         printf("-");
     }
-    if (exp < 0) {                      // 指数为负：小数点左移，结果为 0.0...xxx
+    if (pos <= 0) {
         printf("0.");
-        for (int i = 0; i < -exp - 1; i++) {   // 先补足 |exp|-1 个 0
-            printf("0");
-        }
-        printf("%c", s[1]);             // 输出整数部分数字
-        for (int i = 3; i < e_pos; i++) {      // 输出全部小数位（跳过 s[2] 的小数点）
-            printf("%c", s[i]);
-        }
-    } else {                            // 指数非负：小数点右移
-        printf("%c", s[1]);             // 先输出整数部分
-        int cnt = 0;                    // 小数位个数
-        for (int i = 3; i < e_pos; i++) {
-            printf("%c", s[i]);
-            cnt++;
-        }
-        for (int i = 0; i < exp - cnt; i++) {   // 指数比小数位数大时，末尾补 0
-            printf("0");
-        }
-        if (exp < cnt) {                // 指数小于小数位数时，中间补小数点
-            printf(".");
-            for (int i = exp + 3; i < e_pos; i++) {   // 输出小数点后剩余的小数位
-                printf("%c", s[i]);
-            }
-        }
+        for (int i = 0; i < -pos; i++) printf("0");
+        printf("%s", digits);
+    } else if (pos >= dlen) {
+        printf("%s", digits);
+        for (int i = 0; i < pos - dlen; i++) printf("0");
+    } else {
+        for (int i = 0; i < pos; i++) printf("%c", digits[i]);
+        printf(".");
+        for (int i = pos; i < dlen; i++) printf("%c", digits[i]);
     }
     printf("\n");
     return 0;

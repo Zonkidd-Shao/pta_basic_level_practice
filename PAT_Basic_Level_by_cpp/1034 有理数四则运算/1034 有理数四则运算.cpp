@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <string>
 
 using namespace std;
 
@@ -50,15 +51,20 @@ void simplify(long long& num, long long& den) {
     if (g > 0) { num /= g; den /= g; }  // 约去最大公约数
 }
 
-// 按最简形式输出一个有理数
+// 按最简形式输出一个有理数（带分数）
 void print(long long num, long long den) {
     simplify(num, den);  // 先约分
     if (num == 0) { cout << "0"; return; }  // 值为 0 直接输出
     bool neg = num < 0;
-    if (neg) { num = -num; cout << "(-"; }  // 负数用括号包裹
-    if (den == 1) cout << num;               // 整数只输出数值
-    else cout << num << '/' << den;          // 分数输出 "分子/分母"
-    if (neg) cout << ')';
+    if (neg) num = -num;
+    long long k = num / den;
+    long long r = num % den;
+    string s;
+    if (k != 0 && r != 0) s = to_string(k) + " " + to_string(r) + "/" + to_string(den);
+    else if (k != 0) s = to_string(k);
+    else s = to_string(r) + "/" + to_string(den);
+    if (neg) cout << "(-" << s << ")";
+    else cout << s;
 }
 
 int main() {

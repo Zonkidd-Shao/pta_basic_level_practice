@@ -37,7 +37,9 @@ int main() {
                 for (int dx = -1; dx <= 1 && flag; dx++) {
                     for (int dy = -1; dy <= 1 && flag; dy++) {
                         if (dx == 0 && dy == 0) continue;  // 跳过自身
-                        if (abs(arr[i][j] - arr[i+dx][j+dy]) <= TOL) {  // 差值不够大则不满足
+                        int ni = i + dx, nj = j + dy;
+                        if (ni < 1 || ni > N || nj < 1 || nj > M) continue; // 越界跳过，外圈0不参与判断
+                        if (abs(arr[i][j] - arr[ni][nj]) <= TOL) {  // 差值不够大则不满足
                             flag = 0;
                         }
                     }

@@ -15,15 +15,26 @@
 int main() {
     char s[21], s1[21], s2[21], ans[22];  // s: 进制表; s1/s2: 两个加数; ans: 结果（数字字符）
     scanf("%s %s %s", s, s1, s2);
-    int len = strlen(s);  // 进制表长度即结果的最大位数
-    for (int i = strlen(s1); i < len; i++) {  // 把 s1 高位补 '0' 对齐到 len 位
-        s1[i] = '0';
+    int len_s = strlen(s);
+    int len1 = strlen(s1), len2 = strlen(s2);
+    int len = len_s;
+    if (len1 > len) len = len1;
+    if (len2 > len) len = len2;
+    if (len_s < len) {
+        int diff = len - len_s;
+        memmove(s + diff, s, len_s + 1);
+        memset(s, '0', diff);
     }
-    s1[len] = '\0';
-    for (int i = strlen(s2); i < len; i++) {  // s2 同样高位补 '0'
-        s2[i] = '0';
+    if (len1 < len) {
+        int diff = len - len1;
+        memmove(s1 + diff, s1, len1 + 1);
+        memset(s1, '0', diff);
     }
-    s2[len] = '\0';
+    if (len2 < len) {
+        int diff = len - len2;
+        memmove(s2 + diff, s2, len2 + 1);
+        memset(s2, '0', diff);
+    }
     int carry = 0;  // 进位
     for (int i = len - 1; i >= 0; i--) {  // 从最低位向高位逐位相加
         int mod = s[i] == '0' ? 10 : s[i] - '0';  // 本位的进制：'0' 表示十进制
@@ -33,10 +44,10 @@ int main() {
     }
     int start = 0;  // 输出起始下标（跳过前导 0）
     if (carry) {  // 最高位仍有进位：把进位插入结果最前面
-        ans[0] = carry + '0';
         for (int i = len; i > 0; i--) {  // 原结果整体后移一位
             ans[i] = ans[i - 1];
         }
+        ans[0] = carry + '0';
         len++;
     } else {  // 无额外进位：跳过前导 0
         while (start < len && ans[start] == '0') {

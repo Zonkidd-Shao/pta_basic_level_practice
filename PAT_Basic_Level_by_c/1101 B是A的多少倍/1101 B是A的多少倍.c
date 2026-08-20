@@ -10,6 +10,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int main() {
     char A[20], B[20];  // A 为原数字串，B 存储循环移位后的数字串

@@ -1,25 +1,23 @@
-# 题目：1097 矩阵行平移
-#
-# 题目描述：
-#   给定一个 n\times n 的整数矩阵。对任一给定的正整数 k<n，我们将矩阵的奇数行的元素整体向右依次平移 1、……、k、1、……、k、…… 个位置，平移空出的位置用整数 x 补。你需要计算出结果矩阵的每一列元素的和。
-#
-# 输入格式：
-#   输入第一行给出 3 个正整数：n（<100）、k（<n）、x（<100），分别如题面所述。
-#   接下来 n 行，每行给出 n 个不超过 100 的正整数，为矩阵元素的值。数字间以空格分隔。
-#
-# 输出格式：
-#   在一行中输出平移后第 1 到 n 列元素的和。数字间以 1 个空格分隔，行首尾不得有多余空格。
-#
-# 实现原理：
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   矩阵操作：对矩阵的奇数行进行循环移位，
-#   然后计算每列的和。
-#
 import sys
 
-n,k,x=map(int,sys.stdin.readline().split());a=[list(map(int,sys.stdin.readline().split())) for _ in range(n)]
-for i,row in enumerate(a):
- shift=(i%k) if i%k else 0;print(*([x]*shift+row[:n-shift]))
+data = sys.stdin.read().strip().split()
+if not data:
+    sys.exit(0)
+it = iter(data)
+n = int(next(it)); k = int(next(it)); x = int(next(it))
+a = [[int(next(it)) for _ in range(n)] for _ in range(n)]
+
+shift = 1
+for i in range(0, n, 2):
+    row = a[i][:]
+    for j in range(n):
+        if j < shift:
+            a[i][j] = x
+        else:
+            a[i][j] = row[j - shift]
+    shift += 1
+    if shift > k:
+        shift = 1
+
+col_sums = [sum(a[i][j] for i in range(n)) for j in range(n)]
+print(' '.join(map(str, col_sums)))

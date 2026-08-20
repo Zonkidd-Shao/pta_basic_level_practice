@@ -1,29 +1,39 @@
-# 题目：1094 谷歌的招聘
-#
-# 题目描述：
-#   2004 年 7 月，谷歌在硅谷的 101 号公路边竖立了一块巨大的广告牌（如下图）用于招聘。内容超级简单，就是一个以 .com 结尾的网址，而前面的网址是一个 10 位素数，这个素数是自然常数 e 中最早出现的 10 位连续数字。能找出这个素数的人，就可以通过访问谷歌的这个网站进入招聘流程的下一步。
-#   ![prime.jpg](~/57148679-d574-4f49-b048-775c6c07791c.jpg)
-#   自然常数 e 是一个著名的超越数，前面若干位写出来是这样的：e = 2.71828182845904523536028747135266249775724709369995957496696762772407663035354759457138217852516642**7427466391**932003059921... 其中粗体标出的 10 位数就是答案。
-#   本题要求你编程解决一个更通用的问题：从任一给定的长度为 L 的数字中，找出最早出现的 K 位连续数字所组成的素数。
-#
-# 输入格式：
-#   输入在第一行给出 2 个正整数，分别是 L（不超过 1000 的正整数，为数字长度）和 K（小于 10 的正整数）。接下来一行给出一个长度为 L 的正整数 N。
-#
-# 输出格式：
-#   在一行中输出 N 中最早出现的 K 位连续数字所组成的素数。如果这样的素数不存在，则输出 `404`。注意，原始数字中的前导零也计算在位数之内。例如在 200236 中找 4 位素数，0023 算是解；但第一位 2 不能被当成 0002 输出，因为在原始数字中不存在这个 2 的前导零。
-#
-# 实现原理：
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   素数判定：在数字字符串中找连续K位组成的素数，
-#   找到第一个就输出。
-#
-import sys
+import sys, math
 
-n,k=map(int,sys.stdin.readline().split());s=sys.stdin.readline().strip()
-for i in range(n-k+1):
- x=s[i:i+k]
- if all(int(x)%j for j in range(2,int(int(x)**.5)+1)):print(x);break
-else:print('404')
+def is_prime(x):
+    if x < 2:
+        return False
+    if x % 2 == 0:
+        return x == 2
+    r = int(math.isqrt(x))
+    for j in range(3, r+1, 2):
+        if x % j == 0:
+            return False
+    return True
+
+data = sys.stdin.read().strip().split()
+if len(data) < 2:
+    print('404')
+    sys.exit(0)
+L = int(data[0]); K = int(data[1])
+# N may be on next token, but could contain leading zeros split? N is one token
+s = data[2] if len(data) > 2 else ""
+# If N was split incorrectly due to spaces? N is digits only, so token is fine
+# But spec says second line is N as string length L, may contain newline, already captured
+# If s length < L and there are more tokens, join?
+if len(s) < L and len(data) > 3:
+    s = ''.join(data[2:])
+s = s.strip()
+for i in range(L - K + 1):
+    if i+K > len(s):
+        break
+    x_str = s[i:i+K]
+    try:
+        x_val = int(x_str)
+    except:
+        continue
+    if is_prime(x_val):
+        print(x_str)
+        break
+else:
+    print('404')

@@ -20,9 +20,9 @@
 #
 import sys
 
-s = sys.stdin.readline().strip(); p = s.count('P'); t = 0; ans = 0
+s = sys.stdin.readline().strip(); t_total = s.count('T'); p = 0; ans = 0
 for c in s:
-    if c == 'P': p -= 1
-    elif c == 'T': t += 1
-    else: ans = (ans + p*t) % 1000000007
+    if c == 'P': p += 1
+    elif c == 'T': t_total -= 1
+    else: ans = (ans + p * t_total) % 1000000007
 print(ans)

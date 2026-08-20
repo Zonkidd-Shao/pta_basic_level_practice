@@ -27,19 +27,26 @@ using namespace std;
 int main() {
     string base, a, b;
     if (!(cin >> base >> a >> b)) return 0;
-    // 反转，使最低位对齐（个位在索引 0 处）
+    // 反转，使最低位对齐（个位在索引 0 处），base 低位在末尾需反向取
     reverse(a.begin(), a.end());
     reverse(b.begin(), b.end());
 
     string res;
     int carry = 0;
     int n = max(a.size(), b.size());
+    int blen = base.size();
     for (int i = 0; i < n || carry; ++i) {
         int x = (i < (int)a.size()) ? a[i] - '0' : 0;
         int y = (i < (int)b.size()) ? b[i] - '0' : 0;
         int sum = x + y + carry;
-        // 当前位的进制，超出 base 长度的高位按 10 进制
-        int radix = (i < (int)base.size()) ? base[i] - '0' : 10;
+        // 当前位的进制：base 低位在末尾，超出 base 长度的高位按 10 进制，'0' 表示 10
+        int radix;
+        if (i < blen) {
+            int d = base[blen - 1 - i] - '0';
+            radix = (d == 0 ? 10 : d);
+        } else {
+            radix = 10;
+        }
         res += (char)('0' + sum % radix);  // 当前位的结果
         carry = sum / radix;                // 进位
     }

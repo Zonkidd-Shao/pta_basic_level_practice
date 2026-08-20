@@ -1,36 +1,90 @@
-# 题目：1073 多选题常见计分法
-#
-# 题目描述：
-#   批改多选题是比较麻烦的事情，有很多不同的计分方法。有一种最常见的计分方法是：如果考生选择了部分正确选项，并且没有选择任何错误选项，则得到 50% 分数；如果考生选择了任何一个错误的选项，则不能得分。本题就请你写个程序帮助老师批改多选题，并且指出哪道题的哪个选项错的人最多。
-#
-# 输入格式：
-#   输入在第一行给出两个正整数 N（\le1000）和 M（\le100），分别是学生人数和多选题的个数。随后 M 行，每行顺次给出一道题的满分值（不超过 5 的正整数）、选项个数（不少于 2 且不超过 5 的正整数）、正确选项个数（不超过选项个数的正整数）、所有正确选项。注意每题的选项从小写英文字母 a 开始顺次排列。各项间以 1 个空格分隔。最后 N 行，每行给出一个学生的答题情况，其每题答案格式为 `(选中的选项个数 选项1 ……)`，按题目顺序给出。注意：题目保证学生的答题情况是合法的，即不存在选中的选项数超过实际选项数的情况。另一方面，题目也保证`选中的选项个数`是正整数。
-#
-# 输出格式：
-#   按照输入的顺序给出每个学生的得分，每个分数占一行，输出小数点后 1 位。最后输出错得最多的题目选项的信息，格式为：`错误次数 题目编号（题目按照输入的顺序从1开始编号）-选项号`。如果有并列，则每行一个选项，按题目编号递增顺序输出；再并列则按选项号递增顺序输出。行首尾不得有多余空格。如果所有题目都没有人错，则在最后一行输出 `Too simple`。
-#
-# 实现原理：
-#   - 使用集合(Set)进行去重和快速查找
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   多选题批改：读取正确答案和学生答案，
-#   按评分规则计算得分并统计错题。
-#
+# 1073 多选题常见计分法
 import sys
+import re
 
-n,m=map(int,sys.stdin.readline().split()); q=[]
-for _ in range(m):
-    a=sys.stdin.readline().split(); q.append((int(a[0]),set(a[3:])))
-cnt=[[0]*5 for _ in range(m)]
-for _ in range(n):
-    s=sys.stdin.readline().strip(); parts=s.replace('(','').split(')'); score=0
-    for i,p in enumerate(parts[:-1]):
-        x=set(p.split()[1:]); score += q[i][0] if x==q[i][1] else 0
-        for z in q[i][1]^x:
-            if z in q[i][1]: cnt[i][int(z)] += 1
-    print(score)
-best=max(map(max,cnt))
-if best==0: print('Too simple')
-else: print(' '.join(f'{best} {i+1}-{j}' for i,c in enumerate(cnt) for j,x in enumerate(c) if x==best))
+data = sys.stdin.read().strip().splitlines()
+if not data:
+    sys.exit(0)
+N, M = map(int, data[0].split())
+score = []
+opt_num = []
+ans = []
+ans_cnt = []
+idx = 1
+for i in range(M):
+    parts = data[idx].split()
+    idx += 1
+    score.append(int(parts[0]))
+    opt_num.append(int(parts[1]))
+    cnt = int(parts[2])
+    correct = set(parts[3:3+cnt])
+    ans.append(correct)
+    ans_cnt.append(cnt)
+
+# 准备错误统计
+wrong = [[0]*5 for _ in range(M)]
+
+# 辅助：把 a->0, b->1...
+def char_to_idx(c): return ord(c) - ord('a')
+
+# 读取学生作答
+for stu_idx in range(N):
+    # 需要收集包含 M 个括号组的行，可能跨行？
+    # 累积直到取得 M 组
+    groups = []
+    while len(groups) < M and idx < len(data):
+        line = data[idx]
+        idx += 1
+        if not line.strip():
+            continue
+        groups += re.findall(r'\(([^)]*)\)', line)
+    # 如果仍不足，补空
+    total = 0.0
+    for q in range(M):
+        if q < len(groups):
+            inner = groups[q].strip()
+            parts = inner.split()
+            if not parts:
+                stu_set = set()
+            else:
+                try:
+                    cnt = int(parts[0])
+                    stu_set = set(parts[1:1+cnt]) if cnt>0 else set()
+                except:
+                    stu_set = set(parts)
+        else:
+            stu_set = set()
+        # 计分和统计
+        # 将集合转为 5 位数组比较
+        correct_set = ans[q]
+        # flag: 选对的正确选项数
+        flag = len(stu_set & correct_set)
+        # 是否选了错误选项
+        has_wrong_select = len(stu_set - correct_set) > 0
+        # 统计错误次数：逐选项比较
+        for k in range(opt_num[q]):
+            ch = chr(ord('a')+k)
+            in_correct = ch in correct_set
+            in_stu = ch in stu_set
+            if in_correct != in_stu:
+                wrong[q][k] += 1
+        if stu_set == correct_set:
+            total += score[q]
+        elif not has_wrong_select and flag > 0:
+            total += score[q] / 2.0
+        # else 0
+    # 输出保留一位小数
+    print(f"{total:.1f}")
+
+max_wrong = 0
+for i in range(M):
+    for j in range(opt_num[i]):
+        if wrong[i][j] > max_wrong:
+            max_wrong = wrong[i][j]
+if max_wrong == 0:
+    print("Too simple")
+else:
+    for i in range(M):
+        for j in range(opt_num[i]):
+            if wrong[i][j] == max_wrong:
+                print(f"{max_wrong} {i+1}-{chr(ord('a')+j)}")

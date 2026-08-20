@@ -1,24 +1,15 @@
-# 题目：1060 爱丁顿数
-#
-# 题目描述：
-#   英国天文学家爱丁顿很喜欢骑车。据说他为了炫耀自己的骑车功力，还定义了一个“爱丁顿数” E ，即满足有 E 天骑车超过 E 英里的最大整数 E。据说爱丁顿自己的 E 等于87。
-#   现给定某人 N 天的骑车距离，请你算出对应的爱丁顿数 E（\le N）。
-#
-# 输入格式：
-#   输入第一行给出一个正整数 N (\le 10^5)，即连续骑车的天数；第二行给出 N 个非负整数，代表每天的骑车距离。
-#
-# 输出格式：
-#   在一行中给出 N 天的爱丁顿数。
-#
-# 实现原理：
-#   - 排序算法
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   排序与统计：排序后找出满足条件的最大E值，
-#   即有E天骑行超过E英里。
-#
+# 1060 爱丁顿数: sorted降序后 E = max(i where a[i-1] > i)
 import sys
-
-a=sorted(map(int,sys.stdin.read().split()[1:]),reverse=True); print(next((i for i,x in enumerate(a,1) if x<i),len(a)))
+data = list(map(int, sys.stdin.read().split()))
+if not data:
+    print(0)
+else:
+    n = data[0]
+    a = sorted(data[1:1+n], reverse=True)
+    E = 0
+    for i, x in enumerate(a, 1):
+        if x > i:
+            E = i
+        else:
+            break
+    print(E)

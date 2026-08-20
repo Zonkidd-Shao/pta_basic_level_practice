@@ -1,28 +1,9 @@
 # 题目：1117 数字之王
-#
-# 题目描述：
-#   给定两个正整数 N_1 < N_2。把从 N_1 到 N_2 的每个数的各位数的立方相乘，再将结果的各位数求和，得到一批新的数字，再对这批新的数字重复上述操作，直到所有数字都是 1 位数为止。这时哪个数字最多，哪个就是“数字之王”。
-#   例如 N_1=1 和 N_2=10 时，第一轮操作后得到 { 1, 8, 9, 10, 8, 9, 10, 8, 18, 0 }；第二轮操作后得到 { 1, 8, 18, 0, 8, 18, 0, 8, 8, 0 }；第三轮操作后得到 { 1, 8, 8, 0, 8, 8, 0, 8, 8, 0 }。所以数字之王就是 8。
-#   本题就请你对任意给定的 N_1 < N_2 求出对应的数字之王。
-#
-# 输入格式：
-#   输入在第一行中给出两个正整数 0<N_1 < N_2 \le 10^3，其间以空格分隔。
-#
-# 输出格式：
-#   首先在一行中输出数字之王的出现次数，随后第二行输出数字之王。例如对输入 `1 10` 就应该在两行中先后输出 `6` 和 `8`。如果有并列的数字之王，则按递增序输出。数字间以 1 个空格分隔，行首尾不得有多余空格。
-#
-# 实现原理：
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   逐位处理：将输入字符串逐位转换为数字求和，
-#   再将结果转换为对应拼音输出。
-#
+# 未立方修复：reduce(lambda x,y:x*y, map(lambda d:int(d)**3, str(x)))
 import sys
 from collections import Counter
-
+import functools
 a,b=map(int,sys.stdin.read().split());a=list(range(a,b+1))
 while max(a)>=10:
- a=[sum(map(int,str(__import__('functools').reduce(lambda x,y:x*y,map(int,str(x)),1)))) for x in a]
+ a=[sum(map(int,str(functools.reduce(lambda x,y:x*y,map(lambda d:int(d)**3,str(x)))))) for x in a]
 c=Counter(a);m=max(c.values());print(m);print(*[x for x in range(10) if c[x]==m])

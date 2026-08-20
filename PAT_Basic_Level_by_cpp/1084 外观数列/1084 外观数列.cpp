@@ -36,9 +36,9 @@ string nextSeq(const string& s) {
     for (size_t i = 0; i < s.size(); ) {
         char c = s[i];
         size_t j = i;
-        while (j < s.size() && s[j] == c) ++j;   // 统计连续相同字符的数量
-        res += (char)('0' + (j - i));             // 添加个数（注意：个数 ≤ 9 时有效）
-        res += c;                                  // 添加该数字字符本身
+        while (j < s.size() && s[j] == c) ++j;
+        res += c;
+        res += to_string(j - i);
         i = j;
     }
     return res;

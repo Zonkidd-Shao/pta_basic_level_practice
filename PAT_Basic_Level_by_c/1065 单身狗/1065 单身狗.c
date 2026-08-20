@@ -20,7 +20,8 @@ int main() {
     int N;
     scanf("%d", &N);
     
-    int couple[100000] = {0};  // 情侣映射：couple[a]=b 且 couple[b]=a，0 表示无情侣
+    int couple[100000];
+    for (int i = 0; i < 100000; i++) couple[i] = -1;  // -1 表示无情侣，避免与编号00000冲突
     for (int i = 0; i < N; i++) {
         int a, b;
         scanf("%d %d", &a, &b);
@@ -39,7 +40,8 @@ int main() {
     
     int single[10000], count = 0;  // single: 单身狗列表
     for (int i = 0; i < M; i++) {
-        if (exist[couple[guest[i]]] == 0) {  // 其情侣未到场（或无情侣）：单身狗
+        int c = couple[guest[i]];
+        if (c == -1 || exist[c] == 0) {  // 无情侣或情侣未到场：单身狗
             single[count++] = guest[i];
         }
     }

@@ -1,23 +1,19 @@
-# 题目：1066 图像过滤
-#
-# 题目描述：
-#   图像过滤是把图像中不重要的像素都染成背景色，使得重要部分被凸显出来。现给定一幅黑白图像，要求你将灰度值位于某指定区间内的所有像素颜色都用一种指定的颜色替换。
-#
-# 输入格式：
-#   输入在第一行给出一幅图像的分辨率，即两个正整数 M 和 N（0 < M, N \le 500），另外是待过滤的灰度值区间端点 A 和 B（0 \le A < B \le 255）、以及指定的替换灰度值。随后 M 行，每行给出 N 个像素点的灰度值，其间以空格分隔。所有灰度值都在 [0, 255] 区间内。
-#
-# 输出格式：
-#   输出按要求过滤后的图像。即输出 M 行，每行 N 个像素灰度值，每个灰度值占 3 位（例如黑色要显示为 `000`），其间以一个空格分隔。行首尾不得有多余空格。
-#
-# 实现原理：
-#   - 循环迭代处理
-#   - 列表操作
-#
-# 算法思路：
-#   像素处理：遍历图像像素，
-#   将指定范围内的颜色替换为目标颜色。
-#
+# 1066 图像过滤
 import sys
-
-l,u,v=map(int,sys.stdin.readline().split())
-for line in sys.stdin: print(*[v if l<=int(x)<=u else x for x in line.split()])
+data = sys.stdin.read().strip().split()
+if not data:
+    sys.exit(0)
+# first 5 values: M N A B rep
+m, n, a, b, rep = map(int, data[:5])
+vals = list(map(int, data[5:]))
+idx = 0
+out_lines = []
+for i in range(m):
+    row = []
+    for j in range(n):
+        v = vals[idx]; idx += 1
+        if a <= v <= b:
+            v = rep
+        row.append(f"{v:03d}")
+    out_lines.append(" ".join(row))
+sys.stdout.write("\n".join(out_lines))

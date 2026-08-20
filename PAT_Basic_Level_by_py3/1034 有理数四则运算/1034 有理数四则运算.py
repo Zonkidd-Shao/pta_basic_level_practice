@@ -21,6 +21,7 @@ import sys
 from fractions import Fraction
 
 def fmt(x):
+    if x == 0: return "0"
     if x.denominator == 0: return 'Inf'
     n, d = abs(x.numerator), x.denominator
     s = (str(n // d) if n >= d else '') + ('' if n % d == 0 else ('' if n < d else ' ') + f'{n%d}/{d}')

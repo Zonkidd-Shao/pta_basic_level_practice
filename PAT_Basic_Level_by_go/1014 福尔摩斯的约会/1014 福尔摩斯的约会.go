@@ -25,17 +25,18 @@ func main() {
 	days := []string{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"}
 
 	// 第一对匹配的大写字母决定星期（A~G 对应星期一~星期日）
-	day := -1
+	day, dayPos := -1, -1
 	for i := 0; i < len(lines[0]) && i < len(lines[1]); i++ {
 		a, b := lines[0][i], lines[1][i]
 		if a == b && a >= 'A' && a <= 'Z' {
 			day = int(a - 'A')
+			dayPos = i
 			break
 		}
 	}
 	// 从 day 位置之后开始，第二对匹配的字符决定小时
 	hour := -1
-	for i := day + 1; i < len(lines[0]) && i < len(lines[1]); i++ {
+	for i := dayPos + 1; i < len(lines[0]) && i < len(lines[1]); i++ {
 		a, b := lines[0][i], lines[1][i]
 		if a == b {
 			if a >= '0' && a <= '9' {

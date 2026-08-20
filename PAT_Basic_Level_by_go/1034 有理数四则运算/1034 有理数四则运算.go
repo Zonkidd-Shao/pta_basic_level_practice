@@ -61,18 +61,20 @@ func format(r rational) string {
 	if r.num == 0 {
 		return "0"
 	}
+	negative := r.num < 0
+	num := abs64(r.num)
+	var result string
 	if r.den == 1 {
-		return strconv.FormatInt(r.num, 10)
+		result = strconv.FormatInt(num, 10)
+	} else if num > r.den {
+		result = fmt.Sprintf("%d %d/%d", num/r.den, num%r.den, r.den)
+	} else {
+		result = fmt.Sprintf("%d/%d", num, r.den)
 	}
-	if abs64(r.num) > r.den {
-		integer := r.num / r.den
-		rem := r.num % r.den
-		if rem < 0 {
-			rem = -rem
-		}
-		return fmt.Sprintf("%d %d/%d", integer, rem, r.den)
+	if negative {
+		return "(" + "-" + result + ")"
 	}
-	return fmt.Sprintf("%d/%d", r.num, r.den)
+	return result
 }
 
 func add(a, b rational) rational { return simplify(rational{a.num*b.den + b.num*a.den, a.den * b.den}) }

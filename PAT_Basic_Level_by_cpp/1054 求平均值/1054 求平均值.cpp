@@ -46,6 +46,7 @@ bool isValid(const string& s, double& val) {
             return false;               // 出现非法字符
         }
     }
+    if (digits == 0 && afterDot == 0) return false; // 至少要有一个数字
     if (afterDot > 2) return false; // 最多两位小数
     val = stod(s);                   // 字符串转浮点数
     if (val < -1000.0 || val > 1000.0) return false;  // 检查值域

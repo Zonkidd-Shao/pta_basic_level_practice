@@ -1,7 +1,11 @@
 -- 题目编号: 1062 最简分数
 -- 实现原理: 给定两个分数 a/b 和 c/d 以及一个分母 k，遍历分子 i 从 1 到 k-1，使用辗转相除法判断 i 与 k 是否互质（最简），同时检查 i/k 是否位于两个给定分数之间，收集所有符合条件的分数后输出。
 -- 读取两个分数 a/b 和 c/d，以及指定分母k
-local a, b, c, d, k = io.read("*n"), io.read("*n"), io.read("*n"), io.read("*n"), io.read("*n")
+local left, right, k_text = io.read("l"):match("^(%S+)%s+(%S+)%s+(%d+)$")
+local a, b = left:match("^(%-?%d+)/(%d+)$")
+local c, d = right:match("^(%-?%d+)/(%d+)$")
+local k
+a, b, c, d, k = tonumber(a), tonumber(b), tonumber(c), tonumber(d), tonumber(k_text)
 -- 辗转相除法求最大公约数
 local function g(x, y)
     while y ~= 0 do

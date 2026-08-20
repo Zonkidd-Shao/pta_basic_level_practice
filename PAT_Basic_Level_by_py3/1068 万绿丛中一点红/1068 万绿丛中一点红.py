@@ -20,9 +20,9 @@
 import sys
 from collections import Counter
 
-m,n,tol=map(int,sys.stdin.readline().split()); a=[list(map(int,sys.stdin.readline().split())) for _ in range(n)]; c=Counter(sum(a,[])); ans=[]
+m,n,tol=map(int,sys.stdin.readline().split()); a=[list(map(int,sys.stdin.readline().split())) for _ in range(n)]; c=Counter(x for row in a for x in row); ans=[]
 for i in range(n):
  for j in range(m):
   x=a[i][j]
-  if c[x]==1 and all(abs(x-a[y][z])>tol for y in range(max(0,i-1),min(n,i+2)) for z in range(max(0,j-1),min(m,j+2))): ans.append((j+1,i+1,x))
+  if c[x]==1 and all(abs(x-a[y][z])>tol for y in range(max(0,i-1),min(n,i+2)) for z in range(max(0,j-1),min(m,j+2)) if (y,z)!=(i,j)): ans.append((j+1,i+1,x))
 print('Not Exist' if not ans else ('Not Unique' if len(ans)>1 else f'({ans[0][0]}, {ans[0][1]}): {ans[0][2]}'))

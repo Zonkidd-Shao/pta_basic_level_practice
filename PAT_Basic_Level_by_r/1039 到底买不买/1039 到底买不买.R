@@ -10,4 +10,4 @@
 #   5. 如果不缺少，输出"Yes"和多余的珠子数量（摊主总数 - 需要总数）
 # 时间复杂度：O(n+m)，其中n和m分别为两个珠串的长度
 # 空间复杂度：O(1)，字符集大小固定（数字+大小写字母共62种）
-x<-readLines("stdin",warn=FALSE);a<-table(strsplit(x[1],"")[[1]]);b<-table(strsplit(x[2],"")[[1]]);miss<-sum(pmax(0,b[names(b)]-a[names(b)]));cat(if(miss)paste("No",miss) else paste("Yes",nchar(x[1])-nchar(x[2])),"\n")
+x<-readLines("stdin",warn=FALSE);a<-table(strsplit(x[1],"")[[1]]);b<-table(strsplit(x[2],"")[[1]]);have<-a[names(b)];have[is.na(have)]<-0;miss<-sum(pmax(0,as.integer(b)-as.integer(have)));if(miss>0)cat("No",miss,"\n",sep=" ")else cat("Yes",nchar(x[1])-nchar(x[2]),"\n",sep=" ")

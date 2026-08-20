@@ -8,4 +8,4 @@
 #   5. 遍历统计结果，输出出现次数大于0的数字及其次数
 # 时间复杂度：O(n)，其中n为输入数字的位数，需要遍历每个字符进行统计
 # 空间复杂度：O(1)，只使用固定大小的统计表（10个数字），空间不随输入规模增长
-s<-scan("stdin",what="",quiet=TRUE)[1];d<-table(factor(strsplit(s,"")[[1]],levels=as.character(0:9)));for(i in which(d>0))cat(i-1,as.integer(d[i]),"\n")
+s<-scan("stdin",what="",quiet=TRUE)[1];d<-table(factor(strsplit(s,"")[[1]],levels=as.character(0:9)));for(i in which(d>0))cat(i-1,":",as.integer(d[i]),"\n",sep="")

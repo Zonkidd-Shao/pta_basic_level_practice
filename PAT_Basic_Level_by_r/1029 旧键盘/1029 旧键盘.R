@@ -9,4 +9,4 @@
 #   6. 将结果拼接成字符串输出
 # 时间复杂度：O(n+m)，其中n和m分别为两个字符串的长度
 # 空间复杂度：O(1)，字符集大小固定，只需常量空间存储坏键集合
-x<-readLines("stdin",warn=FALSE);bad<-toupper(x[1]);need<-toupper(x[2]);cat(paste0(unique(strsplit(need,"")[[1]][!(strsplit(need,"")[[1]] %in% strsplit(bad,"")[[1]])]),collapse=""),"\n")
+x<-readLines("stdin",warn=FALSE);expected<-strsplit(toupper(x[1]),"")[[1]];actual<-strsplit(toupper(x[2]),"")[[1]];out<-character();for(ch in expected)if(!(ch%in%actual)&&!(ch%in%out))out<-c(out,ch);cat(paste0(out,collapse=""),"\n")

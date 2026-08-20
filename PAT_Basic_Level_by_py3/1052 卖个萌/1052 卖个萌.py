@@ -22,10 +22,32 @@
 #   字符串处理：解析表情符号，
 #   根据用户输入组装输出结果。
 #
+import re
 import sys
 
-a,b,c=[x.split() for x in sys.stdin.readline().strip().split(']')[:3]]
+hands = re.findall(r'\[([^\]]*)\]', sys.stdin.readline())
+eyes = re.findall(r'\[([^\]]*)\]', sys.stdin.readline())
+mouths = re.findall(r'\[([^\]]*)\]', sys.stdin.readline())
+
 for _ in range(int(sys.stdin.readline())):
-    x=list(map(int,sys.stdin.readline().split()))
-    try: print(a[x[0]-1]+b[x[1]-1]+b[x[2]-1]+c[x[3]-1]+b[x[4]-1]+b[x[5]-1]+a[x[6]-1])
-    except: print('Are you kidding me? @\\/@')
+    left_hand, left_eye, mouth, right_eye, right_hand = map(
+        int, sys.stdin.readline().split()
+    )
+    if (
+        1 <= left_hand <= len(hands)
+        and 1 <= right_hand <= len(hands)
+        and 1 <= left_eye <= len(eyes)
+        and 1 <= right_eye <= len(eyes)
+        and 1 <= mouth <= len(mouths)
+    ):
+        print(
+            hands[left_hand - 1]
+            + '('
+            + eyes[left_eye - 1]
+            + mouths[mouth - 1]
+            + eyes[right_eye - 1]
+            + ')'
+            + hands[right_hand - 1]
+        )
+    else:
+        print('Are you kidding me? @\\/@')

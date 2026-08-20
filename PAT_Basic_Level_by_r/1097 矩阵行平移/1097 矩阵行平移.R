@@ -14,4 +14,4 @@
 #   平移周期为k，即第1个奇数行移1位，第2个移2位，...，第k+1个又移1位。
 # 时间复杂度：O(n²)，处理矩阵每个元素一次
 # 空间复杂度：O(n²)，存储n×n矩阵
-x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);a<-matrix(as.integer(unlist(strsplit(paste(x[-1],collapse=" "),"\\s+"))),nrow=h[1],byrow=TRUE);for(i in 1:h[1])if(i%%2==0)a[i,]<-c(a[i,(h[2]-((i/2)%%h[2])+1):h[2]],a[i,1:(h[2]-((i/2)%%h[2]))]);cat(paste(rowSums(a),collapse=" "),"\n")
+x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);n<-h[1];a<-matrix(as.integer(unlist(strsplit(paste(x[2:length(x)],collapse=" "),"\\s+"))),nrow=n,byrow=TRUE);for(i in seq(1,n,by=2)){p<-((i-1L)/2L)%%h[2]+1L;a[i,]<-c(rep(h[3],p),a[i,1:(n-p)])};cat(paste(colSums(a),collapse=" "),"\n")

@@ -7,4 +7,4 @@
 #   利用 R 语言的 tapply 函数高效实现分组聚合。
 # 时间复杂度：O(N)，N 为队员总数
 # 空间复杂度：O(N)
-x<-readLines("stdin",warn=FALSE)[-1];p<-do.call(rbind,strsplit(x,"\\s+"));z<-tapply(as.integer(p[,2]),sub("-.*","",p[,1]),sum);cat(names(z)[which.max(z)],max(z),"\n")
+x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);p<-do.call(rbind,strsplit(x[2:(n+1)],"\\s+"));z<-tapply(as.integer(p[,2]),sub("-.*","",p[,1]),sum);cat(names(z)[which.max(z)],max(z),"\n",sep=" ")

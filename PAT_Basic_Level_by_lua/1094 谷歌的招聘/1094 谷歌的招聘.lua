@@ -4,12 +4,23 @@ local l, k = io.read("*n"), io.read("*n")  -- l:字符串长度，k:要找的K�
 io.read("l")  -- 消耗第一行末尾的换行符
 local s = io.read("l")  -- 读取长数字字符串
 
+local function prime(x)
+    if x < 2 then return false end
+    for d = 2, math.floor(math.sqrt(x)) do
+        if x % d == 0 then return false end
+    end
+    return true
+end
+
+local found = false
 -- 从左到右枚举所有长度为k的连续子串
 for i = 1, l - k + 1 do
     local x = s:sub(i, i + k - 1)  -- 截取从第i位开始的k位字符
-    -- 检查该k位数是否为偶数
-    if tonumber(x) % 2 == 0 then
+    -- 检查该k位数是否为质数
+    if prime(tonumber(x)) then
         print(x)  -- 找到第一个就输出
+        found = true
         break  -- 跳出循环
     end
 end
+if not found then print("404") end

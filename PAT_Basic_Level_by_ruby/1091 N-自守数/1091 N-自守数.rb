@@ -9,9 +9,10 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  k = gets.to_i
-  k.times do
-    m = gets.to_i
+  data = STDIN.read.split.map(&:to_i)
+  k = data.shift
+  k.times do |i|
+    m = data[i]
     len = m.digits.length
     mod = 10**len
     found = nil

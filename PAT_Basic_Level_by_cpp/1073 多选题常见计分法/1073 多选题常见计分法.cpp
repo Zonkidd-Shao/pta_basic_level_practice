@@ -41,7 +41,7 @@ int main() {
                     flag++;
                 }
             }
-            if (flag == ansCnt[q]) total += score[q];
+            if (flag == ansCnt[q] && partial) total += score[q];
             else if (partial && flag > 0) total += score[q] / 2.0;
         }
         // 输出保留一位小数

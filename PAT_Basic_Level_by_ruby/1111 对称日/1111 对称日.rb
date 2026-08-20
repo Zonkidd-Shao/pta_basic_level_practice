@@ -9,15 +9,15 @@
 #   判断一个日期字符串是否为回文；验证日期的合法性；统计一年中有多少个对称日
 #
 
-require 'date'
-
 if __FILE__ == $PROGRAM_NAME
-  start_s, end_s = gets.split
-  d = Date.parse(start_s)
-  end_d = Date.parse(end_s)
-  while d <= end_d
-    s = d.strftime('%Y%m%d')
-    puts d.strftime('%Y-%m-%d') if s == s.reverse
-    d = d.next_day
+  months = {
+    'Jan' => 1, 'Feb' => 2, 'Mar' => 3, 'Apr' => 4, 'May' => 5, 'Jun' => 6,
+    'Jul' => 7, 'Aug' => 8, 'Sep' => 9, 'Oct' => 10, 'Nov' => 11, 'Dec' => 12
+  }
+  n = gets.to_i
+  n.times do
+    month, day, year = gets.delete(',').split
+    date = format('%04d%02d%02d', year.to_i, months[month], day.to_i)
+    puts "#{date == date.reverse ? 'Y' : 'N'} #{date}"
   end
 end

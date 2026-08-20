@@ -14,7 +14,7 @@ if __FILE__ == $PROGRAM_NAME
   n, m = gets.split.map(&:to_i)
   incompat = Hash.new { |h, k| h[k] = Set.new }
   n.times do
-    a, b = gets.split.map(&:to_i)
+    a, b = gets.split
     incompat[a] << b
     incompat[b] << a
   end

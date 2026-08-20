@@ -34,8 +34,8 @@ my @ans;            # 存储每一位的结果（从低位到高位）
 my $carry = 0;      # 进位
 my $maxlen = length($a) > length($b) ? length($a) : length($b);
 
-# 从最低位开始逐位相加
-for (my $i = 1; $i <= $maxlen; $i++) {
+# 从最低位开始逐位相加；如果仍有进位，还要继续处理更高位的进制
+for (my $i = 1; $i <= $maxlen || $carry; $i++) {
     # 取 A 和 B 对应位（不足则视为 0）
     my $x = $i <= length($a) ? substr($a, -$i, 1) : 0;
     my $y = $i <= length($b) ? substr($b, -$i, 1) : 0;
@@ -47,12 +47,6 @@ for (my $i = 1; $i <= $maxlen; $i++) {
 
     push @ans, $z % $d;
     $carry = int($z / $d);
-}
-
-# 处理剩余的进位（按十进制写出）
-while ($carry) {
-    push @ans, $carry % 10;
-    $carry = int($carry / 10);
 }
 
 # 逆序拼接并去除前导 0

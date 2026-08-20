@@ -7,4 +7,4 @@
 #   使用 sprintf 的 %+ 格式自动处理正负号输出。
 # 时间复杂度：O(1)
 # 空间复杂度：O(1)
-z<-scan("stdin",what=double(),quiet=TRUE);a<-z[1]*z[3]-z[2]*z[4];b<-z[1]*z[4]+z[2]*z[3];cat(sprintf("%.2f%+.2fi\n",ifelse(abs(a)<.005,0,a),ifelse(abs(b)<.005,0,b)))
+z<-scan("stdin",what=double(),quiet=TRUE);r<-z[1]*z[3];p<-z[2]+z[4];a<-r*cos(p);b<-r*sin(p);if(abs(a)<.005)a<-0;if(abs(b)<.005)b<-0;cat(sprintf("%.2f%+.2fi\n",a,b))

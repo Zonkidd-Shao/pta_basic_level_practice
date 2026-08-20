@@ -12,4 +12,4 @@
 #   也可用预处理每个位置后各字母出现位置的方法优化匹配速度。
 # 时间复杂度：O(|S|×|P|) 或 O(|S|+|P|) 取决于实现，滑动窗口遍历+子列判断
 # 空间复杂度：O(1) 或 O(|S|) 取决于实现
-x<-readLines("stdin",warn=FALSE);a<-strsplit(x[1],"")[[1]];b<-strsplit(x[2],"")[[1]];i<-1;for(ch in a)if(i<=length(b)&&ch==b[i])i<-i+1;cat(if(i>length(b))"Yes" else "No","\n")
+x<-readLines("stdin",warn=FALSE);s<-strsplit(x[1],"",fixed=TRUE)[[1]];p<-strsplit(x[2],"",fixed=TRUE)[[1]];start<-rep(0L,length(p));bestL<-NA_integer_;bestR<-NA_integer_;for(r in seq_along(s)){for(j in rev(seq_along(p)))if(s[r]==p[j]&&(j==1L||start[j-1L]>0L))start[j]<-if(j==1L)r else start[j-1L];if(start[length(p)]>0L){l<-start[length(p)];if(is.na(bestL)||(r-l<bestR-bestL)||(r-l==bestR-bestL&&l<bestL)){bestL<-l;bestR<-r}}};cat(paste0(s[bestL:bestR],collapse=""),"\n")

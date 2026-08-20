@@ -24,7 +24,6 @@ func main() {
 	}
 	f := strings.Fields(scanner.Text())
 	N, _ := strconv.Atoi(f[0]) // 学生人数
-	M, _ := strconv.Atoi(f[1]) // 违禁物品种类数
 
 	// 读取违禁物品编号列表，存入集合
 	scanner.Scan()
@@ -40,7 +39,7 @@ func main() {
 			break
 		}
 		fields := strings.Fields(scanner.Text())
-		name := fields[0]  // 学生姓名
+		name := fields[0]               // 学生姓名
 		K, _ := strconv.Atoi(fields[1]) // 携带物品数量
 
 		// 检查该学生的所有物品是否违禁

@@ -26,6 +26,7 @@
 #
 import sys
 
-n,m=map(int,sys.stdin.readline().split());bad={frozenset(sys.stdin.readline().split()) for _ in range(n)}
+n,m=map(int,sys.stdin.readline().split());bad=[tuple(sys.stdin.readline().split()) for _ in range(n)]
 for _ in range(m):
- a=sys.stdin.readline().split()[1:];print('No' if any(x in bad for x in map(frozenset,__import__('itertools').combinations(a,2))) else 'Yes')
+ goods=set(sys.stdin.readline().split()[1:])
+ print('No' if any(x in goods and y in goods for x,y in bad) else 'Yes')

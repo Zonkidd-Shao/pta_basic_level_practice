@@ -10,8 +10,9 @@
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
   counts = Hash.new(0)
+  values = STDIN.read.split.map(&:to_i)
   n.times do |i|
-    v = gets.to_i
+    v = values[i]
     diff = (v - (i + 1)).abs
     counts[diff] += 1
   end

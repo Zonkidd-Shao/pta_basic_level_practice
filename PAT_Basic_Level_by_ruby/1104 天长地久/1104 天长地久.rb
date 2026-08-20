@@ -8,21 +8,57 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  n, k = gets.split.map(&:to_i)
-  if k < 1 || k > 9 * n
-    puts 'No'
-  else
-    digits = Array.new(n, 0)
-    remaining = k
-    (n - 1).downto(0) do |i|
-      if i.zero?
-        digits[i] = remaining
-      else
-        take = [9, remaining - 1].min # 为首位至少留 1
-        digits[i] = take
-        remaining -= take
+  def gcd_int(a, b)
+    a, b = b, a % b while b != 0
+    a
+  end
+
+  def prime_gt_two?(value)
+    return false if value <= 2
+
+    (2..Math.sqrt(value).to_i).none? { |d| (value % d).zero? }
+  end
+
+  query_count = gets.to_i
+  query_count.times do |case_index|
+    k, m = gets.split.map(&:to_i)
+    results = []
+
+    (1...k).each do |trailing_nines|
+      prefix_length = k - trailing_nines
+      target_sum = m - 9 * trailing_nines
+      next if target_sum < 1 || target_sum > 9 * prefix_length
+
+      digits = Array.new(prefix_length, 0)
+      build = nil
+      build = lambda do |position, remaining|
+        if position == prefix_length
+          next unless remaining.zero?
+
+          n_sum = m - 9 * trailing_nines + 1
+          number = (digits.join + ('9' * trailing_nines)).to_i
+          results << [n_sum, number] if prime_gt_two?(gcd_int(m, n_sum))
+          next
+        end
+
+        minimum = position.zero? ? 1 : 0
+        maximum = position == prefix_length - 1 ? 8 : 9
+        (minimum..maximum).each do |digit|
+          rest = prefix_length - position - 1
+          next if remaining < digit || remaining - digit > 9 * rest
+
+          digits[position] = digit
+          build.call(position + 1, remaining - digit)
+        end
       end
+      build.call(0, target_sum)
     end
-    puts digits.join
+
+    puts "Case #{case_index + 1}"
+    if results.empty?
+      puts 'No Solution'
+    else
+      results.sort.each { |n_sum, number| puts "#{n_sum} #{number}" }
+    end
   end
 end

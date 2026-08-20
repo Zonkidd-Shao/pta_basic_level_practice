@@ -32,20 +32,17 @@ int main() {
     for (int i = 0; i < N; ++i) {
         int Di;
         cin >> Di;
-        int low = 0, maxConsec = 0, consec = 0;
+        int low = 0;
         for (int j = 0; j < Di; ++j) {
             double x;
             cin >> x;
-            if (x < e) {
-                ++low;                      // 累计低于阈值的总天数
-                if (++consec > maxConsec) maxConsec = consec;  // 更新最大连续天数
-            } else {
-                consec = 0;                  // 重置连续计数
-            }
+            if (x < e) ++low;
         }
-        // 判定规则：连续天数 >= D 则为空置，否则若低于阈值天数过半则为可能空置
-        if (maxConsec >= D) ++vacant;
-        else if (low > Di / 2) ++maybe;
+        // 低用电天数超过一半才进入两种空置状态；观察期超过 D 天才算空置。
+        if (low > Di / 2) {
+            if (Di > D) ++vacant;
+            else ++maybe;
+        }
     }
 
     // 输出百分比，保留 1 位小数

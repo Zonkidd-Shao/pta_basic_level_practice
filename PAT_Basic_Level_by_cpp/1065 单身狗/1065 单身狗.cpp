@@ -59,6 +59,6 @@ int main() {
         if (i) cout << ' ';
         printf("%05d", single[i]);  // ID 为 5 位数字，补零输出
     }
-    if (!single.empty()) cout << endl;
+    cout << endl;
     return 0;
 }

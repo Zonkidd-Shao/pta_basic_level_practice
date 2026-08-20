@@ -15,9 +15,9 @@ if __FILE__ == $PROGRAM_NAME
 
   n.times do
     a_call, a_hand, b_call, b_hand = gets.split.map(&:to_i)
-    sum = a_hand + b_hand
-    a_loses = sum == a_call && sum != b_call
-    b_loses = sum == b_call && sum != a_call
+    sum = a_call + b_call
+    a_loses = sum == b_hand && sum != a_hand
+    b_loses = sum == a_hand && sum != b_hand
     a_drink += 1 if a_loses
     b_drink += 1 if b_loses
   end

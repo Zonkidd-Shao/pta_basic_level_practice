@@ -1,7 +1,8 @@
 -- 题目编号: 1069 微博转发抽奖
 -- 实现原理: 从第 s 个转发者开始，每隔 n 个人抽奖一次。若当前中奖者已中过奖，则顺延至下一个未中奖者。记录已中奖者防止重复，若无人中奖则输出"Keep going..."。
 -- m: 转发人数，n: 间隔人数，s: 起始位置
-local m, n, s = io.read("*n"), io.read("*n"), io.read("*n")
+local m, n, s = io.read("l"):match("^(%d+)%s+(%d+)%s+(%d+)$")
+m, n, s = tonumber(m), tonumber(n), tonumber(s)
 local a = {}
 -- 读取所有转发者ID
 for i = 1, m do

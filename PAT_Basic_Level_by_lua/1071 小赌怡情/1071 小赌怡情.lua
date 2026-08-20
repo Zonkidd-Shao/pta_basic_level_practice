@@ -4,13 +4,12 @@
 local money, n = io.read("*n"), io.read("*n")
 -- 逐轮游戏
 for i = 1, n do
-    -- a: 给定的第一个数，b: 给定的第二个数
-    -- c: 下注筹码数，d: 猜的结果（1大，0小）
-    local a, b, c, d = io.read("*n"), io.read("*n"), io.read("*n"), io.read("*n")
+    -- 输入顺序为 n1、猜测方向、下注数、n2
+    local a, bet, c, d = io.read("*n"), io.read("*n"), io.read("*n"), io.read("*n")
     if c > money then
         -- 筹码不足，无法下注
         print("Not enough tokens.  Total = " .. money .. ".")
-    elseif (a > b) == (d == 1) then
+    elseif (d > a) == (bet == 1) then
         -- 猜对了：a>b且猜大，或a<=b且猜小（即猜大不成立）
         money = money + c
         print("Win " .. c .. "!  Total = " .. money .. ".")

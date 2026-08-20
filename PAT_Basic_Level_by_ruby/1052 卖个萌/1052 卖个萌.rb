@@ -12,16 +12,16 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  sets = []
-  3.times { sets << gets(chomp: true).scan(/\[[^\]]*\]/) }
+  sets = 3.times.map { gets(chomp: true).scan(/\[([^\]]*)\]/).flatten }
 
   n = gets.to_i
   n.times do
-    a, b, c = gets.split.map(&:to_i)
-    if a < 1 || a > sets[0].length || b < 1 || b > sets[1].length || c < 1 || c > sets[2].length
+    a, b, c, d, e = gets.split.map(&:to_i)
+    invalid = [a, b, c, d, e].any?(&:nil?) || a < 1 || a > sets[0].length || b < 1 || b > sets[1].length || c < 1 || c > sets[2].length || d < 1 || d > sets[1].length || e < 1 || e > sets[0].length
+    if invalid
       puts 'Are you kidding me? @\/@'
     else
-      puts sets[0][a - 1] + sets[1][b - 1] + sets[2][c - 1]
+      puts "#{sets[0][a - 1]}(#{sets[1][b - 1]}#{sets[2][c - 1]}#{sets[1][d - 1]})#{sets[0][e - 1]}"
     end
   end
 end

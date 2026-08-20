@@ -38,9 +38,10 @@ func main() {
 			}
 		}
 		if below > K/2 {
-			maybeCnt++
 			if K > D {
 				vacantCnt++
+			} else {
+				maybeCnt++
 			}
 		}
 	}

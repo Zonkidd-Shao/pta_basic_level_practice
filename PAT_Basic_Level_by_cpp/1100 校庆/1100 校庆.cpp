@@ -24,50 +24,47 @@
  */
 #include <iostream>
 #include <string>
-#include <map>
+#include <unordered_set>
 
 using namespace std;
 
 int main() {
     int n;
     if (!(cin >> n)) return 0;
-    map<string, string> alumni;  // 校友信息：ID -> 出生日期
+    unordered_set<string> alumni;
     for (int i = 0; i < n; ++i) {
-        string id, birth;
-        cin >> id >> birth;
-        alumni[id] = birth;
+        string id;
+        cin >> id;
+        alumni.insert(id);
     }
 
     int m;
     cin >> m;
     int alumCount = 0;                     // 到场校友人数
-    string alumId, alumTime, alumBirth;    // 最早到达校友的信息
-    string guestId, guestTime;             // 所有嘉宾中最早到达者的信息
+    string oldestAlum, oldestGuest;
     bool hasAlum = false, hasGuest = false;
 
     for (int i = 0; i < m; ++i) {
-        string id, time;
-        cin >> id >> time;
+        string id;
+        cin >> id;
+        if (!hasGuest || id.substr(6, 8) < oldestGuest.substr(6, 8)) {
+            oldestGuest = id;
+            hasGuest = true;
+        }
 
-        // 更新所有嘉宾中最早到达者
-        if (!hasGuest || time < guestTime) { guestTime = time; guestId = id; hasGuest = true; }
-
-        if (alumni.count(id)) {                    // 该嘉宾是校友
+        if (alumni.count(id)) {
             ++alumCount;
-            if (!hasAlum) {                        // 第一个到场校友
+            if (!hasAlum || id.substr(6, 8) < oldestAlum.substr(6, 8)) {
                 hasAlum = true;
-                alumId = id; alumTime = time; alumBirth = alumni[id];
-            } else if (time < alumTime || (time == alumTime && alumni[id] < alumBirth)) {
-                // 到达时间更早，或时间相同时出生日期更早
-                alumId = id; alumTime = time; alumBirth = alumni[id];
+                oldestAlum = id;
             }
         }
     }
 
     if (hasAlum) {
-        cout << alumCount << endl << alumId << " " << alumTime << endl;
+        cout << alumCount << endl << oldestAlum << endl;
     } else {
-        cout << 0 << endl << guestId << " " << guestTime << endl;
+        cout << 0 << endl << oldestGuest << endl;
     }
     return 0;
 }

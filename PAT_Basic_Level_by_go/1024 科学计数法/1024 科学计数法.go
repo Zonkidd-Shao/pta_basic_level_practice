@@ -22,15 +22,15 @@ func main() {
 	}
 	s := strings.TrimSpace(scanner.Text())
 	neg := false
-	if s[0] == '-' {
-		neg = true
+	if s[0] == '-' || s[0] == '+' {
+		neg = s[0] == '-'
 		s = s[1:] // 移除负号，后续统一处理
 	}
 	dot := strings.IndexByte(s, '.')
 	ePos := strings.IndexByte(s, 'E')
-	intPart := s[:dot]                // 整数部分
-	fracPart := s[dot+1 : ePos]       // 小数部分
-	expStr := s[ePos+1:]              // 指数部分字符串
+	intPart := s[:dot]          // 整数部分
+	fracPart := s[dot+1 : ePos] // 小数部分
+	expStr := s[ePos+1:]        // 指数部分字符串
 	exp, sign := 0, 1
 	if expStr[0] == '+' {
 		expStr = expStr[1:]
@@ -59,7 +59,13 @@ func main() {
 		}
 	} else {
 		// 负指数：小数点左移，前面补零
-		b := "0." + strings.Repeat("0", exp-1) + intPart + fracPart
+		var b string
+		if exp == 0 {
+			// 指数为 0 时数值不变，但正号不能出现在输出中。
+			b = intPart + "." + fracPart
+		} else {
+			b = "0." + strings.Repeat("0", exp-1) + intPart + fracPart
+		}
 		if neg {
 			b = "-" + b
 		}

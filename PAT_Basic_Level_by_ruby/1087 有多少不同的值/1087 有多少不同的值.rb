@@ -12,6 +12,6 @@ require 'set'
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
   values = Set.new
-  (1..n).each { |i| values << i + i.digits.sum }
+  (1..n).each { |i| values << i / 2 + i / 3 + i / 5 }
   puts values.length
 end

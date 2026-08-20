@@ -10,4 +10,4 @@
 #   最后按行输出矩阵。
 # 时间复杂度：O(m*n)，即 O(N)，每个元素填充一次
 # 空间复杂度：O(m*n)，存储螺旋矩阵
-z<-as.integer(scan("stdin",quiet=TRUE));n<-z[1];m<-z[2];a<-z[-c(1,2)];q<-matrix(0L,n,m);top<-1;bot<-n;l<-1;r<-m;k<-1;while(k<=length(a)){for(j in l:r){if(k<=length(a)){q[top,j]<-a[k];k<-k+1}};top<-top+1;for(i in top:bot){if(k<=length(a)){q[i,r]<-a[k];k<-k+1}};r<-r-1;for(j in r:l){if(k<=length(a)){q[bot,j]<-a[k];k<-k+1}};bot<-bot-1;for(i in bot:top){if(k<=length(a)){q[i,l]<-a[k];k<-k+1}};l<-l+1};for(i in 1:n)cat(paste(q[i,],collapse=" "),"\n")
+z<-as.integer(scan("stdin",quiet=TRUE));N<-z[1];a<-sort(z[-1],decreasing=TRUE);cols<-1L;for(j in 1:floor(sqrt(N)))if(N%%j==0)cols<-j;rows<-N%/%cols;q<-matrix(0L,rows,cols);top<-1L;bot<-rows;left<-1L;right<-cols;k<-1L;while(k<=N){if(left<=right){for(j in left:right){q[top,j]<-a[k];k<-k+1L};top<-top+1L};if(top<=bot){for(i in top:bot){q[i,right]<-a[k];k<-k+1L};right<-right-1L};if(top<=bot&&left<=right){for(j in right:left){q[bot,j]<-a[k];k<-k+1L};bot<-bot-1L};if(left<=right&&top<=bot){for(i in bot:top){q[i,left]<-a[k];k<-k+1L};left<-left+1L}};for(i in 1:rows)cat(paste(q[i,],collapse=" "),"\n")

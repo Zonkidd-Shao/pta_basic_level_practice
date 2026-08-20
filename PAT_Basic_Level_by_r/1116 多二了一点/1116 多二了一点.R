@@ -10,4 +10,4 @@
 #   注意：题目保证Y的个位不大于7，即X-Y=2时不会有借位问题，可直接字符串比较。
 # 时间复杂度：O(L)，L为数字长度，字符串分割和比较
 # 空间复杂度：O(L)，存储输入字符串
-z<-as.integer(scan("stdin",quiet=TRUE));cat(paste0(rev(strsplit(as.character(z[1]*z[2]),"")[[1]]),collapse=""),"\n")
+z<-scan("stdin",what="",quiet=TRUE)[1];norm<-function(s){s<-sub("^0+","",s);if(!nzchar(s))"0"else s};addsmall<-function(s,n){d<-as.integer(strsplit(s,"",fixed=TRUE)[[1]]);i<-length(d);while(i>0&&n>0){v<-d[i]+n;d[i]<-v%%10L;n<-v%/%10L;i<-i-1L};if(n>0)d<-c(as.integer(strsplit(as.character(n),"",fixed=TRUE)[[1]]),d);paste0(d,collapse="")};L<-nchar(z);if(L%%2==1){cat("Error: ",L," digit(s)\n",sep="")}else{h<-L%/%2;y<-substr(z,1,h);xx<-substr(z,h+1,L);yes<-norm(addsmall(norm(y),2L))==norm(xx);cat(if(yes)"Yes: "else"No: ",xx," - ",y,if(yes)" = 2"else" != 2","\n",sep="")}

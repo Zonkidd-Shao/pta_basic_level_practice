@@ -19,15 +19,17 @@ if __FILE__ == $PROGRAM_NAME
   maybe = 0
   vacant = 0
   n.times do
-    days = gets.split.map(&:to_f)
-    low = days.count { |u| u < e }
-    if low * 2 > d
+    parts = gets.split.map(&:to_f)
+    k = parts.shift.to_i
+    low = parts.first(k).count { |u| u < e }
+    next unless low * 2 > k
+
+    if k > d
       vacant += 1
-    elsif low.positive?
+    else
       maybe += 1
     end
   end
 
-  puts "#{maybe} #{vacant}"
-  puts format('%.1f%%', vacant * 100.0 / n)
+  puts format('%.1f%% %.1f%%', maybe * 100.0 / n, vacant * 100.0 / n)
 end

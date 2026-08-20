@@ -43,9 +43,10 @@ public class Main {
             int x = ra.charAt(i) - '0';
             int y = rb.charAt(i) - '0';
             int c;
-            if (i % 2 == 0) c = (x + y) % 10;       // 奇数位（个位为第1位，下标0）
+            if (i % 2 == 0) c = (x + y) % 13;       // 奇数位（个位为第1位，下标0）
             else c = (y - x + 10) % 10;               // 偶数位：B-A，负则+10
-            res.append(c);
+            res.append(c < 10 ? (char) ('0' + c)
+                    : (c == 10 ? 'J' : (c == 11 ? 'Q' : 'K')));
         }
         // 反转回正常顺序输出
         System.out.println(res.reverse().toString());

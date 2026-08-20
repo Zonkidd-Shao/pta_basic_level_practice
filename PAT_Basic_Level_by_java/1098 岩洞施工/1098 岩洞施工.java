@@ -31,29 +31,20 @@ public class Main {
         String[] topStr = br.readLine().split(" ");
         String[] bottomStr = br.readLine().split(" ");
         
-        int[] top = new int[n];
-        int[] bottom = new int[n];
-        
+        int minTop = Integer.MAX_VALUE;
+        int maxBottom = Integer.MIN_VALUE;
+
         for (int i = 0; i < n; i++) {
-            top[i] = Integer.parseInt(topStr[i]);
-            bottom[i] = Integer.parseInt(bottomStr[i]);
+            minTop = Math.min(minTop, Integer.parseInt(topStr[i]));
+            maxBottom = Math.max(maxBottom, Integer.parseInt(bottomStr[i]));
         }
-        
-        // 计算每个位置的间隙 top[i] - bottom[i]，找出最小间隙
-        int minGap = Integer.MAX_VALUE;
-        for (int i = 0; i < n; i++) {
-            int gap = top[i] - bottom[i];
-            if (gap < minGap) {
-                minGap = gap;
-            }
-        }
-        
-        // 如果最小间隙 >= 1，可以施工，最大直径就是最小间隙
-        if (minGap >= 1) {
-            System.out.println("Yes " + minGap);
+
+        // 管道必须水平，因此可用空间由全洞最低的顶部和全洞最高的底部决定。
+        int gap = minTop - maxBottom;
+        if (gap >= 1) {
+            System.out.println("Yes " + gap);
         } else {
-            // 否则需要削掉 1 - minGap 的高度
-            System.out.println("No " + (1 - minGap));
+            System.out.println("No " + (1 - gap));
         }
     }
 }

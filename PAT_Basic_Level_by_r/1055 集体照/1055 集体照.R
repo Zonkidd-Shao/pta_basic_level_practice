@@ -9,4 +9,4 @@
 #   使用 order 函数进行多级排序，自定义 pos 函数实现每排的排列。
 # 时间复杂度：O(N log N)，主要由排序决定
 # 空间复杂度：O(N)
-x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);a<-do.call(rbind,strsplit(x[-1],"\\s+"));a<-a[order(as.integer(a[,2]),a[,1]),,drop=FALSE];last<-h[1]%%h[2]+h[1]%/%h[2];pos<-function(v){r<-character(length(v));mid<-ceiling(length(v)/2);r[mid]<-v[length(v)];for(i in seq_len(length(v)-1)){idx<-if(i%%2)mid-ceiling(i/2) else mid+i/2;r[idx]<-v[length(v)-i]};r};idx<-1;for(row in 1:h[2]){cnt<-if(row==1)last else h[1]%/%h[2];cat(paste(pos(a[idx:(idx+cnt-1),1]),collapse=" "),"\n");idx<-idx+cnt}
+x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);a<-do.call(rbind,strsplit(x[2:(h[1]+1)],"\\s+"));a<-a[order(-as.integer(a[,2]),a[,1]),,drop=FALSE];arrange<-function(v){m<-length(v);mid<-m%/%2+1L;idx<-c(mid,unlist(lapply(1:(m-1),function(j)if(j%%2==1)mid-(j+1L)%/%2 else mid+j/2)));r<-character(m);r[idx]<-v;r};idx<-1L;for(row in 1:h[2]){cnt<-if(row==1)h[1]%/%h[2]+h[1]%%h[2]else h[1]%/%h[2];cat(paste(arrange(a[idx:(idx+cnt-1),1]),collapse=" "),"\n");idx<-idx+cnt}

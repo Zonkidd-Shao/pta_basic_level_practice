@@ -39,7 +39,7 @@ int main() {
 
     int found = 0;
     long long color = 0;
-    int fr = 0, fc = 0;
+    int row = 0, col = 0;
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
             if (cnt[img[i][j]] != 1) continue;  // 颜色不唯一，跳过
@@ -57,13 +57,13 @@ int main() {
             if (ok) {
                 ++found;
                 color = img[i][j];
-                fr = i + 1; fc = j + 1;  // 转换为 1-based 坐标
+                row = i + 1; col = j + 1;  // 转换为 1-based 坐标
             }
         }
     }
 
     // 根据找到的个数输出对应结果
-    if (found == 1) cout << color << " (" << fr << ", " << fc << ")" << endl;
+    if (found == 1) cout << "(" << col << ", " << row << "): " << color << endl;
     else if (found == 0) cout << "Not Exist" << endl;
     else cout << "Not Unique" << endl;
     return 0;

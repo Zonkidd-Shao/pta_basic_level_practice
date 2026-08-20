@@ -10,10 +10,21 @@
 
 if __FILE__ == $PROGRAM_NAME
   l, r = gets.split.map(&:to_i)
-  a = 1
-  while a * (a + 1) <= r
-    num = a * (a + 1)
-    puts "#{a}*#{a + 1}=#{num}" if num >= l
-    a += 1
+  result = []
+
+  (l..r).each do |a|
+    square = a**3 - (a - 1)**3
+    c = Math.sqrt(square).to_i
+    next unless c * c == square
+
+    (1..Math.sqrt(c).to_i).each do |b|
+      result << [a, b] if b * b + (b - 1) * (b - 1) == c
+    end
+  end
+
+  if result.empty?
+    puts 'No Solution'
+  else
+    result.each { |a, b| puts "#{a} #{b}" }
   end
 end

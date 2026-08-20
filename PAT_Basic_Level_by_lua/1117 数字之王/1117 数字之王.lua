@@ -26,10 +26,8 @@ end
 while true do
     local done = true  -- 标记是否所有数都已小于10
     for i = 1, #v do
-        if v[i] >= 10 then
-            v[i] = f(v[i])
-            done = false
-        end
+        v[i] = f(v[i])
+        if v[i] >= 10 then done = false end
     end
     if done then break end
 end

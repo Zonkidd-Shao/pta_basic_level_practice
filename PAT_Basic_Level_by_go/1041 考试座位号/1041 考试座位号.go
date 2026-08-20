@@ -8,36 +8,31 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
 )
 
 // 考试座位号：根据试机座位号查询准考证号与考试座位号。
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
-	if !scanner.Scan() {
+	in := bufio.NewReader(os.Stdin)
+	var N int
+	if _, err := fmt.Fscan(in, &N); err != nil {
 		return
 	}
-	N, _ := strconv.Atoi(strings.TrimSpace(scanner.Text()))
 	type info struct {
 		id   string
 		exam int
 	}
 	m := make(map[int]info)
 	for i := 0; i < N; i++ {
-		if !scanner.Scan() {
-			break
-		}
-		f := strings.Fields(scanner.Text())
-		test, _ := strconv.Atoi(f[1])
-		exam, _ := strconv.Atoi(f[2])
-		m[test] = info{id: f[0], exam: exam}
+		var id string
+		var test, exam int
+		fmt.Fscan(in, &id, &test, &exam)
+		m[test] = info{id: id, exam: exam}
 	}
-	scanner.Scan()
-	queries := strings.Fields(scanner.Text())
-	for _, q := range queries {
-		t, _ := strconv.Atoi(q)
+	var M int
+	fmt.Fscan(in, &M)
+	for i := 0; i < M; i++ {
+		var t int
+		fmt.Fscan(in, &t)
 		inf := m[t]
 		fmt.Printf("%s %d\n", inf.id, inf.exam)
 	}

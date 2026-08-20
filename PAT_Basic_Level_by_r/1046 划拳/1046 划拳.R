@@ -1,11 +1,1 @@
-# 题目名称：划拳
-# 题目编号：PAT Basic 1046
-# 实现原理：
-#   遍历每一轮划拳记录，计算两人喊出的数字之和，
-#   分别判断甲和乙划出的数字是否等于该和。
-#   若甲划出的数字不等于和，则甲罚酒一杯；
-#   若乙划出的数字不等于和，则乙罚酒一杯。
-#   最终输出两人各自罚酒的杯数。
-# 时间复杂度：O(N)，N 为划拳轮数
-# 空间复杂度：O(1)，只用两个计数器变量
-x<-readLines("stdin",warn=FALSE);a<-b<-0L;for(s in x[-1]){v<-as.integer(strsplit(s,"\\s+")[[1]]);if(v[2]!=v[1]+v[3])a<-a+1L;if(v[4]!=v[1]+v[3])b<-b+1L};cat(a,b,"\n")
+x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);a<-b<-0L;for(s in x[2:(n+1L)]){v<-as.integer(strsplit(s,"\\s+")[[1]]);sa<-v[2]==v[1]+v[3];sb<-v[4]==v[1]+v[3];if(sa&&!sb)b<-b+1L else if(sb&&!sa)a<-a+1L};cat(a," ",b,"\n",sep="")

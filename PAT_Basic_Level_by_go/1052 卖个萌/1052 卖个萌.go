@@ -13,10 +13,20 @@ import (
 )
 
 func parseLine(s string) []string {
-	tokens := strings.Fields(s)
-	res := make([]string, 0, len(tokens))
-	for _, t := range tokens {
-		res = append(res, t[1:len(t)-1])
+	res := make([]string, 0)
+	for i := 0; i < len(s); {
+		start := strings.IndexByte(s[i:], '[')
+		if start < 0 {
+			break
+		}
+		start += i
+		end := strings.IndexByte(s[start+1:], ']')
+		if end < 0 {
+			break
+		}
+		end += start + 1
+		res = append(res, s[start+1:end])
+		i = end + 1
 	}
 	return res
 }
@@ -47,7 +57,7 @@ func main() {
 			b.WriteString("Are you kidding me? @\\/@\n")
 			continue
 		}
-		b.WriteString(fmt.Sprintf("[%s]([%s][%s][%s])[%s]\n",
+		b.WriteString(fmt.Sprintf("%s(%s%s%s)%s\n",
 			hand[lh-1], eye[le-1], mouth[mo-1], eye[re-1], hand[rh-1]))
 	}
 	fmt.Print(b.String())

@@ -12,4 +12,4 @@
 #   核心思想：两遍贪心，分别满足左右两边的约束。
 # 时间复杂度：O(n)，n为胖达个数，两遍线性扫描
 # 空间复杂度：O(n)，存储l和r两个数组
-z<-as.integer(scan("stdin",quiet=TRUE));a<-z[-1];n<-length(a);l<-rep(1L,n);r<-rep(1L,n);for(i in 2:n)if(a[i]>a[i-1])l[i]<-l[i-1]+1L;for(i in (n-1):1)if(a[i]>a[i+1])r[i]<-r[i+1]+1L;cat(200L*sum(pmax(l,r)),"\n")
+z<-as.integer(scan("stdin",quiet=TRUE));a<-z[-1];n<-length(a);l<-rep(1L,n);r<-rep(1L,n);if(n>1){for(i in 2:n)if(a[i]>a[i-1])l[i]<-l[i-1]+1L;for(i in (n-1):1)if(a[i]>a[i+1])r[i]<-r[i+1]+1L};cat(100L*sum(pmax(l,r)+1L),"\n")

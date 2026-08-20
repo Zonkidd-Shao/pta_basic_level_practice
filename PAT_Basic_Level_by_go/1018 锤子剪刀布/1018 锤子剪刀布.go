@@ -27,7 +27,7 @@ func main() {
 
 	// win 判断手势 p 是否能赢手势 q
 	win := func(p, q byte) bool {
-		return (p == 'B' && q == 'J') || (p == 'C' && q == 'B') || (p == 'J' && q == 'C')
+		return (p == 'B' && q == 'C') || (p == 'C' && q == 'J') || (p == 'J' && q == 'B')
 	}
 
 	// 逐轮统计

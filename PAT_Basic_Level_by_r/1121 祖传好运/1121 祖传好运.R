@@ -1,12 +1,1 @@
-# 题目名称：祖传好运
-# 题目编号：PAT Basic 1121
-# 实现原理：
-#   判断一个数是否具有祖传好运：从第一位开始，每一位组成的前缀都能被其位数整除。
-#   例如123：1能被1整除，12能被2整除，123能被3整除，所以是祖传好运数。
-#   解题思路：1. 对每个待检测数字，从第2位开始逐位检查（第1位天然满足）；
-#   2. 对i从2到位数，取前i位组成的数，判断是否能被i整除；
-#   3. 若所有前缀都满足条件则输出Yes，否则一旦不满足就break输出No。
-#   因为单个数字不超过10^9，直接转数值计算不会溢出。
-# 时间复杂度：O(K×L)，K为待测数字个数，L为数字位数（最多10位）
-# 空间复杂度：O(1)，仅使用常数空间
-z<-scan("stdin",what="",quiet=TRUE);for(s in z[-1]){ok<-TRUE;for(i in 2:nchar(s))if(as.numeric(substr(s,1,i))%%i!=0){ok<-FALSE;break};cat(if(ok)"Yes" else "No","\n")}
+z<-scan("stdin",what="",quiet=TRUE);for(s in z[-1]){ok<-TRUE;if(nchar(s)>1L)for(i in 2:nchar(s))if(as.numeric(substr(s,1,i))%%i!=0){ok<-FALSE;break};cat(if(ok)"Yes" else "No","\n")}

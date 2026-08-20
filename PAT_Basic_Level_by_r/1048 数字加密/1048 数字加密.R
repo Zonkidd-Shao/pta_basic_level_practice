@@ -8,4 +8,4 @@
 #   最后将加密后的数字拼接成字符串输出。
 # 时间复杂度：O(n)，n 为数字位数
 # 空间复杂度：O(n)
-x<-readLines("stdin",warn=FALSE);a<-as.integer(strsplit(x[1],"")[[1]]);b<-as.integer(strsplit(x[2],"")[[1]]);out<-integer(length(a));for(i in seq_along(a)){v<-a[i]+b[i];out[i]<-if(i%%2) v%%13 else if(v>=10)v-10 else v};cat(paste0(ifelse(out==10,"J",ifelse(out==11,"Q",ifelse(out==12,"K",out))),collapse=""),"\n")
+x<-scan("stdin",what="",quiet=TRUE);A<-strsplit(x[1],"",fixed=TRUE)[[1]];B<-strsplit(x[2],"",fixed=TRUE)[[1]];L<-max(length(A),length(B));A<-c(rep("0",L-length(A)),A);B<-c(rep("0",L-length(B)),B);out<-character(L);for(i in L:1){pos<-L-i+1;v<-if(pos%%2==1)(as.integer(A[i])+as.integer(B[i]))%%13 else (as.integer(B[i])-as.integer(A[i]))%%10;out[i]<-c(as.character(0:9),"J","Q","K")[v+1L]};cat(paste0(out,collapse=""),"\n")

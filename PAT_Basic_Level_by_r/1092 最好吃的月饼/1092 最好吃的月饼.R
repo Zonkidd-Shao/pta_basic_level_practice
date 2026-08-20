@@ -15,4 +15,4 @@
 #   利用R语言向量化操作，可以用矩阵或数组更高效。
 # 时间复杂度：O(N * M)，读取和计算所有月饼总销量
 # 空间复杂度：O(N * M)，存储所有销量数据
-z<-as.integer(scan("stdin",quiet=TRUE));n<-z[1];a<-z[-1];mx<-max(a);cat(mx,"\n",paste(which(a==mx),collapse=" "),"\n",sep="")
+z<-as.integer(scan("stdin",quiet=TRUE));n<-z[1];m<-z[2];a<-matrix(z[-c(1,2)],nrow=m,byrow=TRUE);tot<-colSums(a);mx<-max(tot);cat(mx,"\n",paste(which(tot==mx),collapse=" "),"\n",sep="")

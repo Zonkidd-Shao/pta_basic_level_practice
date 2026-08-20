@@ -22,10 +22,10 @@ func main() {
 		return
 	}
 	f := strings.Fields(scanner.Text())
-	M, _ := strconv.Atoi(f[0]) // 行数
-	N, _ := strconv.Atoi(f[1]) // 列数
-	A, _ := strconv.Atoi(f[2]) // 区间下限
-	B, _ := strconv.Atoi(f[3]) // 区间上限
+	M, _ := strconv.Atoi(f[0])   // 行数
+	_, _ = strconv.Atoi(f[1])    // 列数
+	A, _ := strconv.Atoi(f[2])   // 区间下限
+	B, _ := strconv.Atoi(f[3])   // 区间上限
 	val, _ := strconv.Atoi(f[4]) // 替换值
 
 	// 逐行处理每个像素
@@ -44,7 +44,7 @@ func main() {
 			if j > 0 {
 				b.WriteByte(' ')
 			}
-			b.WriteString(strconv.Itoa(v))
+			b.WriteString(fmt.Sprintf("%03d", v))
 		}
 		// 输出处理后的行
 		fmt.Println(b.String())

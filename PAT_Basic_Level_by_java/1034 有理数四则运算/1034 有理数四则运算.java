@@ -40,8 +40,20 @@ public class Main {
             this.d = d;
         }
         String show() {
-            if (d.equals(BigInteger.ONE)) return n.toString();
-            return n + "/" + d;
+            if (n.signum() == 0) return "0";
+            boolean negative = n.signum() < 0;
+            BigInteger abs = n.abs();
+            BigInteger whole = abs.divide(d);
+            BigInteger rem = abs.remainder(d);
+            String body;
+            if (rem.signum() == 0) {
+                body = whole.toString();
+            } else if (whole.signum() == 0) {
+                body = rem + "/" + d;
+            } else {
+                body = whole + " " + rem + "/" + d;
+            }
+            return negative ? "(-" + body + ")" : body;
         }
     }
 

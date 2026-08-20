@@ -9,15 +9,22 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  a, x, y = gets.split.map(&:to_i)
-  jia = a
-  yi = a * x
-  bing = a * y
+  me, x, y = gets.split.map(&:to_i)
+  answer = nil
+  99.downto(10) do |jia|
+    yi = (jia.to_s.reverse).to_i
+    bing = (jia - yi).abs.to_f / x
+    if (yi - bing * y).abs < 1e-9
+      answer = [jia, yi, bing]
+      break
+    end
+  end
 
-  puts "#{jia} #{yi} #{bing}"
-
-  trio = [['jia', jia], ['yi', yi], ['bing', bing]]
-  max_val = trio.map { |_, v| v }.max
-  master = trio.find { |_, v| v == max_val }.first
-  puts "#{master} is the master"
+  if answer.nil?
+    puts 'No Solution'
+  else
+    jia, yi, bing = answer
+    relation = lambda { |v| v == me ? 'Ping' : v > me ? 'Cong' : 'Gai' }
+    puts "#{jia} #{relation.call(jia)} #{relation.call(yi)} #{relation.call(bing)}"
+  end
 end

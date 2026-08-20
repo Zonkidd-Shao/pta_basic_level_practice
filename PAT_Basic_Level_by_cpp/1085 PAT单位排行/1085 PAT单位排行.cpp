@@ -34,7 +34,7 @@ using namespace std;
 // 学校信息结构体
 struct Sch {
     string name;   // 校名（小写）
-    int score;     // 总分（向下取整）
+    long long score; // 加权总分（向下取整）
     int count;     // 考生人数
 };
 
@@ -42,21 +42,26 @@ int main() {
     int n;
     if (!(cin >> n)) return 0;
 
-    map<string, long long> sum;  // 各校总分（用 long long 避免溢出）
+    struct Sum { long long b = 0, a = 0, t = 0; };
+    map<string, Sum> sum;
     map<string, int> cnt;        // 各校考生人数
     for (int i = 0; i < n; ++i) {
         string id, sch;
         int score;
         cin >> id >> score >> sch;
         for (char& c : sch) c = (char)tolower((unsigned char)c); // 校名统一转小写
-        sum[sch] += score;  // 累加该校总分
+        if (id[0] == 'B') sum[sch].b += score;
+        else if (id[0] == 'A') sum[sch].a += score;
+        else sum[sch].t += score;
         cnt[sch]++;         // 增加该校人数
     }
 
     vector<Sch> v;
-    for (auto& kv : sum)
-        v.push_back({kv.first, (int)(kv.second / cnt[kv.first]), cnt[kv.first]});
-        // 总分 = 总成绩 / 人数（自动向下取整）
+    for (auto& kv : sum) {
+        // 统一乘以 6，避免浮点误差：B/1.5 + A + T*1.5。
+        long long weighted = (kv.second.b * 4 + kv.second.a * 6 + kv.second.t * 9) / 6;
+        v.push_back({kv.first, weighted, cnt[kv.first]});
+    }
 
     // 排序：总分降序 → 人数升序 → 校名升序
     sort(v.begin(), v.end(), [](const Sch& a, const Sch& b) {

@@ -9,16 +9,18 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  n, m = gets.split.map(&:to_i)
-  prices = gets.split.map(&:to_i).sort
-
+  n, budget = gets.split.map(&:to_i)
+  prices = gets.split.map(&:to_i).first(n)
   count = 0
-  spent = 0
-  prices.each do |p|
-    break if spent + p > m
-
-    spent += p
-    count += 1
+  left = 0
+  sum = 0
+  prices.each_with_index do |price, right|
+    sum += price
+    while sum > budget
+      sum -= prices[left]
+      left += 1
+    end
+    count += right - left + 1
   end
-  puts "#{count} #{spent}"
+  puts count
 end

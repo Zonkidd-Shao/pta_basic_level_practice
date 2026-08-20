@@ -8,12 +8,11 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  h1, n1, h2, n2 = gets.split
-  n1 = n1.to_i
-  n2 = n2.to_i
+  h1, h2, n = gets.split
+  n = n.to_i
 
   nodes = {}
-  (n1 + n2).times do
+  n.times do
     addr, data, nxt = gets.split
     nodes[addr] = { data: data, next: nxt }
   end
@@ -25,13 +24,17 @@ if __FILE__ == $PROGRAM_NAME
   cur = h2
   list2 << cur && cur = nodes[cur][:next] while cur != '-1'
 
-  merged = []
-  i = 0
-  while i < list1.length || i < list2.length
-    merged << list1[i] if i < list1.length
-    merged << list2[i] if i < list2.length
-    i += 1
+  if list1.length < list2.length
+    list1, list2 = list2, list1
   end
+  list2.reverse!
+
+  merged = []
+  list1.each_with_index do |addr, i|
+    merged << addr
+    merged << list2[i / 2] if i.odd? && i / 2 < list2.length
+  end
+  merged.concat(list2[(list1.length / 2)..] || [])
 
   merged.each_with_index do |addr, idx|
     nxt = idx + 1 < merged.length ? merged[idx + 1] : '-1'

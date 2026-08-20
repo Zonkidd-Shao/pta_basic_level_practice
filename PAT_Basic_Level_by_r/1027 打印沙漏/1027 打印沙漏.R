@@ -11,4 +11,4 @@
 #   6. 最后输出剩余的字符数
 # 时间复杂度：O(k^2) = O(n)，需要打印约sqrt(n)行，每行字符数也约为sqrt(n)
 # 空间复杂度：O(1)，只使用固定数量的变量
-z<-scan("stdin",what="",quiet=TRUE);n<-as.integer(z[1]);ch<-z[2];k<-floor((sqrt(2*n-1)-1)/2);for(i in c(k:0,1:k))cat(strrep(" ",k-i),strrep(ch,2*i+1),"\n",sep="");cat(n-(2*k*k+4*k+1),"\n")
+z<-scan("stdin",what="",quiet=TRUE);n<-as.integer(z[1]);ch<-z[2];k<-0L;while(2*(k+1L)^2-1L<=n)k<-k+1L;k<-k-1L;rows<-if(k==0L)integer()else c(k:0L,if(k>0L)1L:k else integer());if(k==0L)cat(ch,"\n",sep="")else for(i in rows)cat(strrep(" ",k-i),strrep(ch,2*i+1),"\n",sep="");cat(n-(2*(k+1L)^2-1L),"\n")

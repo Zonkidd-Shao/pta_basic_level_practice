@@ -80,11 +80,13 @@ sub is_valid {
 my $n = <STDIN>;
 chomp $n;
 
-# 读取第二行所有字符串
-my $rest = <STDIN>;
-chomp $rest;
-# 按空白分割，得到字符串数组
-my @strs = split /\s+/, $rest;
+# 读取后续 n 行字符串；题目规定每个字符串单独占一行
+my @strs;
+for (1 .. $n) {
+    my $s = <STDIN>;
+    chomp $s;
+    push @strs, $s;
+}
 
 # 逐个判定并输出结果
 for my $s (@strs) {

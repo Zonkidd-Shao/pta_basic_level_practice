@@ -10,13 +10,18 @@
 if __FILE__ == $PROGRAM_NAME
   s = gets(chomp: true)
   counts = Hash.new(0)
-  order = []
-  s.each_char do |c|
-    counts[c] += 1
-    order << c unless order.include?(c)
-  end
-
+  s.each_char { |c| counts[c] += 1 }
   result = String.new
-  order.each { |c| result << c * counts[c] }
+  loop do
+    wrote = false
+    'String'.each_char do |c|
+      next if counts[c].zero?
+
+      result << c
+      counts[c] -= 1
+      wrote = true
+    end
+    break unless wrote
+  end
   puts result
 end

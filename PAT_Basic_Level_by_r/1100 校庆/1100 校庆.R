@@ -15,4 +15,4 @@
 #   使用 %in% 运算符判断来宾是否为校友。
 # 时间复杂度：O(N + M)，线性时间处理两个集合
 # 空间复杂度：O(N + M)，存储校友和来宾的身份证号
-x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);alumni<-x[2:(n+1)];m<-as.integer(x[n+2]);visit<-x[(n+3):(n+m+2)];same<-visit[visit%in%alumni];cat(length(same),"\n",if(length(same))min(same) else min(visit),"\n",sep="")
+x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);alumni<-x[2:(n+1)];m<-as.integer(x[n+2]);visit<-x[(n+3):(n+m+2)];same<-visit[visit%in%alumni];pick<-if(length(same))same else visit;date<-as.integer(substr(pick,7,14));cat(length(same),"\n",pick[which.min(date)],"\n",sep="")

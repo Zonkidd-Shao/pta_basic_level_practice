@@ -35,17 +35,19 @@ $b = ('0' x ($len - length($b))) . $b;
 my @chars = ('0'..'9', 'J', 'Q', 'K');  # 13 取余后 10/11/12 对应 J/Q/K
 my $out = '';
 for (my $i = 0; $i < $len; $i++) {
-    my $pos = $i + 1;                 # 位置编号（1 起）
-    my $x = substr($a, $i, 1);
-    my $y = substr($b, $i, 1);
+    my $pos = $i + 1;                 # 从右端个位开始编号
+    my $idx = $len - 1 - $i;
+    my $x = substr($a, $idx, 1);
+    my $y = substr($b, $idx, 1);
+    my $digit;
     if ($pos % 2 == 1) {              # 奇数位：相加后对 13 取余
         my $z = ($x + $y) % 13;
-        $out .= $chars[$z];
+        $digit = $chars[$z];
     } else {                          # 偶数位：B - A，负数加 10
         my $z = $y - $x;
         $z += 10 if $z < 0;
-        $out .= $z;
+        $digit = $z;
     }
+    $out = $digit . $out;
 }
-$out =~ s/^0+//;                      # 去掉前导零
-print(($out eq '' ? '0' : $out), "\n");
+print "$out\n";                      # 保留结果的完整位数，包括前导 0

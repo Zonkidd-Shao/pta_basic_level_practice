@@ -6,4 +6,4 @@
 #   可直接用数组或变量滚动计算，由于每次只需前4项，可用滑动窗口优化空间。
 # 时间复杂度：O(n)，依次计算n项，每项为常数时间运算
 # 空间复杂度：O(n)，存储前n项（或O(1)若只需边算边输出）
-n<-as.integer(scan("stdin",quiet=TRUE)[1]);v<-0L;for(i in 1:n)v<-(v*10+2)%%2019L;cat(v,"\n")
+n<-as.integer(scan("stdin",quiet=TRUE)[1]);base<-c(2L,0L,1L,9L);if(n<=4){cat(paste0(base[1:n],collapse=""),"\n")}else{for(i in 5:n)base[i]<-sum(base[(i-4):(i-1)])%%10L;cat(paste0(base,collapse=""),"\n")}

@@ -13,12 +13,12 @@ if __FILE__ == $PROGRAM_NAME
     pwd = gets(chomp: true)
     if pwd.length < 6
       puts 'Your password is tai duan le.'
-    elsif pwd =~ /[^a-zA-Z0-9]/
-      puts 'Your password contains characters that are not alphanumeric.'
-    elsif pwd !~ /\d/
-      puts 'Your password needs a number.'
+    elsif pwd =~ /[^a-zA-Z0-9.]/
+      puts 'Your password is tai luan le.'
     elsif pwd !~ /[a-zA-Z]/
-      puts 'Your password needs a letter.'
+      puts 'Your password needs zi mu.'
+    elsif pwd !~ /\d/
+      puts 'Your password needs shu zi.'
     else
       puts 'Your password is wan mei.'
     end

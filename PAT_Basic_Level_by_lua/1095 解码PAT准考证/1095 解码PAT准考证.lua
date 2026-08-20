@@ -26,7 +26,8 @@ for q = 1, m do
         end
         -- 排序：成绩降序，成绩相同则准考证号升序
         table.sort(b, function(u, v)
-            return u[2] ~= v[2] and u[2] > v[2] or u[1] < v[1]
+            if u[2] ~= v[2] then return u[2] > v[2] end
+            return u[1] < v[1]
         end)
         -- 输出结果
         if #b == 0 then
@@ -37,24 +38,24 @@ for q = 1, m do
             end
         end
     
-    -- 类型2：按考场号（准考证第5-10位）统计人数和总分
+    -- 类型2：按考场号（准考证第2-4位）统计人数和总分
     elseif typ == "2" then
         local c, s = 0, 0  -- c:人数，s:总分
         for _, v in ipairs(a) do
-            if v[1]:sub(5, 10) == x then
+            if v[1]:sub(2, 4) == x then
                 c = c + 1  -- 人数+1
                 s = s + v[2]  -- 累加总分
             end
         end
         print(c == 0 and "NA" or c .. " " .. s)
     
-    -- 类型3：按考点代码（准考证前3位）统计各日期的考生人数
+    -- 类型3：按日期（准考证第5-10位）统计各考场的考生人数
     else
         local c = {}  -- 哈希表，键为日期（第5-10位），值为该日期考生人数
         for _, v in ipairs(a) do
-            if v[1]:sub(1, 3) == x then
-                local d = v[1]:sub(5, 10)  -- 提取日期部分
-                c[d] = (c[d] or 0) + 1  -- 统计该日期人数
+            if v[1]:sub(5, 10) == x then
+                local d = v[1]:sub(2, 4)  -- 提取考场号
+                c[d] = (c[d] or 0) + 1
             end
         end
         -- 收集所有日期到数组中
@@ -62,8 +63,10 @@ for q = 1, m do
         for d in pairs(c) do
             b[#b + 1] = d
         end
-        -- 按日期升序排序
-        table.sort(b)
+        table.sort(b, function(u, v)
+            if c[u] ~= c[v] then return c[u] > c[v] end
+            return u < v
+        end)
         -- 输出结果
         if #b == 0 then
             print("NA")

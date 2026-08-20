@@ -9,13 +9,8 @@
 
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
-  arr = gets.split.map(&:to_i)
-
-  common = if arr[0] == arr[1] || arr[0] == arr[2]
-             arr[0]
-           else
-             arr[1]
-           end
-  odd = arr.find { |x| x != common }
-  puts odd
+  arr = gets.split.map(&:to_i).first(n)
+  counts = Hash.new(0)
+  arr.each { |value| counts[value] += 1 }
+  puts counts.find { |value, count| value.odd? && count.odd? }[0]
 end

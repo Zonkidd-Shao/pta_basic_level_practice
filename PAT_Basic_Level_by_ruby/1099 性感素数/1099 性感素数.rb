@@ -40,28 +40,16 @@ end
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
 
-  embraced = nil
-  (2..n + 6).each do |c|
-    if prime?(c) && prime?(c + 6) && c <= n && n <= c + 6
-      embraced = [c, c + 6]
-      break
-    end
-  end
-
-  if embraced
-    puts "Yes #{embraced[0]} #{embraced[1]}"
+  if prime?(n) && prime?(n - 6)
+    puts 'Yes'
+    puts n - 6
+  elsif prime?(n) && prime?(n + 6)
+    puts 'Yes'
+    puts n + 6
   else
-    best = nil
-    best_dist = Float::INFINITY
-    (2..n + 200).each do |c|
-      next unless prime?(c) && prime?(c + 6)
-
-      d = dist_to_interval(n, c)
-      if d < best_dist
-        best_dist = d
-        best = [c, c + 6]
-      end
-    end
-    puts "No #{best[0]} #{best[1]}"
+    candidate = n + 1
+    candidate += 1 until prime?(candidate) && (prime?(candidate - 6) || prime?(candidate + 6))
+    puts 'No'
+    puts candidate
   end
 end

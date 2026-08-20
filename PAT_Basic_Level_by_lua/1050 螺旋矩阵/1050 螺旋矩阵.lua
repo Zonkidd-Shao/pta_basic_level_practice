@@ -1,12 +1,23 @@
 -- 题目编号: 1050 螺旋矩阵
 -- 实现原理: 将数据降序排列，用 top/bottom/left/right 四个指针控制填充边界，按"向右→向下→向左→向上"的螺旋顺序将元素依次填入矩阵，每填完一行或一列后收缩对应边界。
 
--- n: 矩阵行数，m: 矩阵列数
-local n, m = io.read("*n"), io.read("*n")
+-- 输入只有元素总数，选择行数不小于列数且尽量接近的矩阵
+local total = io.read("*n")
+local n, m = 1, total
+local best_difference = total - 1
+for columns = 1, math.floor(math.sqrt(total)) do
+    if total % columns == 0 then
+        local rows = total / columns
+        if rows >= columns and rows - columns < best_difference then
+            n, m = rows, columns
+            best_difference = rows - columns
+        end
+    end
+end
 
 -- 读取 n*m 个元素并按降序排列
 local a = {}
-for i = 1, n * m do a[i] = io.read("*n") end
+for i = 1, total do a[i] = io.read("*n") end
 table.sort(a, function(x, y) return x > y end)
 
 -- grid: 二维矩阵，初始化为空表

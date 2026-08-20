@@ -37,8 +37,8 @@ string nextSeq(const string& s) {
         char c = s[i];
         size_t j = i;
         while (j < s.size() && s[j] == c) ++j;
-        res += c;
         res += to_string(j - i);
+        res += c;
         i = j;
     }
     return res;

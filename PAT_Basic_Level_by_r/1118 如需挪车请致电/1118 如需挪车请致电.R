@@ -10,6 +10,4 @@
 #   关键：用正则解析算术表达式，分情况处理不同运算类型。
 # 时间复杂度：O(1)，固定11行，每行处理为常数时间
 # 空间复杂度：O(1)，仅使用常数空间
-x <- readLines("stdin", warn = FALSE); cn <- c(ling=0,yi=1,er=2,san=3,si=4,wu=5,liu=6,qi=7,ba=8,jiu=9)
-f <- function(s) { if (s %in% names(cn)) return(cn[s]); if (startsWith(s,"sqrt")) return(sqrt(as.numeric(substr(s,5,nchar(s))))); m <- regexec("^(\\d+)([+*/%^-])(\\d+)$",s); p <- regmatches(s,m)[[1]]; if(p[2]=="+")as.numeric(p[1])+as.numeric(p[3]) else if(p[2]=="-")as.numeric(p[1])-as.numeric(p[3]) else if(p[2]=="*")as.numeric(p[1])*as.numeric(p[3]) else if(p[2]=="/")as.numeric(p[1])/as.numeric(p[3]) else if(p[2]=="%")as.numeric(p[1])%%as.numeric(p[3]) else as.numeric(p[1])^as.numeric(p[3]) }
-cat(paste0(vapply(x,f,numeric(1)),collapse=""),"\n")
+x <- readLines("stdin", warn = FALSE);cn <- c(ling=0,yi=1,er=2,san=3,si=4,wu=5,liu=6,qi=7,ba=8,jiu=9);f<-function(s){s<-trimws(s);if(s%in%names(cn))return(cn[s]);if(startsWith(s,"sqrt"))return(sqrt(as.numeric(substr(s,5,nchar(s)))));p<-regmatches(s,regexec("^(\\d+)([+*/%^-])(\\d+)$",s))[[1]];a<-as.numeric(p[2]);b<-as.numeric(p[4]);switch(p[3],"+"=a+b,"-"=a-b,"*"=a*b,"/"=a/b,"%"=a%%b,"^"=a^b)};cat(paste0(vapply(x,f,numeric(1)),collapse=""),"\n")

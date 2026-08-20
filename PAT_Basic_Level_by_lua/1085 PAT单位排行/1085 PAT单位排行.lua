@@ -9,22 +9,22 @@ for i = 1, n do
     local id, score, school = io.read("l"):match("^(%S+)%s+(%d+)%s+(%S+)$")
     school = school:lower()  -- 学校名转为小写，统一比较
     
-    -- 若学校不存在则初始化：{校名, 加权总分, 考生人数}
+    -- 若学校不存在则初始化：{校名, 加权总分分子, 考生人数}
     s[school] = s[school] or {school, 0, 0}
     
-    -- 根据准考证首字母确定权重：B级/1.5，T级*1.5，A级不变
-    local w = id:sub(1, 1) == "B" and 1 / 1.5 
-              or id:sub(1, 1) == "T" and 1.5 
-              or 1
+    -- 统一乘以6：B级得分乘4，A级乘6，T级乘9，避免浮点误差
+    local w = id:sub(1, 1) == "B" and 4
+              or id:sub(1, 1) == "T" and 9
+              or 6
     
-    s[school][2] = s[school][2] + tonumber(score) * w  -- 累加加权得分
+    s[school][2] = s[school][2] + tonumber(score) * w
     s[school][3] = s[school][3] + 1  -- 考生人数加1
 end
 
 -- 收集所有学校到数组中，并对加权总分向下取整
 local a = {}
 for _, v in pairs(s) do
-    v[2] = math.floor(v[2])  -- 总分取整
+    v[2] = math.floor(v[2] / 6)  -- 总分取整
     a[#a + 1] = v
 end
 
@@ -33,9 +33,9 @@ end
 -- 2. 人数升序
 -- 3. 校名字典序升序
 table.sort(a, function(x, y)
-    return x[2] ~= y[2] and x[2] > y[2] 
-           or x[3] ~= y[3] and x[3] < y[3] 
-           or x[1] < y[1]
+    if x[2] ~= y[2] then return x[2] > y[2] end
+    if x[3] ~= y[3] then return x[3] < y[3] end
+    return x[1] < y[1]
 end)
 
 print(#a)  -- 输出学校总数

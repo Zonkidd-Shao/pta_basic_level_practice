@@ -9,10 +9,14 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  n = gets.to_i
-  scores = gets.split.map(&:to_i)
-  avg = scores.sum.to_f / n
-  count = scores.count { |s| s >= avg }
-  printf "%.2f\n", avg
-  puts count
+  glyphs = 26.times.map { 7.times.map { gets.chomp } }
+  sentence = gets.to_s.chomp
+  words = sentence.scan(/[A-Z]+/)
+
+  words.each_with_index do |word, word_index|
+    puts if word_index.positive?
+    7.times do |row|
+      puts word.chars.map { |char| glyphs[char.ord - 'A'.ord][row] }.join(' ')
+    end
+  end
 end

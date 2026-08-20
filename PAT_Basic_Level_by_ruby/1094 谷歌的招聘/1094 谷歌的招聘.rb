@@ -29,8 +29,9 @@ def prime?(num)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  n_str, k = gets.split
-  k = k.to_i
+  data = STDIN.read.split
+  n_str = data[2]
+  k = data[1].to_i
   found = nil
   (0..n_str.length - k).each do |i|
     sub = n_str[i, k]

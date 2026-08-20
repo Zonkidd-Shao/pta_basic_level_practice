@@ -10,4 +10,4 @@
 #   先用最低线 L 过滤，再分类，最后用 order 函数多关键字排序。
 # 时间复杂度：O(n log n) - 主要耗时在排序阶段
 # 空间复杂度：O(n) - 存储所有考生信息
-x<-readLines("stdin",warn=FALSE); h<-as.integer(strsplit(x[1],"\\s+")[[1]]); a<-do.call(rbind,strsplit(x[-1],"\\s+")); a<-a[as.integer(a[,2])>=h[2]&as.integer(a[,3])>=h[2],,drop=FALSE]; v<-as.integer(a[,2:3]); cls<-ifelse(v[,1]>=h[3]&v[,2]>=h[3],1,ifelse(v[,1]>=h[3],2,ifelse(v[,1]>=v[,2],3,4))); o<-order(cls,-rowSums(v),-v[,1],a[,1]); cat(nrow(a),"\n",paste(apply(a[o,,drop=FALSE],1,paste,collapse=" "),collapse="\n"),if(nrow(a))"\n" else "",sep="")
+x<-readLines("stdin",warn=FALSE); h<-as.integer(strsplit(x[1],"\\s+")[[1]]); a<-do.call(rbind,strsplit(x[2:(h[1]+1)],"\\s+")); keep<-as.integer(a[,2])>=h[2]&as.integer(a[,3])>=h[2]; a<-a[keep,,drop=FALSE]; v<-matrix(as.integer(a[,2:3]),ncol=2); cls<-ifelse(v[,1]>=h[3]&v[,2]>=h[3],1,ifelse(v[,1]>=h[3],2,ifelse(v[,1]>=v[,2],3,4))); o<-order(cls,-rowSums(v),-v[,1],a[,1]); cat(nrow(a),"\n"); if(nrow(a))cat(paste(apply(a[o,,drop=FALSE],1,paste,collapse=" "),collapse="\n"),"\n",sep="")

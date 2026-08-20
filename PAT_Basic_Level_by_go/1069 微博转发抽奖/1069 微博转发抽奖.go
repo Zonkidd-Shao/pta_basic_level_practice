@@ -11,25 +11,19 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
 )
 
 // main 是程序入口函数，处理微博转发抽奖流程。
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
-	if !scanner.Scan() {
+	in := bufio.NewReader(os.Stdin)
+	var N, M, S int
+	if _, err := fmt.Fscan(in, &N, &M, &S); err != nil {
 		return
 	}
-	f := strings.Fields(scanner.Text())
-	N, _ := strconv.Atoi(f[0]) // 转发总人数
-	M, _ := strconv.Atoi(f[1]) // 间隔人数
-	S, _ := strconv.Atoi(f[2]) // 起始位置
-
-	// 读取所有用户昵称（假设所有昵称在一行或可被一次读取）
-	scanner.Scan()
-	names := strings.Fields(scanner.Text())
+	names := make([]string, N)
+	for i := range names {
+		fmt.Fscan(in, &names[i])
+	}
 
 	chosen := make(map[string]bool) // 记录已中奖者，避免重复
 	winners := make([]string, 0)
@@ -37,11 +31,13 @@ func main() {
 
 	// 从起始位置开始，每隔 M 位抽取
 	for idx < N {
-		// 若该用户已中奖，则顺延到下一个（idx 后移一位，循环继续）
-		if !chosen[names[idx]] {
-			winners = append(winners, names[idx])
-			chosen[names[idx]] = true
+		// 若该用户已中奖，则顺延到下一位重新检查。
+		if chosen[names[idx]] {
+			idx++
+			continue
 		}
+		winners = append(winners, names[idx])
+		chosen[names[idx]] = true
 		idx += M
 	}
 

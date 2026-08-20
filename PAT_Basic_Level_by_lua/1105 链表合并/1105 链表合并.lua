@@ -1,30 +1,41 @@
 -- 题目编号: 1105 链表合并
--- 实现原理: 读取两个链表头地址和所有节点信息存入哈希表。从两个头地址分别遍历链表，将所有节点收集到一个数组中，按数据域大小排序，然后按顺序输出每个节点的地址、数据和下一节点地址。
+-- 按题意交替输出：较长链表连续两个节点，再接较短链表的一个节点；较短链表需要逆序。
 
--- 读取两个链表头地址和节点总数
 local h1, h2, n = io.read("l"):match("^(%S+)%s+(%S+)%s+(%d+)$")
 n = tonumber(n)
-local d = {}  -- 哈希表存储所有节点，key为地址，value为{地址, 数据, 下一节点地址}
-
--- 读取所有节点信息
-for i = 1, n do
-    local a, x, b = io.read("l"):match("^(%S+)%s+([%-]?%d+)%s+(%S+)$")
-    d[a] = {a, tonumber(x), b}
+local nodes = {}
+for _ = 1, n do
+    local address, value, next_address = io.read("l"):match("^(%S+)%s+([%-]?%d+)%s+(%S+)$")
+    nodes[address] = { address, tonumber(value), next_address }
 end
 
--- 从两个链表头出发，收集所有节点到数组a中
-local a = {}
-for _, h in ipairs({h1, h2}) do
-    while h ~= "-1" do
-        a[#a + 1] = d[h]
-        h = d[h][3]  -- 移动到下一个节点
+local function collect(head)
+    local result = {}
+    while head ~= "-1" do
+        result[#result + 1] = nodes[head]
+        head = nodes[head][3]
+    end
+    return result
+end
+
+local first, second = collect(h1), collect(h2)
+if #first < #second then first, second = second, first end
+
+local output = {}
+local i, j = 1, #second
+while i <= #first do
+    output[#output + 1] = first[i]
+    i = i + 1
+    if i <= #first then
+        output[#output + 1] = first[i]
+        i = i + 1
+    end
+    if j >= 1 then
+        output[#output + 1] = second[j]
+        j = j - 1
     end
 end
 
--- 按数据域从小到大排序
-table.sort(a, function(x, y) return x[2] < y[2] end)
-
--- 按排序后的顺序输出，下一节点地址为数组中下一个节点的地址
-for i, x in ipairs(a) do
-    print(x[1] .. " " .. x[2] .. " " .. (a[i + 1] and a[i + 1][1] or "-1"))
+for index, node in ipairs(output) do
+    print(node[1] .. " " .. node[2] .. " " .. (output[index + 1] and output[index + 1][1] or "-1"))
 end

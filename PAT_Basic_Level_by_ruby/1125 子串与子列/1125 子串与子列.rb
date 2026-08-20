@@ -28,14 +28,40 @@ def subsequence?(s, t)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  s = gets(chomp: true)
-  t = gets(chomp: true)
+  s = gets.to_s.chomp
+  p = gets.to_s.chomp
+  best_length = s.length + 1
+  best_start = 0
+  best_end = 0
+  start = 0
 
-  if s.include?(t)
-    puts 'substring'
-  elsif subsequence?(s, t)
-    puts 'subsequence'
-  else
-    puts 'None'
+  while start < s.length
+    finish = start
+    matched = 0
+    while finish < s.length && matched < p.length
+      matched += 1 if s[finish] == p[matched]
+      finish += 1
+    end
+    break if matched < p.length
+
+    right = finish - 1
+    target = p.length - 1
+    while right >= start
+      if s[right] == p[target]
+        target -= 1
+        break if target < 0
+      end
+      right -= 1
+    end
+
+    length = finish - right
+    if length < best_length
+      best_length = length
+      best_start = right
+      best_end = finish
+    end
+    start = right + 1
   end
+
+  puts s[best_start...best_end]
 end

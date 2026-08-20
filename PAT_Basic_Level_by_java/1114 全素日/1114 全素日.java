@@ -28,8 +28,8 @@ public class Main {
         
         String date = br.readLine();
         
-        boolean allPrime = true; // 标记是否所有子串都是素数
-        
+        boolean allPrime = true;
+
         // 从长度 8 递减到 1，依次取以最后一位结尾的后缀子串
         for (int len = date.length(); len >= 1; len--) {
             String subStr = date.substring(date.length() - len);
@@ -38,16 +38,17 @@ public class Main {
             boolean isPrime = isPrime(num);
             
             System.out.println(subStr + " " + (isPrime ? "Yes" : "No"));
-            
+
             if (!isPrime) {
                 allPrime = false;
             }
         }
-        
+
         if (allPrime) {
             System.out.println("All Prime!");
+
         }
-        
+
         br.close();
     }
     

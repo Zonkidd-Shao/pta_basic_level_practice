@@ -15,19 +15,25 @@
 
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
-  strs = gets.split
+  strs = STDIN.read.split.first(n)
 
   valid = []
   strs.each do |s|
-    if s =~ /^-?\d+(\.\d{1,2})?$/
+    if s =~ /\A-?\d+(\.\d{1,2})?\z/
       num = s.to_f
-      valid << num if num >= -1000 && num <= 1000
+      if num >= -1000 && num <= 1000
+        valid << num
+      else
+        puts "ERROR: #{s} is not a legal number"
+      end
+    else
+      puts "ERROR: #{s} is not a legal number"
     end
   end
 
   count = valid.length
   if count.zero?
-    puts 'The average of 0 numbers is undefined'
+    puts 'The average of 0 numbers is Undefined'
   elsif count == 1
     puts "The average of 1 number is #{format('%.2f', valid[0])}"
   else

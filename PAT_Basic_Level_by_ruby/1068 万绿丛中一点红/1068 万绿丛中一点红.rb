@@ -42,8 +42,8 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   if candidates.length == 1
-    puts "#{candidates[0][0]} (#{candidates[0][1]}, #{candidates[0][2]})"
+    puts "(#{candidates[0][1]}, #{candidates[0][2]}): #{candidates[0][0]}"
   else
-    puts 'Not Exist'
+    puts candidates.empty? ? 'Not Exist' : 'Not Unique'
   end
 end

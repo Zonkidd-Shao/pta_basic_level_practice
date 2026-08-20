@@ -46,10 +46,10 @@ use warnings;
 #     A5: 余4 → 4, 9 → 最大 = 9
 # =====================================================================
 
-# 读取 N 和 N 个数字
-my $n = <STDIN>;
-chomp $n;
-my @nums = split /\s+/, join(' ', <STDIN>);
+# 读取 N 和 N 个数字；题目允许它们出现在同一行或多行
+my @tok = split /\s+/, join(' ', <STDIN>);
+my $n = shift @tok;
+my @nums = @tok[0 .. $n - 1];
 
 # 初始化各类别的结果变量
 # a1: 余0且偶数的和

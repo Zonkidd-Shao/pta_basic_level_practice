@@ -1,7 +1,8 @@
 -- 题目编号: 1067 试密码
 -- 实现原理: 模拟密码尝试过程。先读取正确密码和允许尝试次数 n，然后逐行读取用户输入，若输入为"#"则终止；若匹配则输出"Welcome in"并退出；否则输出错误提示。当第 n 次错误时额外输出"Account locked"。
 -- pass: 正确密码，n: 允许尝试次数
-local pass, n = io.read("l"), tonumber(io.read())
+local pass, n = io.read("l"):match("^(%S+)%s+(%d+)$")
+n = tonumber(n)
 -- 逐次尝试
 for i = 1, n do
     local s = io.read("l")  -- 读取用户输入

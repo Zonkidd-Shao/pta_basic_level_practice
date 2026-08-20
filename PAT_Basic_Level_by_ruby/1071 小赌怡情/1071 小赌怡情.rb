@@ -9,34 +9,28 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  t = gets.to_i
+  data = STDIN.read.split.map(&:to_i)
+  tokens = data.shift
+  games = data.shift
+  games.times do |i|
+    n1, bet_high, wager, n2 = data[i * 4, 4]
+    break if tokens.zero?
+    if wager > tokens
+      puts "Not enough tokens.  Total = #{tokens}."
+      next
+    end
 
-  # 简单线性同余发生器，产生 1~3 的电脑点数（确定性、可复现）
-  state = 1
-  computer_point = lambda do
-    state = (state * 7 + 3) % 11
-    state % 3 + 1
-  end
-
-  while t.positive?
-    line = gets
-    break if line.nil?
-
-    n_bet, b = line.split.map(&:to_i)
-    break if n_bet.nil?
-
-    n_bet = t if n_bet > t
-    cp = computer_point.call
-    if b == cp
-      t += n_bet
-      puts "Win!  You have #{t} now."
+    win = (n1 > n2 && bet_high.zero?) || (n1 < n2 && bet_high == 1)
+    if win
+      tokens += wager
+      puts "Win #{wager}!  Total = #{tokens}."
     else
-      t -= n_bet
-      if t <= 0
+      tokens -= wager
+      puts "Lose #{wager}.  Total = #{tokens}."
+      if tokens.zero?
         puts 'Game Over.'
         break
       end
-      puts "Lose!  You have #{t} now."
     end
   end
 end

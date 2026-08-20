@@ -67,7 +67,7 @@ public class Main {
             System.out.println(0);
         } else {
             // 注意输出顺序：先最年轻的，再最年长的，然后是合法人数
-            System.out.println(youngestName + " " + oldestName + " " + count);
+            System.out.println(count + " " + oldestName + " " + youngestName);
         }
     }
 }

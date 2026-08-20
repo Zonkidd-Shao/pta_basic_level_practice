@@ -10,16 +10,19 @@
 
 if __FILE__ == $PROGRAM_NAME
   n, t = gets.split.map(&:to_i)
-  arr = gets.split.map(&:to_i)
+  arr = gets.split.map(&:to_i).first(n)
+  found = false
   i = 0
   while i < n
     if arr[i] > t
+      found = true
       j = i
       j += 1 while j < n && arr[j] > t
-      puts "#{i + 1} #{j}"
+      puts "[#{i}, #{j - 1}]"
       i = j
     else
       i += 1
     end
   end
+  puts arr.max unless found
 end

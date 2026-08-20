@@ -49,10 +49,9 @@ public class Main {
         // 遍历判断每个元素是否可作为主元
         ArrayList<Integer> res = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            boolean ok;
-            if (i == 0) ok = a[i] < rightMin[i];          // 第一个元素只需比右侧都小
-            else if (i == n - 1) ok = a[i] > leftMax[i]; // 最后一个元素只需比左侧都大
-            else ok = a[i] > leftMax[i] && a[i] < rightMin[i];
+            int maxLeft = i == 0 ? Integer.MIN_VALUE : leftMax[i - 1];
+            int minRight = i == n - 1 ? Integer.MAX_VALUE : rightMin[i + 1];
+            boolean ok = a[i] > maxLeft && a[i] < minRight;
             if (ok) res.add(a[i]);
         }
 

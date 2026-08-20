@@ -13,4 +13,4 @@
 #   注意：大美数的定义是存在4个不同正因数，它们的和能被N整除。
 # 时间复杂度：O(K * d(n)^4)，其中d(n)为n的因数个数，远小于n
 # 空间复杂度：O(d(n))，存储n的所有正因数
-z<-as.integer(scan("stdin",quiet=TRUE));for(n in z[-1]){s<-sum(as.integer(strsplit(as.character(n),"")[[1]]));cat(if(n%%s==0)"Yes" else "No","\n")}
+z<-as.integer(scan("stdin",quiet=TRUE));for(n in z[-1]){d<-which(n%%(1:n)==0);ok<-FALSE;if(length(d)>=4){for(v in combn(d,4,simplify=FALSE))if(sum(v)%%n==0){ok<-TRUE;break}};cat(if(ok)"Yes"else"No","\n",sep="")}

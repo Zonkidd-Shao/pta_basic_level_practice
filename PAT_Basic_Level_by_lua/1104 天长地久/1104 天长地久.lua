@@ -65,7 +65,8 @@ for cs = 1, t do
     
     -- 按n升序、a升序排序
     table.sort(out, function(x, y)
-        return x[1] ~= y[1] and x[1] < y[1] or x[2] < y[2]
+        if x[1] ~= y[1] then return x[1] < y[1] end
+        return x[2] < y[2]
     end)
     
     -- 输出结果

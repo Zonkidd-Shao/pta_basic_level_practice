@@ -9,22 +9,19 @@ import (
 	"fmt"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
 )
 
 // 螺旋矩阵：将数字降序填入 m×n 矩阵（m>=n，m-n 最小），顺时针螺旋。
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
-	if !scanner.Scan() {
+	in := bufio.NewReader(os.Stdin)
+	var N int
+	if _, err := fmt.Fscan(in, &N); err != nil {
 		return
 	}
-	f := strings.Fields(scanner.Text())
-	N, _ := strconv.Atoi(f[0])
 	nums := make([]int, N)
-	for i := 1; i <= N; i++ {
-		nums[i-1], _ = strconv.Atoi(f[i])
+	for i := range nums {
+		fmt.Fscan(in, &nums[i])
 	}
 	sort.Sort(sort.Reverse(sort.IntSlice(nums)))
 	n := 1
@@ -72,7 +69,7 @@ func main() {
 			if j > 0 {
 				b.WriteByte(' ')
 			}
-			b.WriteString(strconv.Itoa(mat[i][j]))
+			b.WriteString(fmt.Sprint(mat[i][j]))
 		}
 		b.WriteByte('\n')
 	}

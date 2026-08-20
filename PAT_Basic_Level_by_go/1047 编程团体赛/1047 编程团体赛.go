@@ -27,8 +27,9 @@ func main() {
 			break
 		}
 		f := strings.Fields(scanner.Text())
-		team, _ := strconv.Atoi(f[0])
-		score, _ := strconv.Atoi(f[2])
+		teamText := strings.SplitN(f[0], "-", 2)[0]
+		team, _ := strconv.Atoi(teamText)
+		score, _ := strconv.Atoi(f[1])
 		scores[team] += score
 		if scores[team] > maxScore {
 			maxScore = scores[team]

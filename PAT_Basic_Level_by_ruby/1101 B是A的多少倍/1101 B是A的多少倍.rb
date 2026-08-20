@@ -8,14 +8,8 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  a = gets.to_i
-  target = a.digits.sum
-
-  (2..1000).each do |k|
-    b = k * a
-    if b.digits.sum == target
-      puts "#{b} #{k}"
-      break
-    end
-  end
+  a, d = gets.split
+  d = d.to_i
+  b = (a[-d..] + (d == a.length ? '' : a[0...-d])).to_i
+  puts format('%.2f', b.to_f / a.to_i)
 end

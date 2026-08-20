@@ -18,7 +18,7 @@ def to_knut(str)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  paid, price = gets.split
+  price, paid = gets.split
   diff = to_knut(paid) - to_knut(price)
   negative = diff.negative?
   diff = diff.abs

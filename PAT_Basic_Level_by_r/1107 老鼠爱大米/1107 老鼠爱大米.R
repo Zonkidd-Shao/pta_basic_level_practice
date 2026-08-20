@@ -6,4 +6,4 @@
 #   3. 顺次输出各组冠军体重；4. 输出组冠军中的最大值（总冠军）。
 # 时间复杂度：O(N×M)，遍历所有老鼠体重求每组最大值
 # 空间复杂度：O(N×M)，存储所有老鼠体重（或O(N)存储组冠军）
-z<-as.integer(scan("stdin",quiet=TRUE));a<-z[-1];cat(which.min(a),"\n")
+z<-as.integer(scan("stdin",quiet=TRUE));n<-z[1];m<-z[2];a<-matrix(z[-c(1,2)],nrow=n,byrow=TRUE);w<-apply(a,1,max);cat(paste(w,collapse=" "),"\n",max(w),"\n",sep="")

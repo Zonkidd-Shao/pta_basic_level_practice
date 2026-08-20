@@ -20,7 +20,7 @@ for i = 1, n do
     for j = 1, m do
         local x = g[i][j]
         -- 候选条件：像素值唯一出现 且 像素值 >= 阈值t
-        if cnt[x] == 1 and x >= t then
+        if cnt[x] == 1 then
             local ok = true
             -- 检查周围8个邻域像素（3x3范围）
             for u = math.max(1, i - 1), math.min(n, i + 1) do

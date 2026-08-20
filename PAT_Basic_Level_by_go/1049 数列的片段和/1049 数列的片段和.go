@@ -8,22 +8,19 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
 )
 
 // 数列的片段和：每个元素在 (i+1)*(N-i) 个片段中出现，累加求和。
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
-	if !scanner.Scan() {
+	in := bufio.NewReader(os.Stdin)
+	var N int
+	if _, err := fmt.Fscan(in, &N); err != nil {
 		return
 	}
-	f := strings.Fields(scanner.Text())
-	N, _ := strconv.Atoi(f[0])
 	sum := 0.0
 	for i := 1; i <= N; i++ {
-		v, _ := strconv.ParseFloat(f[i], 64)
+		var v float64
+		fmt.Fscan(in, &v)
 		sum += v * float64(i) * float64(N-i+1)
 	}
 	fmt.Printf("%.2f\n", sum)

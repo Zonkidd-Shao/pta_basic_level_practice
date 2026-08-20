@@ -14,4 +14,4 @@
 #   用字符串截取末尾几位数，避免取模运算的复杂性。
 # 时间复杂度：O(M * 9 * D)，M为检测个数，D为数字位数
 # 空间复杂度：O(1)，仅使用常数额外空间
-z<-as.integer(scan("stdin",quiet=TRUE));for(n in z[-1]){ok<-integer();for(k in 1:10){v<-n*n*k;if(substr(as.character(v),nchar(as.character(v))-nchar(as.character(n))+1,nchar(as.character(v)))==as.character(n)){ok<-c(ok,k);break}};cat(if(length(ok))paste(n,ok) else "No","\n")}
+z<-as.integer(scan("stdin",quiet=TRUE));for(n in z[-1]){ans<-NULL;for(k in 1:9){v<-n*n*k;s<-as.character(n);if(substr(as.character(v),nchar(as.character(v))-nchar(s)+1,nchar(as.character(v)))==s){ans<-c(k,v);break}};if(is.null(ans))cat("No\n")else cat(ans[1],ans[2],"\n",sep=" ")}

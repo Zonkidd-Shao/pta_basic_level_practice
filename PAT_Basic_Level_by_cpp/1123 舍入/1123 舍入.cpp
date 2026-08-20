@@ -24,11 +24,13 @@ using namespace std;
 
 // 整数部分字符串加 1（处理进位），返回新的整数部分
 string addOne(string ip) {
+    bool negative = !ip.empty() && ip[0] == '-';
+    if (negative) ip.erase(ip.begin());
     int i = (int)ip.size() - 1;
     while (i >= 0 && ip[i] == '9') { ip[i] = '0'; --i; }
     if (i < 0) ip = "1" + ip;
     else ip[i]++;
-    return ip;
+    return negative ? "-" + ip : ip;
 }
 
 int main() {

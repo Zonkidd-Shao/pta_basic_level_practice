@@ -9,4 +9,4 @@
 #   4. 这样保证了高位尽可能小，从而得到最小的数
 # 时间复杂度：O(n)，其中n为数字总个数，需要输出每个数字
 # 空间复杂度：O(n)，需要存储组成的最小数的各位数字
-a<-as.integer(scan("stdin",quiet=TRUE));out<-character();if(a[1]>0){out<-c("1");a[1]<-a[1]-1L};for(i in 1:9)out<-c(out,rep(as.character(i-1L),a[i]));cat(paste(out,collapse=""),"\n")
+a<-as.integer(scan("stdin",quiet=TRUE));first<-which(a[2:10]>0)[1]+1L;out<-c(as.character(first-1L),rep("0",a[1]));a[first]<-a[first]-1L;for(i in 2:10)out<-c(out,rep(as.character(i-1L),a[i]));cat(paste0(out,collapse=""),"\n")

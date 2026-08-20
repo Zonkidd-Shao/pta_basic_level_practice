@@ -30,6 +30,7 @@ if __FILE__ == $PROGRAM_NAME
   list.sort_by! { |s| [-s[:total], s[:count], s[:sch]] }
 
   puts list.length
+  rank = 0
   list.each_with_index do |s, i|
     rank = i + 1 if i.zero? || s[:total] != list[i - 1][:total]
     puts "#{rank} #{s[:sch]} #{s[:total]} #{s[:count]}"

@@ -13,4 +13,4 @@
 #   5. 如果找零为负，在前面添加负号
 # 时间复杂度：O(1)，只需要常量时间的算术运算
 # 空间复杂度：O(1)，只使用固定数量的变量
-x<-readLines("stdin",warn=FALSE);p<-lapply(x,strsplit,split="\\.");a<-as.integer(p[[1]][[1]]);b<-as.integer(p[[2]][[1]]);v<-c(a[1]*17*29+a[2]*29+a[3]-(b[1]*17*29+b[2]*29+b[3]));sg<-if(v<0)"-" else "";v<-abs(v);cat(sprintf("%s%d.%d.%d\n",sg,v%/%493,(v%%493)%/%29,v%%29))
+x<-scan("stdin",what="",quiet=TRUE);p<-function(s)as.integer(strsplit(s,"\\.")[[1]]);P<-p(x[1]);A<-p(x[2]);v<-(A[1]*17*29+A[2]*29+A[3])-(P[1]*17*29+P[2]*29+P[3]);sg<-if(v<0)"-"else"";v<-abs(v);cat(sprintf("%s%d.%d.%d\n",sg,v%/%493,(v%%493)%/%29,v%%29))

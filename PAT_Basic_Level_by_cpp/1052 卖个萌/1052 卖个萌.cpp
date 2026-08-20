@@ -20,24 +20,36 @@
 using namespace std;
 
 int main() {
-    int n, m;
-    if (!(cin >> n >> m)) return 0;
-    // 创建 N×M 的二维字符串网格
-    vector<vector<string>> g(n, vector<string>(m));
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < m; ++j)
-            cin >> g[i][j];  // 读取每个位置的表情符号
+    vector<vector<string>> part(3);
+    string line;
+    for (int i = 0; i < 3; ++i) {
+        if (!getline(cin, line)) return 0;
+        for (size_t p = 0; p < line.size();) {
+            size_t left = line.find('[', p);
+            if (left == string::npos) break;
+            size_t right = line.find(']', left + 1);
+            if (right == string::npos) break;
+            part[i].push_back(line.substr(left + 1, right - left - 1));
+            p = right + 1;
+        }
+    }
 
     int k;
-    cin >> k;
+    if (!(cin >> k)) return 0;
     for (int i = 0; i < k; ++i) {
-        int a, b;
-        cin >> a >> b;
-        // 检查坐标是否越界（题目中行列从 1 开始计数）
-        if (a < 1 || a > n || b < 1 || b > m)
-            cout << "Are you kidding me? @\\/@" << endl;  // 越界输出调侃语
-        else
-            cout << g[a - 1][b - 1] << endl;  // 转换为 0-based 索引输出
+        int lh, le, mouth, re, rh;
+        cin >> lh >> le >> mouth >> re >> rh;
+        if (lh < 1 || lh > (int)part[0].size() ||
+            le < 1 || le > (int)part[1].size() ||
+            mouth < 1 || mouth > (int)part[2].size() ||
+            re < 1 || re > (int)part[1].size() ||
+            rh < 1 || rh > (int)part[0].size()) {
+            cout << "Are you kidding me? @\\/@" << endl;
+        } else {
+            cout << part[0][lh - 1] << '(' << part[1][le - 1]
+                 << part[2][mouth - 1] << part[1][re - 1] << ')'
+                 << part[0][rh - 1] << endl;
+        }
     }
     return 0;
 }

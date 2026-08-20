@@ -7,13 +7,16 @@ for x in io.read("a"):gmatch("%S+") do
 end
 -- n: 学生人数，m: 题目数量
 local n, m = tonumber(t[1]), tonumber(t[2])
--- key: 每题正确答案，wrong: 每题错误次数
-local key, wrong = {}, {}
+-- score: 每题分值，key: 每题正确答案
+local score, key = {}, {}
 local q = 3  -- 当前处理到的数组下标
+for i = 1, m do
+    score[i] = tonumber(t[q])
+    q = q + 1
+end
 -- 读取m道题的正确答案
 for i = 1, m do
     key[i] = t[q]
-    wrong[i] = 0
     q = q + 1
 end
 -- 处理每个学生的答题情况
@@ -23,24 +26,9 @@ for i = 1, n do
         local x = t[q]
         q = q + 1
         if x == key[j] then
-            s = s + 1  -- 答对得1分
+            s = s + score[j]
         else
-            wrong[j] = wrong[j] + 1  -- 答错，该题错误次数加1
         end
     end
-    print(s)  -- 输出该学生得分
+    print(s)
 end
--- 找出错误次数最多的次数
-local z = 0
-for i = 1, m do
-    z = math.max(z, wrong[i])
-end
--- 收集所有错误次数等于最大值的题号
-local a = {}
-for i = 1, m do
-    if wrong[i] == z then
-        a[#a + 1] = i
-    end
-end
--- 输出最大错误次数和对应的题号
-print(z .. " " .. table.concat(a, " "))

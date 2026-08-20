@@ -12,4 +12,4 @@
 #   倒序枚举保证第一个找到的就是甲的最大解。
 # 时间复杂度：O(1)，甲的范围固定为10-99，共90种可能
 # 空间复杂度：O(1)，仅使用常数额外空间
-z<-as.numeric(scan("stdin",quiet=TRUE));for(i in 99:10){a<-floor(i/10);b<-i%%10;if(a==b)next;if(abs((10*a+b)-(10*b+a))*z[2]==z[1]){cat(i," ",sprintf("%.2f",(10*b+a)/z[1]),"\n",sep="")}}
+z<-as.numeric(scan("stdin",quiet=TRUE));M<-z[1];X<-z[2];Y<-z[3];rel<-function(v)if(v>M)"Cong"else if(v==M)"Ping"else"Gai";found<-FALSE;for(A in 99:10){u<-A%/%10;v<-A%%10;if(u==v)next;B<-10*v+u;if(abs(A-B)*Y==B*X){C<-B/Y;cat(A,rel(A),rel(B),rel(C),"\n",sep=" ");found<-TRUE;break}};if(!found)cat("No Solution\n")

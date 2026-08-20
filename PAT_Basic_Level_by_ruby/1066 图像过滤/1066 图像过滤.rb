@@ -8,9 +8,10 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  m, n, a, b, c = gets.split.map(&:to_i)
-  (1..m).each do
-    row = gets.split.map(&:to_i).map { |v| (v >= a && v <= b) ? c : v }
-    puts row.join(' ')
+  data = STDIN.read.split.map(&:to_i)
+  m, n, a, b, c = data.shift(5)
+  m.times do
+    row = data.shift(n).map { |v| (v >= a && v <= b) ? c : v }
+    puts row.map { |v| format('%03d', v) }.join(' ')
   end
 end

@@ -8,7 +8,7 @@
 # 时间复杂度：O(P_N * sqrt(P_N)) - P_N 是第 N 个素数的大小，每个数需试除到其平方根
 # 空间复杂度：O(N) - 存储前 N 个素数
 z <- as.integer(scan("stdin",quiet=TRUE)); m <- z[1]; n <- z[2]
-prime <- function(x) { if (x < 2L) return(FALSE); if (x == 2L) return(TRUE); !any(x %% 2L:floor(sqrt(x)) == 0L) }
+prime <- function(x) { if (x < 2L) return(FALSE); if (x == 2L) return(TRUE); if (x %% 2L == 0L) return(FALSE); if (x < 9L) return(TRUE); !any(x %% seq(3L, floor(sqrt(x)), by=2L) == 0L) }
 vals <- integer(); x <- 2L
 while (length(vals) < n) { if (prime(x)) vals <- c(vals, x); x <- x + 1L }
 ans <- vals[m:n]

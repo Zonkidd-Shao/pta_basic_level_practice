@@ -2,6 +2,7 @@
 -- 实现原理: 将所有人按身高降序（同名按字母升序）排序。最后一排人数为n-(k-1)*floor(n/k)，其余每排为floor(n/k)。每排先取中间位置（ceil(z/2)）放最高的那个人，然后左右交替从排序后的人员中依次插入，最终输出每排的名字。
 -- 读取总人数n和排数k
 local n, k = io.read("*n"), io.read("*n")
+io.read("l")
 local a = {}
 -- 读取每个人的姓名和身高
 for i = 1, n do
@@ -10,7 +11,8 @@ for i = 1, n do
 end
 -- 排序：按身高降序，身高相同则按姓名字母升序
 table.sort(a, function(x, y)
-    return x[2] ~= y[2] and x[2] > y[2] or x[1] < y[1]
+    if x[2] ~= y[2] then return x[2] > y[2] end
+    return x[1] < y[1]
 end)
 local p = 1  -- 当前取到第几个（排序后的索引）
 -- 逐排处理
@@ -20,7 +22,7 @@ for r = 1, k do
     -- 其他排人数 = floor(n/k)
     local z = r == 1 and n - (k - 1) * math.floor(n / k) or math.floor(n / k)
     local b = {}  -- 该排人员数组
-    local mid = math.ceil(z / 2)  -- 中间位置
+    local mid = math.floor(z / 2) + 1  -- 中间位置
     -- 中间位置放最高的人（当前排序后第一个）
     b[mid] = a[p]
     p = p + 1
@@ -28,13 +30,11 @@ for r = 1, k do
     local l = mid - 1  -- 左侧位置指针
     local q = mid + 1  -- 右侧位置指针
     while l >= 1 or q <= z do
-        -- 左侧插入
         if l >= 1 then
             b[l] = a[p]
             p = p + 1
             l = l - 1
         end
-        -- 右侧插入
         if q <= z then
             b[q] = a[p]
             p = p + 1

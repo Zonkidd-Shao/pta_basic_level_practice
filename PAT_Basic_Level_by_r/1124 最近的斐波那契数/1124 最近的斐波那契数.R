@@ -10,4 +10,4 @@
 #   斐波那契数增长是指数级的，即使N=10^8也只需约40次迭代。
 # 时间复杂度：O(log N)，斐波那契数指数增长，迭代次数为对数级
 # 空间复杂度：O(1)，只用两个变量滚动记录前两项
-n<-as.numeric(scan("stdin",quiet=TRUE)[1]);a<-0;b<-1;while(b<n){t<-a+b;a<-b;b<-t};cat(min(n-a,b-n),"\n")
+n<-as.numeric(scan("stdin",quiet=TRUE)[1]);a<-0;b<-1;while(b<n){t<-a+b;a<-b;b<-t};cat(if(n-a<=b-n)a else b,"\n")

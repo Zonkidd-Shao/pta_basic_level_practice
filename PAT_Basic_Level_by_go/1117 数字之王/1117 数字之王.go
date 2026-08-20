@@ -20,6 +20,9 @@ import (
 
 // transform 对一个数执行一次变换：各位数字立方相乘，再对乘积各位数字求和
 func transform(x int) int {
+	if x == 0 {
+		return 0
+	}
 	// 提取各位数字
 	digits := []int{}
 	for x > 0 {
@@ -61,16 +64,19 @@ func main() {
 	var n1, n2 int
 	fmt.Fscan(in, &n1, &n2)
 
-	// 初始化区间内所有数，执行第一次变换
+	// 初始化区间内所有数。
 	batch := make([]int, 0, n2-n1+1)
 	for x := n1; x <= n2; x++ {
-		batch = append(batch, transform(x))
+		batch = append(batch, x)
 	}
 
-	// 重复变换直到所有数都变为一位数
-	for !allSingle(batch) {
+	// 每一轮都对所有数字执行变换，直到本轮结果全部为一位数。
+	for {
 		for i := range batch {
 			batch[i] = transform(batch[i])
+		}
+		if allSingle(batch) {
+			break
 		}
 	}
 

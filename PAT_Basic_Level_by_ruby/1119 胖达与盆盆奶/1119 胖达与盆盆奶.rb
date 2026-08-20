@@ -12,6 +12,16 @@
 
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
-  amounts = gets.split.map(&:to_i).sort.reverse
-  puts amounts.join(' ')
+  weights = gets.split.map(&:to_i).first(n)
+  left = Array.new(n, 200)
+  right = Array.new(n, 200)
+
+  (1...n).each do |i|
+    left[i] = left[i - 1] + 100 if weights[i] > weights[i - 1]
+  end
+  (n - 2).downto(0) do |i|
+    right[i] = right[i + 1] + 100 if weights[i] > weights[i + 1]
+  end
+
+  puts (0...n).sum { |i| [left[i], right[i]].max }
 end

@@ -15,4 +15,4 @@
 #   加权总分的整数部分使用floor取整，注意乙级除以1.5等价于乘以2/3。
 # 时间复杂度：O(N log N)，主要由排序操作决定，N为考生人数
 # 空间复杂度：O(N + S)，其中S为学校数量
-x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);p<-do.call(rbind,strsplit(x[-1],"\\s+"));school<-tolower(p[,3]);score<-as.numeric(p[,2])*ifelse(substr(p[,1],1,1)=="A",1,ifelse(substr(p[,1],1,1)=="B",2/3,1.5));s<-tapply(score,school,sum);cnt<-table(school);v<-floor(s);o<-order(-v,cnt[names(s)],names(s));rank<-cumsum(c(TRUE,diff(v[o])!=0));rank<-match(rank,unique(rank));cat(length(s),"\n");for(i in seq_along(o))cat(rank[i],names(s)[o[i]],v[o[i]],cnt[names(s)[o[i]]],"\n")
+x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);p<-do.call(rbind,strsplit(x[2:(n+1)],"\\s+"));school<-tolower(p[,3]);score<-as.numeric(p[,2])*ifelse(substr(p[,1],1,1)=="A",1,ifelse(substr(p[,1],1,1)=="B",2/3,1.5));s<-tapply(score,school,sum);cnt<-table(school);v<-floor(s);o<-order(-v,cnt[names(s)],names(s));rs<-seq_along(o);if(length(o)>1)for(i in 2:length(o))if(v[o[i]]==v[o[i-1]])rs[i]<-rs[i-1]else rs[i]<-i;cat(length(s),"\n");for(i in seq_along(o))cat(rs[i],names(s)[o[i]],v[o[i]],cnt[names(s)[o[i]]],"\n",sep=" ")

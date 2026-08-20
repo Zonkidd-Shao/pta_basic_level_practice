@@ -10,34 +10,40 @@
 require 'set'
 
 if __FILE__ == $PROGRAM_NAME
-  n, m = gets.split.map(&:to_i)
+  lines = STDIN.each_line.map(&:chomp)
+  n, m = lines.shift.split.map(&:to_i)
 
   questions = []
   m.times do
-    parts = gets.split
+    parts = lines.shift.split
     full = parts[0].to_i
+    option_count = parts[1].to_i
     correct_count = parts[2].to_i
     correct = parts[3, correct_count].to_set
-    questions << { full: full, correct: correct }
+    questions << { full: full, option_count: option_count, correct: correct }
   end
 
-  wrong = Array.new(m, 0)
+  wrong = Array.new(m) { Array.new(5, 0) }
   scores = []
   n.times do
-    parts = gets.split
-    idx = 0
+    groups = []
+    while groups.length < m && !lines.empty?
+      groups.concat(lines.shift.scan(/\(([^)]*)\)/).flatten)
+    end
     total = 0.0
     m.times do |qi|
-      cnt = parts[idx].to_i
-      ans = parts[idx + 1, cnt].to_set
-      idx += 1 + cnt
+      parts = groups[qi].to_s.split
+      cnt = parts.shift.to_i
+      ans = parts.first(cnt).to_set
       q = questions[qi]
       if ans == q[:correct]
         total += q[:full]
       elsif !ans.empty? && ans.subset?(q[:correct])
         total += q[:full] / 2.0
-      else
-        wrong[qi] += 1
+      end
+      q[:option_count].times do |j|
+        option = (('a'.ord + j).chr)
+        wrong[qi][j] += 1 if ans.include?(option) != q[:correct].include?(option)
       end
     end
     scores << total
@@ -45,12 +51,16 @@ if __FILE__ == $PROGRAM_NAME
 
   scores.each { |s| puts format('%.1f', s) }
 
-  max_wrong = wrong.max
+  max_wrong = wrong.flatten.max
   if max_wrong.zero?
     puts 'Too simple'
   else
-    res = []
-    wrong.each_with_index { |w, i| res << (i + 1) if w == max_wrong }
-    puts res.join(' ')
+    wrong.each_with_index do |counts, i|
+      questions[i][:option_count].times do |j|
+        next unless counts[j] == max_wrong
+
+        puts "#{max_wrong} #{i + 1}-#{(('a'.ord + j).chr)}"
+      end
+    end
   end
 end

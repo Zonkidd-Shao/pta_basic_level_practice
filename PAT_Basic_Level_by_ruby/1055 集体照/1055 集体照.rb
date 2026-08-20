@@ -24,19 +24,12 @@ if __FILE__ == $PROGRAM_NAME
   students.sort_by! { |s| [-s[:height], s[:name]] }
 
   per_row = n / k
-  back_extra = n % k
-  rows = []
+  rows = [n - per_row * (k - 1)] + Array.new(k - 1, per_row)
   idx = 0
-  # 后排（人数多）先取
-  back_count = per_row + back_extra
-  rows << students[idx, back_count]
-  idx += back_count
-  (1...k).each do
-    rows << students[idx, per_row]
-    idx += per_row
-  end
 
-  rows.each do |row|
+  rows.each do |size|
+    row = students[idx, size]
+    idx += size
     len = row.length
     seats = Array.new(len)
     mid = len / 2
@@ -45,11 +38,11 @@ if __FILE__ == $PROGRAM_NAME
     right = mid + 1
     row[1..].each_with_index do |stu, j|
       if j.even?
-        seats[right] = stu[:name]
-        right += 1
-      else
         seats[left] = stu[:name]
         left -= 1
+      else
+        seats[right] = stu[:name]
+        right += 1
       end
     end
     puts seats.join(' ')

@@ -8,8 +8,9 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  n = gets.to_i
-  digits = gets.split.map(&:to_i)
+  data = STDIN.read.split.map(&:to_i)
+  n = data.shift
+  digits = data.first(n)
   sum = digits.sum
   puts sum * (n - 1) * 11
 end

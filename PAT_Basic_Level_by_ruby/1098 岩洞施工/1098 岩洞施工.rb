@@ -11,7 +11,13 @@
 
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
-  points = gets.split.map(&:to_i).sort
-  ans = (points.max - points.min) / 2.0
-  puts(ans == ans.to_i ? ans.to_i : ans)
+  top = gets.split.map(&:to_i).first(n)
+  bottom = gets.split.map(&:to_i).first(n)
+  gap = top.min - bottom.max
+
+  if gap >= 1
+    puts "Yes #{gap}"
+  else
+    puts "No #{1 - gap}"
+  end
 end

@@ -8,5 +8,5 @@
 # 时间复杂度：O(n) - n 为输入数字的位数，需要遍历每一位数字求和，再遍历和的每一位输出
 # 空间复杂度：O(1) - 拼音映射表为固定大小，额外空间与输入规模无关
 s <- sum(as.integer(strsplit(scan("stdin", what = "", quiet = TRUE)[1], "")[[1]]))
-word <- c("zero","one","two","three","four","five","six","seven","eight","nine")
+word <- c("ling", "yi", "er", "san", "si", "wu", "liu", "qi", "ba", "jiu")
 cat(paste(word[as.integer(strsplit(as.character(s), "")[[1]]) + 1L], collapse = " "), "\n")

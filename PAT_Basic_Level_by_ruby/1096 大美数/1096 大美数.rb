@@ -8,10 +8,16 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  k = gets.to_i
-  k.times do
-    n = gets.to_i
-    is_power_of_two = n.positive? && (n & (n - 1)) == 0
-    puts(is_power_of_two ? 'No' : 'Yes')
+  data = STDIN.read.split.map(&:to_i)
+  k = data.shift
+  data.first(k).each do |n|
+    divisors = []
+    (1..Math.sqrt(n).to_i).each do |d|
+      next unless (n % d).zero?
+
+      divisors << d
+      divisors << n / d if d * d != n
+    end
+    puts(divisors.combination(4).any? { |four| four.sum % n == 0 } ? 'Yes' : 'No')
   end
 end

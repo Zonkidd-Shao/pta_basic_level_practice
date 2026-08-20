@@ -7,5 +7,5 @@ for _ in range(int(n)):
 a=[]
 while h!='-1':a.append(h);h=d[h][1]
 blocks=[a[i:i+k] for i in range(0,len(a),k)]
-a=sum(reversed(blocks),[])
+a=[x for block in reversed(blocks) for x in block]
 for i,x in enumerate(a):print(x,d[x][0],a[i+1] if i+1<len(a) else '-1')

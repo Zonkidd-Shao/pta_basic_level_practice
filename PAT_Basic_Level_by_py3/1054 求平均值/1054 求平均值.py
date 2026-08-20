@@ -23,12 +23,22 @@
 #   合法性检查与数值计算：检查输入是否为合法数字，
 #   对合法数字求平均值。
 #
+import re
 import sys
 
-a=sys.stdin.readline().split()[1:]; good=[]
-for x in a:
+data = sys.stdin.read().split()
+n = int(data[0])
+good=[]
+number_pattern = re.compile(r'[+-]?(?:\d+(?:\.\d*)?|\.\d+)\Z')
+for x in data[1:1+n]:
     try:
-        v=float(x); ok=-1000<=v<=1000 and ('.' not in x or len(x.split('.')[1])<=2)
+        decimal_digits = len(x.split('.', 1)[1]) if '.' in x else 0
+        v=float(x)
+        ok = (
+            number_pattern.fullmatch(x) is not None
+            and decimal_digits <= 2
+            and -1000 <= v <= 1000
+        )
     except: ok=False
     if ok: good.append(v)
     else: print(f'ERROR: {x} is not a legal number')

@@ -23,7 +23,7 @@ if __FILE__ == $PROGRAM_NAME
       c = cur[i]
       j = i
       j += 1 while j < cur.length && cur[j] == c
-      nxt << (j - i).to_s << c
+      nxt << c << (j - i).to_s
       i = j
     end
     cur = nxt

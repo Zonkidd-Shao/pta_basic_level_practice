@@ -18,18 +18,23 @@
  */
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
 int main() {
     int n;
     if (!(cin >> n)) return 0;
-    int minH = 1 << 30;      // 初始化为较大的值
+    vector<int> top(n), bottom(n);
     for (int i = 0; i < n; ++i) {
-        int h;
-        cin >> h;
-        minH = min(minH, h); // 维护最小值
+        cin >> top[i];
     }
-    cout << minH << endl;    // 最大隧道高度 = 所有柱子高度的最小值
+    for (int i = 0; i < n; ++i) cin >> bottom[i];
+
+    int minTop = *min_element(top.begin(), top.end());
+    int maxBottom = *max_element(bottom.begin(), bottom.end());
+    int diameter = minTop - maxBottom;
+    if (diameter >= 1) cout << "Yes " << diameter << endl;
+    else cout << "No " << 1 - diameter << endl;
     return 0;
 }

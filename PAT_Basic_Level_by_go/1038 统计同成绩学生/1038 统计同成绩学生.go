@@ -8,33 +8,30 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
 )
 
 // 统计同成绩学生：对每个查询的分数输出出现次数。
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
-	if !scanner.Scan() {
+	in := bufio.NewReader(os.Stdin)
+	var n int
+	if _, err := fmt.Fscan(in, &n); err != nil {
 		return
 	}
-	scanner.Scan()
-	scores := strings.Fields(scanner.Text())
 	cnt := make([]int, 101)
-	for _, s := range scores {
-		v, _ := strconv.Atoi(s)
+	for i := 0; i < n; i++ {
+		var v int
+		fmt.Fscan(in, &v)
 		cnt[v]++
 	}
-	scanner.Scan()
-	queries := strings.Fields(scanner.Text())
-	var b strings.Builder
-	for i, q := range queries {
-		v, _ := strconv.Atoi(q)
+	var m int
+	fmt.Fscan(in, &m)
+	for i := 0; i < m; i++ {
+		var v int
+		fmt.Fscan(in, &v)
 		if i > 0 {
-			b.WriteByte(' ')
+			fmt.Print(" ")
 		}
-		b.WriteString(strconv.Itoa(cnt[v]))
+		fmt.Print(cnt[v])
 	}
-	fmt.Println(b.String())
+	fmt.Println()
 }

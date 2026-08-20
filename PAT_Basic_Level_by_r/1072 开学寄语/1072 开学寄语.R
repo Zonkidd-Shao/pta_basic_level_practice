@@ -7,4 +7,4 @@
 #   最后统计有问题的学生总数和被查缴物品总数。
 # 时间复杂度：O(N*K + M)，N为学生人数，K为平均每人物品数，M为违禁品种类
 # 空间复杂度：O(M + N)，存储违禁品列表和结果
-x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);keys<-x[2:(h[1]+1)];ans<-character();for(s in x[(h[1]+2):length(x)]){p<-strsplit(s,"\\s+")[[1]];if(any(p[-1]%in%keys))ans<-c(ans,p[1])};cat(length(ans),"\n",paste(ans,collapse="\n"),if(length(ans))"\n" else "",sep="")
+x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);keys<-strsplit(x[2],"\\s+")[[1]];badstudents<-character();badcount<-0L;for(s in x[3:(h[1]+2)]){p<-strsplit(s,"\\s+")[[1]];items<-p[-c(1,2)];bad<-items[items%in%keys];if(length(bad)){badstudents<-c(badstudents,p[1]);badcount<-badcount+length(bad);cat(p[1],": ",paste(bad,collapse=" "),"\n",sep="")}};cat(length(badstudents),badcount,"\n",sep=" ")

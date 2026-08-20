@@ -7,4 +7,4 @@
 #   采用双指针从两个数字的末尾向前遍历，模拟手工加法过程。
 # 时间复杂度：O(N)，N为数字的最大位数（最多20位）
 # 空间复杂度：O(N)，存储结果
-x<-readLines("stdin",warn=FALSE);base<-as.integer(strsplit(x[1],"")[[1]]);a<-as.integer(strsplit(x[2],"")[[1]]);b<-as.integer(strsplit(x[3],"")[[1]]);i<-length(a);j<-length(b);k<-length(base);carry<-0;out<-integer();while(i>0||j>0){s<-carry+if(i>0)a[i]else 0+if(j>0)b[j]else 0;rad<-base[k];if(rad==0)rad<-10;out<-c(s%%rad,out);carry<-s%/%rad;i<-i-1;j<-j-1;k<-k-1};if(carry)out<-c(carry,out);cat(paste(out,collapse=""),"\n")
+x<-readLines("stdin",warn=FALSE);base<-as.integer(strsplit(x[1],"",fixed=TRUE)[[1]]);a<-as.integer(strsplit(x[2],"",fixed=TRUE)[[1]]);b<-as.integer(strsplit(x[3],"",fixed=TRUE)[[1]]);L<-max(length(a),length(b));a<-c(rep(0L,L-length(a)),a);b<-c(rep(0L,L-length(b)),b);carry<-0L;out<-character(L);for(i in L:1){pos<-L-i+1;rad<-if(length(base)>=pos)base[length(base)-pos+1L]else 0L;if(rad==0)rad<-10;s<-a[i]+b[i]+carry;out[i]<-as.character(s%%rad);carry<-s%/%rad};if(carry>0)out<-c(as.character(carry),out);out<-sub("^0+(?=.)","",paste0(out,collapse=""),perl=TRUE);cat(out,"\n",sep="")

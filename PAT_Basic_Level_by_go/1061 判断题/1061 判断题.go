@@ -26,17 +26,17 @@ func main() {
 	N, _ := strconv.Atoi(first[0])
 	M, _ := strconv.Atoi(first[1])
 
-	// 读取第二行：每道题的标准答案
-	scanner.Scan()
-	answers := strings.Fields(scanner.Text())
-	// 读取第三行：每道题的分值
+	// 读取第二行：每道题的分值
 	scanner.Scan()
 	scores := strings.Fields(scanner.Text())
+	// 读取第三行：每道题的标准答案
+	scanner.Scan()
+	answers := strings.Fields(scanner.Text())
 
 	ans := make([]byte, M) // 存储标准答案
 	sc := make([]int, M)   // 存储每道题的分值
 	for i := 0; i < M; i++ {
-		ans[i] = answers[i][0]       // 取答案字符
+		ans[i] = answers[i][0]             // 取答案字符
 		sc[i], _ = strconv.Atoi(scores[i]) // 解析分值
 	}
 

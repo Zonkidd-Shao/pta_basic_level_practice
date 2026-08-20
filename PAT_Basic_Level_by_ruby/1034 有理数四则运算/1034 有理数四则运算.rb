@@ -25,8 +25,10 @@ end
 def format_rational(num, den)
   return '0' if num.zero?
 
-  den = -den if den < 0
-  num = -num if den < 0
+  if den < 0
+    den = -den
+    num = -num
+  end
   g = gcd(num, den)
   num /= g
   den /= g
@@ -35,25 +37,22 @@ def format_rational(num, den)
   num = num.abs
   sign = neg ? '-' : ''
 
-  if den == 1
-    "#{sign}#{num}"
-  elsif num > den
-    "#{sign}#{num / den} #{num % den}/#{den}"
-  else
-    "#{sign}#{num}/#{den}"
-  end
+  body = if den == 1
+           num.to_s
+         elsif num >= den
+           whole = num / den
+           rem = num % den
+           rem.zero? ? whole.to_s : "#{whole} #{rem}/#{den}"
+         else
+           "#{num}/#{den}"
+         end
+  neg ? "(-#{body})" : body
 end
 
 if __FILE__ == $PROGRAM_NAME
   r1, r2 = gets.split
   a, b = r1.split('/').map(&:to_i)
   c, d = r2.split('/').map(&:to_i)
-
-  # 输入分母规范化（符号归到分子）
-  b = -b if b < 0
-  a = -a if b < 0
-  d = -d if d < 0
-  c = -c if d < 0
 
   add = [a * d + c * b, b * d]
   sub = [a * d - c * b, b * d]

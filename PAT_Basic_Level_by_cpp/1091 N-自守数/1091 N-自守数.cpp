@@ -35,12 +35,12 @@ int main() {
         long long mod = 1;
         for (int i = 0; i < d; ++i) mod *= 10;  // mod = 10^d
 
-        // 计算 K² 的末 d 位，使用 __int128 避免乘法溢出
-        long long k2mod = (long long)((__int128)k * k % mod);
+        long long k2 = k * k;
         bool found = false;
-        for (int b = 0; b <= 9; ++b) {          // 枚举 b
-            if (k2mod == (k * b) % mod) {       // 比较末 d 位
-                cout << "Yes " << b << endl;
+        for (int multiplier = 1; multiplier <= 9; ++multiplier) {
+            long long product = multiplier * k2;
+            if (product % mod == k) {
+                cout << multiplier << ' ' << product << endl;
                 found = true;
                 break;
             }

@@ -44,7 +44,8 @@ end
 
 -- 排序规则：总评降序，总评相同则学号升序
 table.sort(a, function(x, y)
-    return x[5] ~= y[5] and x[5] > y[5] or x[1] < y[1]
+    if x[5] ~= y[5] then return x[5] > y[5] end
+    return x[1] < y[1]
 end)
 
 -- 输出结果：学号、编程分、期中分、期末分、总评

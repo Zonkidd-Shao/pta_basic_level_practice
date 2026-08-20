@@ -63,6 +63,13 @@ func main() {
 		if i+1 < len(list) {
 			nx = list[i+1].addr
 		}
-		fmt.Printf("%05d %d %05d\n", list[i].addr, list[i].data, nx)
+		fmt.Printf("%05d %d %s\n", list[i].addr, list[i].data, formatAddr(nx))
 	}
+}
+
+func formatAddr(addr int) string {
+	if addr == -1 {
+		return "-1"
+	}
+	return fmt.Sprintf("%05d", addr)
 }

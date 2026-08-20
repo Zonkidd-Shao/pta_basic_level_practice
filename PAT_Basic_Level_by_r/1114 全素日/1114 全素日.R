@@ -10,7 +10,7 @@
 # 时间复杂度：O(L × √V)，L为日期长度(8)，V为子串最大值(约10^8)，每次判断素数到√V
 # 空间复杂度：O(1)，仅使用常数空间
 s <- scan("stdin", what="", quiet=TRUE)[1]
-prime <- function(n) { if(n<2) return(FALSE); if(n==2) return(TRUE); if(n%%2==0) return(FALSE); !any(n %% seq(3, floor(sqrt(n)), by=2) == 0) }
+prime <- function(n) { if(n<2) return(FALSE); if(n==2) return(TRUE); if(n%%2==0) return(FALSE); if(n<9) return(TRUE); !any(n %% seq(3, floor(sqrt(n)), by=2) == 0) }
 ok <- TRUE
 for(i in seq_len(nchar(s))) { v <- substr(s,i,nchar(s)); yes <- prime(as.numeric(v)); cat(v, if(yes) "Yes" else "No", "\n"); ok <- ok && yes }
 if(ok) cat("All Prime!\n")

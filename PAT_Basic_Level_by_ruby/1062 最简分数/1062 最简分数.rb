@@ -18,7 +18,14 @@ def gcd(a, b)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  a, b, c, d, l = gets.split.map(&:to_i)
+  r1, r2, l = STDIN.read.split
+  a, b = r1.split('/').map(&:to_i)
+  c, d = r2.split('/').map(&:to_i)
+  l = l.to_i
+
+  if a * d > c * b
+    a, b, c, d = c, d, a, b
+  end
 
   result = []
   (1...l).each do |k|

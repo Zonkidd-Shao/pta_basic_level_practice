@@ -21,11 +21,11 @@ func arrange(row []string) []string {
 	left, right := mid-1, mid+1
 	for i := 1; i < m; i++ {
 		if i%2 == 1 {
-			res[right] = row[i]
-			right++
-		} else {
 			res[left] = row[i]
 			left--
+		} else {
+			res[right] = row[i]
+			right++
 		}
 	}
 	return res
@@ -76,7 +76,7 @@ func main() {
 		rows[r] = arrange(row)
 	}
 	var b strings.Builder
-	for r := K - 1; r >= 0; r-- {
+	for r := 0; r < K; r++ {
 		b.WriteString(strings.Join(rows[r], " "))
 		b.WriteByte('\n')
 	}

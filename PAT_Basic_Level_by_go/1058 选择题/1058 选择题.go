@@ -1,7 +1,7 @@
 /*
-题目：1058 选择题
-实现原理：每题以集合保存正确选项；学生选项集合与之相等得全分、为真子集得半分，其余为零。
-*/
+ * 题目：1058 选择题
+ * 每道题只有选择全部正确选项才能得分，并统计每道题答错的人数。
+ */
 package main
 
 import (
@@ -12,7 +12,28 @@ import (
 	"strings"
 )
 
-// 选择题：完全正确得满分，仅选中正确选项（子集）得一半分，否则 0 分。
+type question struct {
+	score   int
+	correct map[byte]bool
+}
+
+func parseAnswer(tokens []string, pos int) (map[byte]bool, int) {
+	chosen := make(map[byte]bool)
+	if pos >= len(tokens) {
+		return chosen, pos
+	}
+	countText := strings.TrimPrefix(tokens[pos], "(")
+	countText = strings.TrimSuffix(countText, ")")
+	k, _ := strconv.Atoi(countText)
+	for i := 0; i < k && pos+1+i < len(tokens); i++ {
+		option := strings.TrimSuffix(tokens[pos+1+i], ")")
+		if option != "" {
+			chosen[option[0]] = true
+		}
+	}
+	return chosen, pos + 1 + k
+}
+
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Buffer(make([]byte, 8*1024*1024), 8*1024*1024)
@@ -22,63 +43,65 @@ func main() {
 	first := strings.Fields(scanner.Text())
 	N, _ := strconv.Atoi(first[0])
 	M, _ := strconv.Atoi(first[1])
-	type q struct {
-		score  int
-		correct map[byte]bool
-	}
-	qs := make([]q, M)
+
+	questions := make([]question, M)
 	for i := 0; i < M; i++ {
-		if !scanner.Scan() {
-			break
-		}
-		f := strings.Fields(scanner.Text())
-		score, _ := strconv.Atoi(f[0])
+		scanner.Scan()
+		fields := strings.Fields(scanner.Text())
+		score, _ := strconv.Atoi(fields[0])
 		correct := make(map[byte]bool)
-		for j := 3; j < len(f); j++ {
-			correct[f[j][0]] = true
+		for j := 3; j < len(fields); j++ {
+			correct[fields[j][0]] = true
 		}
-		qs[i] = q{score: score, correct: correct}
+		questions[i] = question{score: score, correct: correct}
 	}
+
 	scores := make([]int, N)
-	for s := 0; s < N; s++ {
+	wrong := make([]int, M)
+	for student := 0; student < N; student++ {
 		if !scanner.Scan() {
 			break
 		}
 		tokens := strings.Fields(scanner.Text())
-		ti := 0
-		for qi := 0; qi < M; qi++ {
-			k, _ := strconv.Atoi(tokens[ti+1])
-			chosen := make(map[byte]bool)
-			for j := 0; j < k; j++ {
-				chosen[tokens[ti+2+j][0]] = true
-			}
-			ti += 3 + k
-			if len(chosen) == len(qs[qi].correct) {
-				allMatch := true
-				for c := range chosen {
-					if !qs[qi].correct[c] {
-						allMatch = false
+		pos := 0
+		for i := 0; i < M; i++ {
+			chosen, next := parseAnswer(tokens, pos)
+			pos = next
+			correct := len(chosen) == len(questions[i].correct)
+			if correct {
+				for option := range chosen {
+					if !questions[i].correct[option] {
+						correct = false
 						break
 					}
 				}
-				if allMatch {
-					scores[s] += qs[qi].score
-					continue
-				}
 			}
-			subset := true
-			for c := range chosen {
-				if !qs[qi].correct[c] {
-					subset = false
-					break
-				}
-			}
-			if subset {
-				scores[s] += qs[qi].score / 2
+			if correct {
+				scores[student] += questions[i].score
+			} else {
+				wrong[i]++
 			}
 		}
 	}
-	for _, sc := range scores {
-		fmt.Println(sc)
+
+	for _, score := range scores {
+		fmt.Println(score)
 	}
+	maxWrong := 0
+	for _, count := range wrong {
+		if count > maxWrong {
+			maxWrong = count
+		}
+	}
+	if maxWrong == 0 {
+		fmt.Println("Too simple")
+		return
+	}
+	parts := make([]string, 0, M)
+	for i, count := range wrong {
+		if count == maxWrong {
+			parts = append(parts, strconv.Itoa(i+1))
+		}
+	}
+	fmt.Printf("%d %s\n", maxWrong, strings.Join(parts, " "))
 }

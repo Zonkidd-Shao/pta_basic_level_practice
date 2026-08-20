@@ -10,11 +10,16 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  s = gets(chomp: true)
-  counts = Hash.new(0)
-  s.each_char { |c| counts[c] += 1 if c =~ /\d/ }
-
-  max_count = counts.values.max
-  king = counts.select { |_, v| v == max_count }.keys.map(&:to_i).max
-  puts "#{king} #{counts[king.to_s]}"
+  n1, n2 = gets.split.map(&:to_i)
+  values = (n1..n2).to_a
+  while values.any? { |value| value >= 10 }
+    values.map! do |value|
+      product = value.digits.inject(1) { |acc, digit| acc * digit**3 }
+      product.digits.sum
+    end
+  end
+  counts = values.tally
+  maximum = counts.values.max
+  puts maximum
+  puts counts.select { |_, count| count == maximum }.keys.sort.join(' ')
 end

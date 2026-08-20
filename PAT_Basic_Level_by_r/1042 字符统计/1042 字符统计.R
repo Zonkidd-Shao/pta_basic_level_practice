@@ -7,4 +7,4 @@
 #   利用 R 语言内置的 table 函数高效完成频率统计。
 # 时间复杂度：O(n)，n 为字符串长度
 # 空间复杂度：O(1)，因为最多只有 26 个英文字母
-s<-tolower(scan("stdin",what="",quiet=TRUE)[1]);a<-strsplit(s,"")[[1]];a<-a[grepl("[a-z]",a)];t<-table(a);cat(names(t)[which(t==max(t))[1]],max(t),"\n")
+x<-readLines("stdin",warn=FALSE);a<-tolower(strsplit(x[1],"")[[1]]);a<-a[grepl("[a-z]",a)];t<-table(a);cat(names(t)[which(t==max(t))[1]],max(t),"\n",sep=" ")

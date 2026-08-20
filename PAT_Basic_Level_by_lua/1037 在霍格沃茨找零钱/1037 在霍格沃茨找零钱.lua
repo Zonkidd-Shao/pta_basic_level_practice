@@ -3,13 +3,14 @@
 
 -- 读取货币（格式：Galleon.Sickle.Knut）并转换为最小单位 Knut
 -- 换算关系：1 Galleon = 17 Sickle = 17*29 Knut
-local function read_money()
-    local g, s, k = io.read("l"):match("^(%d+)%.(%d+)%.(%d+)$")
+local function read_money(text)
+    local g, s, k = text:match("^(%d+)%.(%d+)%.(%d+)$")
     return tonumber(g) * 17 * 29 + tonumber(s) * 29 + tonumber(k)
 end
 
 -- 读取应付价格 price 和实付金额 paid（都转换为 Knut）
-local price, paid = read_money(), read_money()
+local price_text, paid_text = io.read("l"):match("^(%S+)%s+(%S+)$")
+local price, paid = read_money(price_text), read_money(paid_text)
 
 -- 计算找零差值，以及符号标记
 local difference, sign = paid - price, ""

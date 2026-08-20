@@ -25,9 +25,9 @@ func next(s string) string {
 		for i+cnt < len(s) && s[i+cnt] == c {
 			cnt++
 		}
-		// 写入个数和字符本身
-		b.WriteString(strconv.Itoa(cnt))
+		// 写入字符本身和出现次数
 		b.WriteByte(c)
+		b.WriteString(strconv.Itoa(cnt))
 		i += cnt
 	}
 	return b.String()

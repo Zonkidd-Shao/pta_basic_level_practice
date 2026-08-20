@@ -43,10 +43,11 @@ public class Main {
         double B = R * Math.sin(P);
 
         // 处理浮点数精度，避免出现 -0.00
-        if (Math.abs(A) < 0.01) {
+        // 只有四舍五入后仍会显示为 0.00 时才清零，避免误伤 0.009 这类结果。
+        if (Math.abs(A) < 0.005) {
             A = 0;
         }
-        if (Math.abs(B) < 0.01) {
+        if (Math.abs(B) < 0.005) {
             B = 0;
         }
 

@@ -41,6 +41,22 @@ my $line = <STDIN>;
 chomp $line;
 my ($n, $d) = split /\s+/, $line;
 
+sub add_one {
+    my ($s) = @_;
+    my @digits = split //, $s;
+    my $i = $#digits;
+    while ($i >= 0 && $digits[$i] eq '9') {
+        $digits[$i] = '0';
+        $i--;
+    }
+    if ($i >= 0) {
+        $digits[$i]++;
+    } else {
+        unshift @digits, '1';
+    }
+    return join('', @digits);
+}
+
 for (1 .. $n) {
     my $l = <STDIN>;
     chomp $l;
@@ -83,8 +99,11 @@ for (1 .. $n) {
             my $rest = substr($tail, 1);
             if ($rest =~ /[1-9]/) {
                 $up = 1;                          # 5 后面还有非 0 尾数，进位
-            } elsif (length($keep) && (substr($keep, -1, 1) % 2)) {
-                $up = 1;                          # 最后一位为单数，进位（成双）
+            } else {
+                my $last = length($keep)
+                    ? substr($keep, -1, 1)
+                    : substr($a, -1, 1);
+                $up = 1 if $last % 2;              # 保留末位为单数时进位
             }
         }
     }
@@ -94,8 +113,7 @@ for (1 .. $n) {
         # 整数部分 + 保留位整体加一，再按位宽重新切分
         my $intpart = $a . $keep;
         $intpart = '0' if $intpart eq '';
-        my $z = $intpart + 1;
-        my $t = sprintf("%0*d", length($a) + $d, $z);
+        my $t = add_one($intpart);
         $a    = $d ? substr($t, 0, length($t) - $d) : $t;
         $keep = $d ? substr($t, -$d) : '';
     }

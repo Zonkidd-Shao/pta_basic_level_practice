@@ -7,4 +7,4 @@
 #   取模运算防止整数溢出。
 # 时间复杂度：O(N)，需要计算 N 个组合数
 # 空间复杂度：O(N)
-z<-as.integer(scan("stdin",quiet=TRUE));cat(sum(choose(1:z[1],z[2]))%%1000000007,"\n")
+z<-as.integer(scan("stdin",quiet=TRUE));n<-z[1];d<-z[-1];cat(11L*(n-1L)*sum(d),"\n")

@@ -19,21 +19,25 @@ import (
 // main 是程序入口函数，处理密码验证流程。
 func main() {
 	in := bufio.NewReader(os.Stdin)
-	// 读取第一行：正确密码
-	correct, _ := in.ReadString('\n')
-	correct = strings.TrimRight(correct, "\r\n")
-	// 读取第二行：最大尝试次数 N
-	nLine, _ := in.ReadString('\n')
-	N := 0
-	fmt.Sscanf(strings.TrimSpace(nLine), "%d", &N)
+	// 第一行同时给出正确密码和允许的最大错误次数。
+	var correct string
+	var N int
+	if _, err := fmt.Fscan(in, &correct, &N); err != nil {
+		return
+	}
+	// 丢弃第一行剩余内容，确保后续按行读取尝试密码。
+	_, _ = in.ReadString('\n')
 
-	// 逐行读取尝试密码，最多 N 次
-	for i := 0; i < N; i++ {
+	wrong := 0
+	for {
 		attempt, err := in.ReadString('\n')
-		if err != nil {
+		if err != nil && attempt == "" {
 			break
 		}
 		attempt = strings.TrimRight(attempt, "\r\n")
+		if attempt == "#" {
+			return
+		}
 		// 密码正确，欢迎进入
 		if attempt == correct {
 			fmt.Println("Welcome in")
@@ -41,7 +45,10 @@ func main() {
 		}
 		// 密码错误，输出错误提示
 		fmt.Printf("Wrong password: %s\n", attempt)
+		wrong++
+		if wrong == N {
+			fmt.Println("Account locked")
+			return
+		}
 	}
-	// 超出尝试次数，账户锁定
-	fmt.Println("Account locked")
 }

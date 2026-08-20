@@ -14,13 +14,21 @@ import (
 	"strings"
 )
 
-// 用给定数量的 '*' 打印沙漏形状。
+// 用给定数量的符号打印沙漏形状。
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	if !scanner.Scan() {
 		return
 	}
-	n, _ := strconv.Atoi(strings.TrimSpace(scanner.Text()))
+	fields := strings.Fields(scanner.Text())
+	if len(fields) < 2 {
+		return
+	}
+	n, err := strconv.Atoi(fields[0])
+	if err != nil {
+		return
+	}
+	symbol := fields[1]
 	k := 1
 	// 找到满足 2*k²-1 ≤ n 的最大 k
 	for 2*(k+1)*(k+1)-1 <= n {
@@ -29,11 +37,11 @@ func main() {
 	used := 2*k*k - 1 // 沙漏实际使用的星号数
 	// 上三角：从 k 到 1 行
 	for i := k; i >= 1; i-- {
-		fmt.Printf("%s%s\n", strings.Repeat(" ", k-i), strings.Repeat("*", 2*i-1))
+		fmt.Printf("%s%s\n", strings.Repeat(" ", k-i), strings.Repeat(symbol, 2*i-1))
 	}
 	// 下三角：从 2 到 k 行
 	for i := 2; i <= k; i++ {
-		fmt.Printf("%s%s\n", strings.Repeat(" ", k-i), strings.Repeat("*", 2*i-1))
+		fmt.Printf("%s%s\n", strings.Repeat(" ", k-i), strings.Repeat(symbol, 2*i-1))
 	}
 	fmt.Println(n - used) // 输出剩余未使用的符号数
 }

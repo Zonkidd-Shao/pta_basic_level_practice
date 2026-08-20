@@ -13,4 +13,4 @@
 #   5. 如有问题号码则依次输出，否则输出"All passed"
 # 时间复杂度：O(n)，其中n为身份证号码个数，每个号码验证只需O(1)时间
 # 空间复杂度：O(n)，最坏情况存储所有有问题的号码
-x<-readLines("stdin",warn=FALSE);w<-c(1,0,10,9,8,7,6,5,4,3,2);m<-strsplit("10X98765432","")[[1]];bad<-x[-1][!vapply(x[-1],function(s){if(!grepl("^\\d{17}[0-9X]$",s))return(FALSE);d<-as.integer(strsplit(substr(s,1,17),"")[[1]]);m[sum(d*w)%%11+1L]==substr(s,18,18)},logical(1))];cat(if(length(bad))paste(bad,collapse="\n") else "All passed", "\n")
+x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);ids<-x[2:(n+1)];w<-c(7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2);m<-strsplit("10X98765432","")[[1]];valid<-vapply(ids,function(s){if(!grepl("^[0-9]{17}[0-9X]$",s))return(FALSE);d<-as.integer(strsplit(substr(s,1,17),"")[[1]]);m[sum(d*w)%%11+1L]==substr(s,18,18)},logical(1));bad<-ids[!valid];if(length(bad))cat(paste(bad,collapse="\n"),"\n",sep="")else cat("All passed\n")

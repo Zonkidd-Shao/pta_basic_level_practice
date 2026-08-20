@@ -32,7 +32,7 @@ for my $idx (1 .. $#tok) {
 
 # 找出出现次数为奇数的数字并输出
 for my $num (keys %cnt) {
-    if ($cnt{$num} % 2 == 1) {
+    if ($num % 2 == 1 && $cnt{$num} % 2 == 1) {
         print $num, "\n";
         last;
     }

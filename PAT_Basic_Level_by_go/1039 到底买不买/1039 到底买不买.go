@@ -8,7 +8,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 )
 
 // 到底买不买：判断店家珠子能否凑出所需珠子。

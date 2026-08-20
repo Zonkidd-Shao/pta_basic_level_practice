@@ -43,12 +43,12 @@ func main() {
 			}
 		}
 		// 根据检查结果输出对应提示
-		if illegal {
-			fmt.Println("Your password is tai luan le.")
-		} else if !hasDigit {
-			fmt.Println("Your password needs a number.")
+		if !hasDigit {
+			fmt.Println("Your password needs shu zi.")
 		} else if !hasLetter {
-			fmt.Println("Your password needs a letter.")
+			fmt.Println("Your password needs zi mu.")
+		} else if illegal {
+			fmt.Println("Your password is tai luan le.")
 		} else {
 			fmt.Println("Your password is wan mei.")
 		}

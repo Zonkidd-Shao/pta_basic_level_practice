@@ -8,13 +8,17 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  n, m, k = gets.split.map(&:to_i)
-  matrix = []
-  n.times { matrix << gets.split.map(&:to_i) }
+  n, k, x = gets.split.map(&:to_i)
+  matrix = n.times.map { gets.split.map(&:to_i) }
+  shift = 1
 
-  matrix.each_with_index do |row, idx|
-    shift = ((idx + 1) * k) % m
-    shifted = shift.zero? ? row : row[-shift..] + row[0...-shift]
-    puts shifted.join(' ')
+  (0...n).step(2) do |i|
+    original = matrix[i].dup
+    matrix[i] = Array.new(n, x)
+    (shift...n).each { |j| matrix[i][j] = original[j - shift] }
+    shift += 1
+    shift = 1 if shift > k
   end
+
+  puts (0...n).map { |column| matrix.sum { |row| row[column] } }.join(' ')
 end

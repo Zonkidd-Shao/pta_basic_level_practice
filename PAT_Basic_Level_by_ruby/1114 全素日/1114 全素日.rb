@@ -9,17 +9,22 @@
 #   判断一个日期是否所有部分都是素数；依次检查年、月、日及其组合是否为素数；素数判断和日期验证
 #
 
-require 'date'
-require 'set'
-
 if __FILE__ == $PROGRAM_NAME
-  start_s, end_s = gets.split
-  primes = Set.new(%w[2 3 5 7])
-  d = Date.parse(start_s)
-  end_d = Date.parse(end_s)
-  while d <= end_d
-    s = d.strftime('%Y%m%d')
-    puts d.strftime('%Y-%m-%d') if s.chars.all? { |c| primes.include?(c) }
-    d = d.next_day
+  def prime?(number)
+    return false if number < 2
+    return true if number == 2
+    return false if number.even?
+
+    (3..Math.sqrt(number).to_i).step(2).none? { |d| (number % d).zero? }
   end
+
+  date = gets.to_s.chomp
+  all_prime = true
+  date.length.downto(1) do |length|
+    part = date[date.length - length, length]
+    is_prime = prime?(part.to_i)
+    all_prime = false unless is_prime
+    puts "#{part} #{is_prime ? 'Yes' : 'No'}"
+  end
+  puts 'All Prime!' if all_prime
 end

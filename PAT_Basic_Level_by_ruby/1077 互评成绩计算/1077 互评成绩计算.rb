@@ -8,13 +8,14 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  n, = gets.split.map(&:to_i)
+  n, m = gets.split.map(&:to_i)
   n.times do
     scores = gets.split.map(&:to_i)
-    scores.sort!
-    scores.shift
-    scores.pop
-    avg = scores.sum.to_f / scores.length
-    puts avg.round
+    teacher = scores[0]
+    peers = scores[1..].select { |score| score.between?(0, m) }.sort
+    peers.shift
+    peers.pop
+    peer_avg = peers.sum.to_f / peers.length
+    puts ((teacher + peer_avg) / 2.0).round
   end
 end

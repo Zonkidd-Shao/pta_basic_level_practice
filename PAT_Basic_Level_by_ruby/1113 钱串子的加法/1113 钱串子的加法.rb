@@ -9,6 +9,19 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
+  alphabet = '0123456789abcdefghijklmnopqrst'
   a, b = gets.split
-  puts(a.to_i + b.to_i)
+  result = []
+  carry = 0
+  max_length = [a.length, b.length].max
+  max_length.times do |i|
+    left = i < a.length ? alphabet.index(a[-1 - i]) : 0
+    right = i < b.length ? alphabet.index(b[-1 - i]) : 0
+    total = left + right + carry
+    result << alphabet[total % 30]
+    carry = total / 30
+  end
+  result << alphabet[carry] if carry.positive?
+  answer = result.reverse.join.sub(/\A0+/, '')
+  puts(answer.empty? ? '0' : answer)
 end

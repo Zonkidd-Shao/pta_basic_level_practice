@@ -9,9 +9,17 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  n = gets.to_i
-  n.times do
-    x = gets.to_i
-    puts(x == x.digits.sum + 2 ? 'Yes' : 'No')
+  value = gets.to_s.chomp
+  if value.length.odd?
+    puts "Error: #{value.length} digit(s)"
+  else
+    half = value.length / 2
+    y = value[0, half].to_i
+    x = value[half, half].to_i
+    if x - y == 2
+      puts "Yes: #{x} - #{y} = 2"
+    else
+      puts "No: #{x} - #{y} != 2"
+    end
   end
 end

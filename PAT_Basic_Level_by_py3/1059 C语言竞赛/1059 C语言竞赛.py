@@ -24,9 +24,30 @@
 #
 import sys
 
-ids=[sys.stdin.readline().strip() for _ in range(int(sys.stdin.readline()))]; seen=set()
+def is_prime(x):
+    if x < 2:
+        return False
+    for divisor in range(2, int(x ** 0.5) + 1):
+        if x % divisor == 0:
+            return False
+    return True
+
+
+n = int(sys.stdin.readline())
+rank = {sys.stdin.readline().strip(): i for i in range(1, n + 1)}
+seen = set()
 for _ in range(int(sys.stdin.readline())):
     x=sys.stdin.readline().strip()
-    if x not in ids: print(f'{x}: Are you kidding?')
-    elif x in seen: print(f'{x}: Checked')
-    else: print(f'{x}: Mystery Award' if ids.index(x)==0 else (f'{x}: Minion' if x in ids[1:] and (ids.index(x)+1)%6 else f'{x}: Chocolate')); seen.add(x)
+    if x not in rank:
+        print(f'{x}: Are you kidding?')
+    elif x in seen:
+        print(f'{x}: Checked')
+    else:
+        position = rank[x]
+        award = (
+            'Mystery Award' if position == 1
+            else 'Minion' if is_prime(position)
+            else 'Chocolate'
+        )
+        print(f'{x}: {award}')
+        seen.add(x)

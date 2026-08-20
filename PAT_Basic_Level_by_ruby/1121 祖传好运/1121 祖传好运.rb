@@ -10,9 +10,12 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  k = gets.to_i
-  k.times do
-    n = gets.chomp
-    puts(n == n.reverse ? 'Yes' : 'No')
+  data = STDIN.read.split
+  k = data.shift.to_i
+  data.first(k).each do |number|
+    good = (1..number.length).all? do |length|
+      (number[0, length].to_i % length).zero?
+    end
+    puts(good ? 'Yes' : 'No')
   end
 end

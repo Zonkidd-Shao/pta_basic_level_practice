@@ -30,11 +30,11 @@ public class Main {
         int n = Integer.parseInt(br.readLine().trim());
         StringBuilder sb = new StringBuilder();
         while (true) {
-            int inc = sortDigits(n, false);  // 降序排列（构成大数）
-            int dec = sortDigits(n, true);   // 升序排列（构成小数）
+            int inc = sortDigits(n, true);   // 降序排列（构成大数）
+            int dec = sortDigits(n, false);  // 升序排列（构成小数）
             int diff = inc - dec;             // 计算差值
             sb.append(String.format("%04d - %04d = %04d\n", inc, dec, diff));
-            if (diff == 6174) break;          // 到达数字黑洞，终止循环
+            if (diff == 6174 || diff == 0) break;
             n = diff;                         // 以差值继续迭代
         }
         System.out.print(sb);

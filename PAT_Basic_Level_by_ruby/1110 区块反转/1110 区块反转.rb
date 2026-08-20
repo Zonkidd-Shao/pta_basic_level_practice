@@ -26,11 +26,8 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   result = []
-  i = 0
-  while i < list.length
-    result.concat(list[i, k].reverse)
-    i += k
-  end
+  blocks = (0...list.length).step(k).map { |i| list[i, k] }
+  result = blocks.reverse.flatten
 
   result.each_with_index do |addr, idx|
     nxt = idx + 1 < result.length ? result[idx + 1] : '-1'

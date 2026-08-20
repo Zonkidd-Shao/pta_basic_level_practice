@@ -9,4 +9,4 @@
 #   4. 这样形成一个空心的矩形（近似正方形）
 # 时间复杂度：O(n^2)，需要打印约n/2行，每行n个字符
 # 空间复杂度：O(1)，只使用固定数量的变量
-z<-scan("stdin",what="",quiet=TRUE);n<-as.integer(z[1]);for(i in seq_len(round(n/2)))cat(if(i==1||i==round(n/2))strrep(z[2],n) else paste0(z[2],strrep(" ",n-2),z[2]),"\n")
+z<-scan("stdin",what="",quiet=TRUE);n<-as.integer(z[1]);rows<-(n+1L)%/%2L;for(i in seq_len(rows))cat(if(i==1||i==rows)strrep(z[2],n)else paste0(z[2],strrep(" ",n-2),z[2]),"\n")

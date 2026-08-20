@@ -6,4 +6,4 @@
 #   最后四舍五入取整输出最终得分。
 # 时间复杂度：O(N * N log N)，N为分组数，每组排序需要O(N log N)
 # 空间复杂度：O(N)，存储一组分数
-x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);for(s in x[-1]){v<-sort(as.numeric(strsplit(s,"\\s+")[[1]]));v<-v[-c(1,length(v))];cat(round(mean(v)/h[2]),"\n")}
+x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);for(s in x[2:(h[1]+1)]){v<-as.numeric(strsplit(s,"\\s+")[[1]]);teacher<-v[1];peer<-v[-1];peer<-peer[peer>=0&peer<=h[2]];peer<-sort(peer);peer<-peer[-c(1,length(peer))];ans<-floor((mean(peer)+teacher)/2+0.5);cat(ans,"\n")}

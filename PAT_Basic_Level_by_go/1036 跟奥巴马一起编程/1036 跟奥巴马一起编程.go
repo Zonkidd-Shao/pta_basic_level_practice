@@ -21,8 +21,9 @@ func main() {
 	f := strings.Fields(scanner.Text())
 	n, _ := strconv.Atoi(f[0])
 	c := f[1][0]
-	for i := 0; i < n; i++ {
-		if i == 0 || i == n-1 {
+	rows := (n + 1) / 2
+	for i := 0; i < rows; i++ {
+		if i == 0 || i == rows-1 {
 			fmt.Println(strings.Repeat(string(c), n))
 		} else {
 			fmt.Printf("%c%s%c\n", c, strings.Repeat(" ", n-2), c)

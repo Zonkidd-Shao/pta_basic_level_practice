@@ -12,7 +12,7 @@
 #
 
 UNIT = %w[tret jan feb mar apr may jun jly aug sep oct nov dec].freeze
-TEN = %w[tam hel maa hua tou kes coo low tan tite tony].freeze
+TEN = ['', 'tam', 'hel', 'maa', 'huh', 'tou', 'kes', 'hei', 'elo', 'syy', 'lok', 'mer', 'jou'].freeze
 
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
@@ -26,7 +26,7 @@ if __FILE__ == $PROGRAM_NAME
         t = num / 13
         u = num % 13
         parts = []
-        parts << TEN[t - 1] if t.positive?
+        parts << TEN[t] if t.positive?
         parts << UNIT[u] if u.positive?
         puts parts.join(' ')
       end
@@ -37,10 +37,10 @@ if __FILE__ == $PROGRAM_NAME
         if idx
           puts idx
         else
-          puts (TEN.index(words[0]) + 1) * 13
+          puts TEN.index(words[0]) * 13
         end
       else
-        t = TEN.index(words[0]) + 1
+        t = TEN.index(words[0])
         u = UNIT.index(words[1])
         puts t * 13 + u
       end

@@ -14,5 +14,5 @@ if __FILE__ == $PROGRAM_NAME
   (4...n).each do
     seq << (seq[-1] + seq[-2] + seq[-3] + seq[-4]) % 10
   end
-  puts seq[n - 1]
+  puts seq.first(n).join
 end

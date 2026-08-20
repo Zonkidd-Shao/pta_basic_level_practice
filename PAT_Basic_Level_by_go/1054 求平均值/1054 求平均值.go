@@ -13,7 +13,7 @@ import (
 )
 
 func isValid(s string) bool {
-	if strings.Count(s, ".") > 1 {
+	if s == "" || strings.Count(s, ".") > 1 {
 		return false
 	}
 	body := s
@@ -23,12 +23,20 @@ func isValid(s string) bool {
 	if body == "" {
 		return false
 	}
+	if dot := strings.IndexByte(body, '.'); dot >= 0 && len(body)-dot-1 > 2 {
+		return false
+	}
+	digitCount := 0
 	for _, c := range body {
-		if c != '.' && (c < '0' || c > '9') {
+		if c == '.' {
+			continue
+		}
+		if c < '0' || c > '9' {
 			return false
 		}
+		digitCount++
 	}
-	return true
+	return digitCount > 0
 }
 
 // 求平均值：仅统计合法且在 [-1000,1000] 内、最多两位小数的数。
@@ -53,10 +61,12 @@ func main() {
 	cnt := 0
 	for _, s := range nums {
 		if !isValid(s) {
+			fmt.Printf("ERROR: %s is not a legal number\n", s)
 			continue
 		}
 		v, err := strconv.ParseFloat(s, 64)
 		if err != nil || v < -1000 || v > 1000 {
+			fmt.Printf("ERROR: %s is not a legal number\n", s)
 			continue
 		}
 		sum += v

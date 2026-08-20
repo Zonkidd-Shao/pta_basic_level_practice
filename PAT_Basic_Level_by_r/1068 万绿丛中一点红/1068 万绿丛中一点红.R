@@ -8,4 +8,4 @@
 #   0个输出Not Exist，多个输出Not Unique，1个输出坐标和颜色。
 # 时间复杂度：O(M*N)，M为列数，N为行数，每个像素检查其3x3邻域
 # 空间复杂度：O(M*N)，存储图像矩阵
-z<-as.integer(scan("stdin",quiet=TRUE));m<-z[1];n<-z[2];tol<-z[3];a<-matrix(z[-(1:3)],nrow=m,byrow=TRUE);uniquev<-function(v)sum(a==v)==1;ans<-list();for(i in 1:m)for(j in 1:n){v<-a[i,j];nb<-a[max(1,i-1):min(m,i+1),max(1,j-1):min(n,j+1)];if(uniquev(v)&&all(abs(nb-v)>tol|nb==v))ans[[length(ans)+1]]<-c(i,j,v)};if(!length(ans))cat("Not Exist\n") else if(length(ans)>1)cat("Not Unique\n") else cat(sprintf("(%d, %d): %d\n",ans[[1]][2],ans[[1]][1],ans[[1]][3]))
+z<-as.integer(scan("stdin",quiet=TRUE));m<-z[1];n<-z[2];tol<-z[3];a<-matrix(z[-(1:3)],nrow=n,ncol=m,byrow=TRUE);ans<-list();for(i in 1:n)for(j in 1:m){v<-a[i,j];nb<-a[max(1,i-1):min(n,i+1),max(1,j-1):min(m,j+1)];nb<-nb[nb!=v];if(sum(a==v)==1&&all(abs(nb-v)>tol))ans[[length(ans)+1]]<-c(j,i,v)};if(!length(ans))cat("Not Exist\n")else if(length(ans)>1)cat("Not Unique\n")else cat(sprintf("(%d, %d): %d\n",ans[[1]][1],ans[[1]][2],ans[[1]][3]))

@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
 )
 
@@ -27,16 +26,16 @@ func digitSum(n int) int {
 
 // main 是程序入口函数，统计并输出所有朋友数。
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
-	if !scanner.Scan() {
+	in := bufio.NewReader(os.Stdin)
+	var n int
+	if _, err := fmt.Fscan(in, &n); err != nil {
 		return
 	}
-	f := strings.Fields(scanner.Text())
 	// 使用集合去重存储所有出现过的朋友数
 	set := make(map[int]bool)
-	for _, s := range f[1:] { // 第一个元素是 N，跳过
-		v, _ := strconv.Atoi(s)
+	for i := 0; i < n; i++ {
+		var v int
+		fmt.Fscan(in, &v)
 		set[digitSum(v)] = true
 	}
 
@@ -55,7 +54,7 @@ func main() {
 		if i > 0 {
 			b.WriteByte(' ')
 		}
-		b.WriteString(strconv.Itoa(v))
+		b.WriteString(fmt.Sprint(v))
 	}
 	fmt.Println(b.String())
 }

@@ -9,4 +9,4 @@
 #   关键操作：数字转字符拆分→各位立方相乘→再求数字和，循环直到一位数。
 # 时间复杂度：O((N2-N1) × K)，K为每个数迭代到一位数的轮次（通常很小）
 # 空间复杂度：O(1)，仅需10个计数器（0-9）
-z<-scan("stdin",what="",quiet=TRUE);s<-strsplit(z[1],"")[[1]];t<-table(s);cat(names(t)[which.max(t)],max(t),"\n")
+z<-as.integer(scan("stdin",quiet=TRUE));v<-z[1]:z[2];step<-function(n){if(n==0L)return(0L);d<-as.integer(strsplit(as.character(n),"",fixed=TRUE)[[1]]);p<-prod(d^3);sum(as.integer(strsplit(as.character(p),"",fixed=TRUE)[[1]]))};while(any(v>=10L))v<-vapply(v,step,integer(1));cnt<-tabulate(v+1L,nbins=10L);mx<-max(cnt);cat(mx,"\n",paste(which(cnt==mx)-1L,collapse=" "),"\n",sep="")

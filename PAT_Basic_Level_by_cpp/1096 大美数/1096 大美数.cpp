@@ -26,28 +26,27 @@
 using namespace std;
 
 int main() {
-    // 生成不重复的斐波那契数（1,2,3,5,8,...）至 1e5 以上
-    vector<int> fib = {1, 2};
-    while (fib.back() < 100000) {
-        fib.push_back(fib[fib.size() - 1] + fib[fib.size() - 2]);
-    }
-
     int n;
     if (!(cin >> n)) return 0;
     for (int i = 0; i < n; ++i) {
         int k;
         cin >> k;
-        // minT[s] = 凑出 s 所用的最少不同斐波那契数个数
-        vector<int> minT(k + 1, 1e9);
-        minT[0] = 0;
-        // 0-1 背包（逆序遍历），每个斐波那契数最多选一次
-        for (int f : fib) {
-            if (f > k) break;
-            for (int s = k; s >= f; --s)
-                if (minT[s - f] != 1e9) minT[s] = min(minT[s], minT[s - f] + 1);
+        vector<int> divisors;
+        for (int d = 1; d * d <= k; ++d) {
+            if (k % d != 0) continue;
+            divisors.push_back(d);
+            if (d * d != k) divisors.push_back(k / d);
         }
-        // 至少需要 2 个不同的斐波那契数才算是"大美数"
-        cout << (minT[k] >= 2 ? "Yes" : "No") << endl;
+        bool ok = false;
+        for (size_t a = 0; a < divisors.size() && !ok; ++a)
+            for (size_t b = a + 1; b < divisors.size() && !ok; ++b)
+                for (size_t c = b + 1; c < divisors.size() && !ok; ++c)
+                    for (size_t d = c + 1; d < divisors.size(); ++d)
+                        if ((divisors[a] + divisors[b] + divisors[c] + divisors[d]) % k == 0) {
+                            ok = true;
+                            break;
+                        }
+        cout << (ok ? "Yes" : "No") << endl;
     }
     return 0;
 }

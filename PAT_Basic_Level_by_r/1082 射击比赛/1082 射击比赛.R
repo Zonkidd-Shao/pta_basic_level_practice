@@ -11,4 +11,4 @@
 #   距离平方与距离具有相同的大小关系，因此比较平方值即可，无需开方。
 # 时间复杂度：O(N)，其中 N 为运动员人数，需遍历一次计算距离，再找最值
 # 空间复杂度：O(N)，存储所有运动员信息和距离
-x<-readLines("stdin",warn=FALSE)[-1];p<-do.call(rbind,strsplit(x,"\\s+"));d<-rowSums(matrix(as.numeric(p[,2:3]),ncol=2)^2);cat(p[which.max(d),1],p[which.min(d),1],"\n")
+x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);p<-do.call(rbind,strsplit(x[2:(n+1)],"\\s+"));d<-rowSums(matrix(as.numeric(p[,2:3]),ncol=2)^2);cat(p[which.min(d),1],p[which.max(d),1],"\n",sep=" ")

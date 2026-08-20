@@ -15,6 +15,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 // node 表示链表中的一个节点
@@ -53,14 +54,20 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 	defer out.Flush()
 
-	var h1, h2, n int
-	fmt.Fscan(in, &h1, &h2, &n)
+	var h1Text, h2Text string
+	var n int
+	fmt.Fscan(in, &h1Text, &h2Text, &n)
+	h1, _ := strconv.Atoi(h1Text)
+	h2, _ := strconv.Atoi(h2Text)
 
 	// 读取所有节点存入 map，以地址为键
 	nodes := make(map[int]node, n)
 	for i := 0; i < n; i++ {
-		var a, d, nx int
-		fmt.Fscan(in, &a, &d, &nx)
+		var aText, nextText string
+		var d int
+		fmt.Fscan(in, &aText, &d, &nextText)
+		a, _ := strconv.Atoi(aText)
+		nx, _ := strconv.Atoi(nextText)
 		nodes[a] = node{a, d, nx}
 	}
 
@@ -75,18 +82,16 @@ func main() {
 	}
 	short = reverse(short)
 
-	// 按 2 个长链表节点 + 1 个短链表节点的规律合并
+	// 依次取两个长链表节点，再取一个逆序后的短链表节点。
 	var res []node
 	i, j := 0, 0
-	for j < len(short) {
-		res = append(res, long[i], long[i+1])
-		res = append(res, short[j])
-		i += 2
-		j++
-	}
-	// 将长链表剩余节点加入结果
-	for ; i < len(long); i++ {
+	for i < len(long) {
 		res = append(res, long[i])
+		if i%2 == 1 && j < len(short) {
+			res = append(res, short[j])
+			j++
+		}
+		i++
 	}
 
 	// 输出合并后的链表，每个节点的 next 指向结果中下一个节点的地址

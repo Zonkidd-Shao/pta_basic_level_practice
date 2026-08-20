@@ -30,4 +30,6 @@ for i in range(10):
  r=n[::-1]
  if n==r: print(n,'is a palindromic number.');break
  print(n,'+',r,'=',int(n)+int(r));n=str(int(n)+int(r))
-else: print('Not found in 10 iterations.')
+else:
+ if n==n[::-1]: print(n,'is a palindromic number.')
+ else: print('Not found in 10 iterations.')

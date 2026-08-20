@@ -10,8 +10,9 @@
 require 'set'
 
 if __FILE__ == $PROGRAM_NAME
-  n, m, s = gets.split.map(&:to_i)
-  ids = gets.split
+  data = STDIN.read.split
+  n, m, s = data.shift(3).map(&:to_i)
+  ids = data.first(n)
 
   winners = []
   won = Set.new

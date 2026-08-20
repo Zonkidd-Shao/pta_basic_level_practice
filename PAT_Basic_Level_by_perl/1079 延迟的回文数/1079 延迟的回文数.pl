@@ -32,7 +32,7 @@ $n =~ s/\s+//g;
 
 my $found = 0;
 
-for my $iter (1..10) {
+for my $iter (0..10) {
     my $r = reverse $n;
 
     # 若为回文数，输出并结束
@@ -41,6 +41,9 @@ for my $iter (1..10) {
         $found = 1;
         last;
     }
+
+    # 已经完成 10 次加法后仍不是回文数
+    last if $iter == 10;
 
     # 大数加法：逐位相加（两个数等长，n 与 reverse n）
     # 每个字符如 "9" 在数值上下文中即等于 9

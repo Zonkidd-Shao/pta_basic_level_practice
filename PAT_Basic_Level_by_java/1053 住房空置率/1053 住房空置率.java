@@ -54,10 +54,10 @@ public class Main {
             
             // 判断是否超过一半的日子用电量低于阈值
             if (lowCount > K / 2.0) {
-                possibleEmpty++;
-                // 若观察期超过 D 天，则判定为空置
                 if (K > D) {
                     empty++;
+                } else {
+                    possibleEmpty++;
                 }
             }
         }

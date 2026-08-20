@@ -16,7 +16,7 @@ local m = tonumber(io.read())
 
 -- 逐个查询并输出结果
 for _ = 1, m do
-    local s = seats[io.read("*n")]
+    local s = seats[tostring(io.read("*n"))]
     -- 输出准考证号和考试座位号
     print(s[1] .. " " .. s[2])
 end

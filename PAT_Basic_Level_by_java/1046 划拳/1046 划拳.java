@@ -33,14 +33,14 @@ public class Main {
         int aDrink = 0, bDrink = 0;
         for (int i = 0; i < n; i++) {
             String[] p = br.readLine().trim().split("\\s+");
-            int a = Integer.parseInt(p[0]); // 甲喊的数字
-            int b = Integer.parseInt(p[1]); // 甲出手指的数字
-            int c = Integer.parseInt(p[2]); // 乙喊的数字
-            int d = Integer.parseInt(p[3]); // 乙出手指的数字
-            int sum = b + d;                // 出手指数之和
+            int a = Integer.parseInt(p[0]); // 甲出手指的数字
+            int b = Integer.parseInt(p[1]); // 甲喊的数字
+            int c = Integer.parseInt(p[2]); // 乙出手指的数字
+            int d = Integer.parseInt(p[3]); // 乙喊的数字
+            int sum = a + c;                // 出手指数之和
             // 甲猜对且乙猜错 → 乙喝酒；乙猜对且甲猜错 → 甲喝酒
-            if (sum == a && sum != c) bDrink++;
-            else if (sum == c && sum != a) aDrink++;
+            if (sum == b && sum != d) bDrink++;
+            else if (sum == d && sum != b) aDrink++;
         }
         System.out.println(aDrink + " " + bDrink);
     }

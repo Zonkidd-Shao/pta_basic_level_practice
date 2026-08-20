@@ -34,7 +34,7 @@ if __FILE__ == $PROGRAM_NAME
     gfinal = s[:gfinal]
     next if gp.nil? || gp < 200 || gfinal.nil?
 
-    gmid = s[:gmid] || 0
+    gmid = s[:gmid] || -1
     g = if gfinal >= gmid
           gfinal
         else

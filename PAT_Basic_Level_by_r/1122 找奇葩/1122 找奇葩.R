@@ -9,4 +9,4 @@
 #   异或运算保证了线性时间和常数空间的最优解法。
 # 时间复杂度：O(n)，n为序列长度，遍历一次做异或
 # 空间复杂度：O(1)，仅用一个变量累积异或结果
-z<-as.integer(scan("stdin",quiet=TRUE));cat(Reduce(bitwXor,z[-1]),"\n")
+z<-as.integer(scan("stdin",quiet=TRUE));a<-z[-1];odd<-a[a%%2==1];tab<-table(odd);cat(names(tab)[which(tab%%2==1)[1]],"\n")

@@ -13,8 +13,8 @@ if __FILE__ == $PROGRAM_NAME
   password = String.new
   n.times do
     line = gets(chomp: true)
-    %w[a b c d].each_with_index do |lc, i|
-      if line.include?(lc)
+    %w[A B C D].each_with_index do |letter, i|
+      if line.include?("#{letter}-T")
         password << (i + 1).to_s
         break
       end

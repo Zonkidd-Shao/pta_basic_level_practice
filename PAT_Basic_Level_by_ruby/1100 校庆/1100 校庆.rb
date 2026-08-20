@@ -6,27 +6,18 @@
 # 实现原理：
 #   使用集合存储校友的身份证号；统计到场校友人数并找出最年长的；利用生日信息判断年龄大小
 #
+require 'set'
 
 if __FILE__ == $PROGRAM_NAME
-  n = gets.to_i
-  alumni = {}
-  n.times do
-    name, birthday = gets.split
-    alumni[name] = birthday
-  end
+  data = STDIN.read.split
+  n = data.shift.to_i
+  alumni = data.shift(n).to_set
+  m = data.shift.to_i
+  attendees = data.shift(m)
+  attending = attendees.select { |id| alumni.include?(id) }
+  candidates = attending.empty? ? attendees : attending
+  oldest = candidates.min_by { |id| id[6, 8] }
 
-  m = gets.to_i
-  attendees = []
-  m.times do
-    name, birthday = gets.split
-    attendees << [name, birthday]
-  end
-
-  attending_alumni = attendees.select { |name, _| alumni.key?(name) }
-  oldest_alum = attending_alumni.min_by { |_, b| b }
-  oldest_attendee = attendees.min_by { |_, b| b }
-
-  puts attending_alumni.length
-  puts "#{oldest_alum[0]} #{oldest_alum[1]}" if oldest_alum
-  puts "#{oldest_attendee[0]} #{oldest_attendee[1]}"
+  puts attending.length
+  puts oldest
 end

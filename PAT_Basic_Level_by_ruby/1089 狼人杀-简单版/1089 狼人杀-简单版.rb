@@ -11,8 +11,9 @@
 require 'set'
 
 if __FILE__ == $PROGRAM_NAME
-  n = gets.to_i
-  says = [nil] + gets.split.map(&:to_i) # 1-based
+  data = STDIN.read.split.map(&:to_i)
+  n = data.shift
+  says = [nil] + data.first(n) # 1-based
 
   found = nil
   (1..n).each do |i|

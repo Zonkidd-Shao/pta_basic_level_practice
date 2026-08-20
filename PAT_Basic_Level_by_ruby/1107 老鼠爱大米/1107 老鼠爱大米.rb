@@ -10,18 +10,7 @@
 
 if __FILE__ == $PROGRAM_NAME
   n, m = gets.split.map(&:to_i)
-  weights = gets.split.map(&:to_i)
-  eaten = Array.new(n, 0)
-  remaining = m
-  i = 0
-
-  while remaining.positive?
-    w = weights[i]
-    eat = [w, remaining].min
-    eaten[i] += eat
-    remaining -= eat
-    i = (i + 1) % n
-  end
-
-  puts eaten.join(' ')
+  winners = n.times.map { gets.split.map(&:to_i).max }
+  puts winners.join(' ')
+  puts winners.max
 end

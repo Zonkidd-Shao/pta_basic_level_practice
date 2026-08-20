@@ -55,8 +55,8 @@ use warnings;
 my $N = <STDIN>;
 chomp $N;
 
-# %ca: 甲各手势的出场次数计数
-# %cb: 乙各手势的出场次数计数
+# %ca: 甲各手势的获胜次数计数
+# %cb: 乙各手势的获胜次数计数
 my (%ca, %cb);
 # wa: 甲胜次数, wb: 乙胜次数, ti: 平局次数
 my ($wa, $wb, $ti) = (0, 0, 0);
@@ -74,15 +74,10 @@ while ($N-- > 0) {
     # 读取甲的手势 $a 和乙的手势 $b
     my ($a, $b) = split /\s+/, $l;
 
-    # 统计甲各手势的出场次数
-    $ca{$a}++;
-    # 统计乙各手势的出场次数
-    $cb{$b}++;
-
     # 判断胜负
     if    ($a eq $b)       { $ti++; }        # 手势相同，平局
-    elsif ($win{$a} eq $b) { $wa++; }        # 甲胜
-    else                   { $wb++; }        # 乙胜
+    elsif ($win{$a} eq $b) { $wa++; $ca{$a}++; }  # 甲胜
+    else                   { $wb++; $cb{$b}++; }  # 乙胜
 }
 
 # 输出甲的胜、平、负次数
@@ -101,10 +96,11 @@ sub best {
     for my $g (qw(B C J)) {
         # 当前手势次数大于最佳次数时更新
         # 用严格大于确保次数相同时保留先遍历到的（字母序小的）
-        if ($h{$g} > $bc) { $bc = $h{$g}; $best = $g; }
+        my $count = $h{$g} || 0;
+        if ($count > $bc) { $bc = $count; $best = $g; }
     }
     return $best;
 }
 
-# 输出甲乙出场次数最多的手势
+# 输出甲乙获胜次数最多的手势
 print best(\%ca), " ", best(\%cb), "\n";

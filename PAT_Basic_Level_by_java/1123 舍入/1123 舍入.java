@@ -1,193 +1,96 @@
-/*
- * 1123 舍入
- * 
- * 题目描述：
- *     给定一个正实数（可能为整数），以及保留小数位数 d 和舍入模式 op：
- *       op=1：四舍五入（第 d+1 位 ≥ 5 则进位）
- *       op=2：直接截断（直接舍去第 d+1 位及后面的数字）
- *       op=3：四舍六入五成双（第 d+1 位 > 5 进位，< 5 舍去，
- *             等于 5 时看 5 后面是否有非零数字，有则进位，
- *             没有则看第 d 位奇偶性，奇数进位、偶数舍去）
- *     对每个数进行舍入并输出结果。
- * 
- * 实现原理：
- *     解题思路：
- *       1. 分离整数部分和小数部分。
- *       2. 如果小数部分长度 < d，直接补零后返回。
- *       3. 根据 op 模式判断是否需要进位：
- *          - op=1（四舍五入）：看第 d+1 位 ≥ 5 则进位。
- *          - op=2（截断）：直接截取前 d 位小数。
- *          - op=3（四舍六入五成双）：根据规则判断。
- *       4. 如果需要进位，从小数部分第 d-1 位开始加 1，处理连续进位。
- *       5. 如果进位传递到整数部分，调用 addOne 处理整数进位。
- *     算法核心逻辑：
- *       - 模拟进位运算：从低位到高位遍历小数部分，逢 10 进位。
- *         整数部分进位也采用类似的逐位加 1 逻辑。
- *     时间复杂度：O(n * L)，L 为数字位数。
- *     空间复杂度：O(L)。
- */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-        String[] firstLine = br.readLine().split(" ");
-        int n = Integer.parseInt(firstLine[0]);
-        int d = Integer.parseInt(firstLine[1]);
-        
+        StringTokenizer first = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(first.nextToken());
+        int d = Integer.parseInt(first.nextToken());
         for (int i = 0; i < n; i++) {
-            String[] parts = br.readLine().split(" ");
-            int op = Integer.parseInt(parts[0]);
-            String num = parts[1];
-            
-            String result = round(num, d, op);
-            System.out.println(result);
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int op = Integer.parseInt(st.nextToken());
+            System.out.println(round(st.nextToken(), d, op));
         }
-        
-        br.close();
     }
-    
-    /**
-     * 舍入函数
-     * @param num 待舍入的数字字符串
-     * @param d   保留的小数位数
-     * @param op  舍入模式：1=四舍五入，2=截断，3=四舍六入五成双
-     * @return 舍入后的结果字符串
-     */
-    private static String round(String num, int d, int op) {
-        // 分离整数部分和小数部分
-        String intPart, decPart;
-        if (num.contains(".")) {
-            String[] parts = num.split("\\.");
-            intPart = parts[0];
-            decPart = parts[1];
-        } else {
-            intPart = num;
-            decPart = "";
+
+    private static String round(String number, int d, int op) {
+        boolean negative = number.charAt(0) == '-';
+        String value = negative ? number.substring(1) : number;
+        int dot = value.indexOf('.');
+        String integer = dot < 0 ? value : value.substring(0, dot);
+        String decimals = dot < 0 ? "" : value.substring(dot + 1);
+
+        if (decimals.length() < d) {
+            StringBuilder padded = new StringBuilder(decimals);
+            while (padded.length() < d) padded.append('0');
+            return sign(negative) + integer + "." + padded;
         }
-        
-        // 如果小数部分长度小于 d，直接在末尾补零后返回
-        if (decPart.length() < d) {
-            StringBuilder sb = new StringBuilder(decPart);
-            while (sb.length() < d) {
-                sb.append('0');
-            }
-            return intPart + "." + sb.toString();
-        }
-        
-        // op=2：截断模式，直接截取前 d 位小数
-        if (op == 2) {
-            return intPart + "." + decPart.substring(0, d);
-        }
-        
-        // 判断是否需要进位
-        boolean needCarry = false;
-        
-        if (op == 1) {
-            // 四舍五入：看第 d+1 位，>=5 则进位
-            if (d < decPart.length()) {
-                int nextDigit = decPart.charAt(d) - '0';
-                needCarry = (nextDigit >= 5);
-            }
-        } else if (op == 3) {
-            // 四舍六入五成双
-            if (d < decPart.length()) {
-                int nextDigit = decPart.charAt(d) - '0';
-                if (nextDigit > 5) {
-                    needCarry = true;
-                } else if (nextDigit < 5) {
-                    needCarry = false;
-                } else {
-                    // 等于 5 的情况
-                    // 检查 5 后面是否还有非零数字
-                    boolean hasNonZeroAfter = false;
-                    for (int i = d + 1; i < decPart.length(); i++) {
-                        if (decPart.charAt(i) != '0') {
-                            hasNonZeroAfter = true;
+
+        String kept = decimals.substring(0, d);
+        boolean carry = false;
+        if (op == 1 || op == 3) {
+            if (d < decimals.length()) {
+                int next = decimals.charAt(d) - '0';
+                if (op == 1) {
+                    carry = next >= 5;
+                } else if (next > 5) {
+                    carry = true;
+                } else if (next == 5) {
+                    boolean nonZeroAfter = false;
+                    for (int i = d + 1; i < decimals.length(); i++) {
+                        if (decimals.charAt(i) != '0') {
+                            nonZeroAfter = true;
                             break;
                         }
                     }
-                    if (hasNonZeroAfter) {
-                        needCarry = true; // 5 后面有非零数字，进位
+                    if (nonZeroAfter) {
+                        carry = true;
                     } else {
-                        // 5 后面全是 0，看保留位的最后一位的奇偶性
-                        // 奇数进位，偶数舍去
-                        int lastDigit;
-                        if (d == 0) {
-                            // 保留 0 位小数，看整数部分最后一位
-                            lastDigit = intPart.charAt(intPart.length() - 1) - '0';
-                        } else {
-                            lastDigit = decPart.charAt(d - 1) - '0';
-                        }
-                        needCarry = (lastDigit % 2 == 1); // 奇数进位
+                        int last = d == 0
+                                ? integer.charAt(integer.length() - 1) - '0'
+                                : kept.charAt(d - 1) - '0';
+                        carry = (last & 1) == 1;
                     }
                 }
             }
         }
-        
-        // 构造结果
-        String resultDec = decPart.substring(0, d);
-        String resultInt = intPart;
-        
-        if (needCarry) {
-            // 需要进位，从小数部分第 d-1 位开始加 1
+
+        if (carry) {
             if (d == 0) {
-                // 保留 0 位小数，直接给整数部分加 1
-                resultInt = addOne(resultInt);
+                integer = addOne(integer);
             } else {
-                // 小数部分加 1，可能会有连续进位
-                char[] decChars = resultDec.toCharArray();
-                int carry = 1;
-                for (int i = decChars.length - 1; i >= 0 && carry > 0; i--) {
-                    int digit = decChars[i] - '0' + carry;
-                    if (digit == 10) {
-                        decChars[i] = '0';
-                        carry = 1;
-                    } else {
-                        decChars[i] = (char) ('0' + digit);
-                        carry = 0;
-                    }
+                char[] digits = kept.toCharArray();
+                int carryDigit = 1;
+                for (int i = digits.length - 1; i >= 0 && carryDigit != 0; i--) {
+                    int digit = digits[i] - '0' + carryDigit;
+                    digits[i] = (char) ('0' + digit % 10);
+                    carryDigit = digit / 10;
                 }
-                resultDec = new String(decChars);
-                // 如果进位传递到整数部分
-                if (carry > 0) {
-                    resultInt = addOne(resultInt);
-                }
+                kept = new String(digits);
+                if (carryDigit != 0) integer = addOne(integer);
             }
         }
-        
-        if (d == 0) {
-            return resultInt;
-        } else {
-            return resultInt + "." + resultDec;
-        }
+
+        String result = d == 0 ? integer : integer + "." + kept;
+        return sign(negative) + result;
     }
-    
-    /**
-     * 给一个字符串表示的非负整数加 1
-     * @param num 非负整数字符串
-     * @return 加 1 后的字符串
-     */
-    private static String addOne(String num) {
-        char[] chars = num.toCharArray();
+
+    private static String sign(boolean negative) {
+        return negative ? "-" : "";
+    }
+
+    private static String addOne(String value) {
+        char[] digits = value.toCharArray();
         int carry = 1;
-        for (int i = chars.length - 1; i >= 0 && carry > 0; i--) {
-            int digit = chars[i] - '0' + carry;
-            if (digit == 10) {
-                chars[i] = '0';
-                carry = 1;
-            } else {
-                chars[i] = (char) ('0' + digit);
-                carry = 0;
-            }
+        for (int i = digits.length - 1; i >= 0 && carry != 0; i--) {
+            int digit = digits[i] - '0' + carry;
+            digits[i] = (char) ('0' + digit % 10);
+            carry = digit / 10;
         }
-        if (carry > 0) {
-            return "1" + new String(chars); // 最高位进位，如 999 -> 1000
-        } else {
-            return new String(chars);
-        }
+        return carry == 0 ? new String(digits) : "1" + new String(digits);
     }
 }

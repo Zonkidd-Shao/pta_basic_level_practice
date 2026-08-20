@@ -56,16 +56,20 @@ func isPrime(n int) bool {
 	return true
 }
 
-// gen 通过 DFS 递归生成所有 K 位数中各位数字之和为 m 的数
-// sols: 结果列表，k: 总位数，m: 剩余需要凑的和
+// gen 通过 DFS 递归生成所有 K 位数中各位数字之和为 targetM 的数。
+// remaining 是当前还需要凑出的位和，targetM 保存原始输入的 m。
 // prefix: 当前已构造的前缀值，digitsSoFar: 已确定的位数
-func gen(sols *[]sol, k, m, prefix, digitsSoFar int) {
+func gen(sols *[]sol, k, remaining, targetM, prefix, digitsSoFar int) {
+	left := k - digitsSoFar
+	if remaining < 0 || remaining > 9*left {
+		return
+	}
 	if digitsSoFar == k {
-		if m == 0 {
+		if remaining == 0 {
 			// 已构造完一个 K 位数，检查条件
 			a := prefix
 			n := digitSum(a + 1)
-			g := gcd(m, n)
+			g := gcd(targetM, n)
 			if g > 2 && isPrime(g) {
 				*sols = append(*sols, sol{n, a})
 			}
@@ -78,10 +82,10 @@ func gen(sols *[]sol, k, m, prefix, digitsSoFar int) {
 		start = 1
 	}
 	for d := start; d <= 9; d++ {
-		if m-d < 0 {
+		if remaining-d < 0 {
 			continue // 剪枝：剩余和不够减
 		}
-		gen(sols, k, m-d, prefix*10+d, digitsSoFar+1)
+		gen(sols, k, remaining-d, targetM, prefix*10+d, digitsSoFar+1)
 	}
 }
 
@@ -99,7 +103,7 @@ func main() {
 		var k, m int
 		fmt.Fscan(in, &k, &m)
 		var sols []sol
-		gen(&sols, k, m, 0, 0)
+		gen(&sols, k, m, m, 0, 0)
 
 		fmt.Fprintf(out, "Case %d\n", c)
 		if len(sols) == 0 {

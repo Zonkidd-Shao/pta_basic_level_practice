@@ -20,20 +20,18 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine().trim());
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        int n = sc.nextInt();
         // 计数数组，下标 0~100 对应成绩 0~100
         int[] cnt = new int[101];
-        String[] scores = br.readLine().trim().split("\\s+");
         for (int i = 0; i < n; i++) {
-            cnt[Integer.parseInt(scores[i])]++;  // 对应成绩的计数加1
+            cnt[sc.nextInt()]++;  // 对应成绩的计数加1
         }
-        int k = Integer.parseInt(br.readLine().trim());
-        String[] queries = br.readLine().trim().split("\\s+");
+        int k = sc.nextInt();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < k; i++) {
             if (i > 0) sb.append(' ');
-            sb.append(cnt[Integer.parseInt(queries[i])]);
+            sb.append(cnt[sc.nextInt()]);
         }
         System.out.println(sb.toString());
     }

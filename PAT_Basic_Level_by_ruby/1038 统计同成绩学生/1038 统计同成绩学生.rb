@@ -8,13 +8,14 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  n = gets.to_i
-  scores = gets.split.map(&:to_i)
+  data = STDIN.read.split.map(&:to_i)
+  n = data.shift
+  scores = data.shift(n)
 
   counts = Array.new(101, 0)
   scores.each { |s| counts[s] += 1 }
 
-  k = gets.to_i
-  queries = gets.split.map(&:to_i)
+  k = data.shift
+  queries = data.shift(k)
   puts queries.map { |q| counts[q] }.join(' ')
 end

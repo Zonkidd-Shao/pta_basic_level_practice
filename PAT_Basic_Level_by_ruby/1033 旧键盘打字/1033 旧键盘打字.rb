@@ -15,11 +15,7 @@ if __FILE__ == $PROGRAM_NAME
   text = gets(chomp: true)
 
   result = text.chars.reject do |ch|
-    if ch =~ /[a-zA-Z]/
-      broken_set.include?(ch.upcase)
-    else
-      broken_set.include?(ch)
-    end
+    broken_set.include?(ch.upcase) || (broken_set.include?('+') && ch =~ /[A-Z]/)
   end
 
   puts result.join

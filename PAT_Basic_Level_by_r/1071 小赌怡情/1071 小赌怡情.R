@@ -7,4 +7,4 @@
 #   当筹码输光时游戏结束。
 # 时间复杂度：O(K)，K为游戏局数
 # 空间复杂度：O(1)，仅存储当前筹码数
-x<-readLines("stdin",warn=FALSE);money<-as.numeric(x[1]);for(s in x[-1]){v<-as.numeric(strsplit(s,"\\s+")[[1]]);if(v[2]==0)break;if(v[4]>money){cat("Not enough tokens.  Total =",money,".\n")}else{money<-money+ifelse(v[1]==v[3],v[4],-v[4]);cat("Win",ifelse(v[1]==v[3],"","not"),"!  Total =",money,".\n")};if(money==0)break}
+x<-readLines("stdin",warn=FALSE);money<-as.integer(strsplit(x[1],"\\s+")[[1]][1]);for(s in x[2:length(x)]){v<-as.integer(strsplit(s,"\\s+")[[1]]);if(v[3]>money){cat("Not enough tokens.  Total = ",money,".\n",sep="");next};win<-(v[2]==0&&v[4]<v[1])||(v[2]==1&&v[4]>v[1]);money<-money+if(win)v[3]else-v[3];if(win)cat("Win ",v[3],"!  Total = ",money,".\n",sep="")else cat("Lose ",v[3],".  Total = ",money,".\n",sep="");if(money==0){cat("Game Over.\n");break}}

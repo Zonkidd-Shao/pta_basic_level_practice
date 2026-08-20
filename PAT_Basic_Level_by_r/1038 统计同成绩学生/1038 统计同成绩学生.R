@@ -8,4 +8,4 @@
 #   3. 按查询顺序输出每个分数对应的学生人数
 # 时间复杂度：O(n+k)，其中n为学生人数，k为查询个数
 # 空间复杂度：O(1)，因为成绩范围固定（0-100），只需固定大小的数组
-z<-as.integer(scan("stdin",quiet=TRUE));n<-z[1];a<-z[2:(n+1)];q<-z[(n+3):length(z)];cat(paste(tabulate(match(q,a),nbins=n),collapse=" "),"\n")
+z<-as.integer(scan("stdin",quiet=TRUE));n<-z[1];a<-z[2:(n+1)];k<-z[n+2];q<-z[(n+3):(n+2+k)];cat(paste(vapply(q,function(v)sum(a==v),integer(1)),collapse=" "),"\n")

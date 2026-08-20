@@ -6,4 +6,4 @@
 #   最后输出每个学生的总分。
 # 时间复杂度：O(N*M)，其中N为学生人数，M为题目数量
 # 空间复杂度：O(N+M)，存储学生得分和答案数组
-x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);ans<-strsplit(x[2],"\\s+")[[1]];score<-numeric(h[1]);for(i in seq_len(h[1])){p<-strsplit(x[i+2],"\\s+")[[1]];v<-p[2:(h[2]+1)];score[i]<-sum((v==ans)*as.numeric(p[1]))};cat(paste(score,collapse="\n"),"\n")
+x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);points<-as.integer(strsplit(x[2],"\\s+")[[1]]);ans<-strsplit(x[3],"\\s+")[[1]];for(i in 1:h[1]){v<-strsplit(x[i+3],"\\s+")[[1]];cat(sum(points[as.logical(as.integer(v)==as.integer(ans))]),"\n")}

@@ -9,6 +9,7 @@ for i = 1, n do
 end
 
 -- 枚举所有可能的两狼人组合(x,y)，x<y保证不重复
+local found = false
 for x = 1, n - 1 do
     for y = x + 1, n do
         local lie, w = 0, 0  -- lie:总说谎人数，w:狼人中说谎的人数
@@ -20,7 +21,7 @@ for x = 1, n - 1 do
             -- 判断是否说谎：
             -- - 如果a[i]>0（说某人是好人），但实际那人是狼人 → 说谎
             -- - 如果a[i]<0（说某人是狼人），但实际那人是好人 → 说谎
-            local bad = a[i] > 0 and not target or a[i] < 0 and target
+            local bad = a[i] > 0 and target or a[i] < 0 and not target
             if bad then
                 lie = lie + 1  -- 总说谎人数+1
                 if wolf then
@@ -31,7 +32,9 @@ for x = 1, n - 1 do
         -- 满足条件：总共有2人说谎，且其中恰好1个是狼人
         if lie == 2 and w == 1 then
             print(x .. " " .. y)
+            found = true
             return  -- 找到第一个解就退出
         end
     end
 end
+if not found then print("No Solution") end

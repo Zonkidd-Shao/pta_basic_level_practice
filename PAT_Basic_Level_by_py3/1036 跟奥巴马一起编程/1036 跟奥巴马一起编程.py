@@ -18,7 +18,7 @@
 #
 import sys
 
-n, c = sys.stdin.read().split(); n = int(n); rows = round(n / 2)
+n, c = sys.stdin.read().split(); n = int(n); rows = (n + 1) // 2
 print(c*n)
 for _ in range(rows-2): print(c + ' '*(n-2) + c)
 if rows > 1: print(c*n)

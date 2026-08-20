@@ -37,7 +37,7 @@ for i = 2, #values do
     -- 第5类：除以5余4的数字，求最大值
     elseif r == 4 then
         -- 如果还没有最大值，或者当前数比最大值大，则更新最大值
-        maximum = not maximum or math.max(maximum, x)
+        maximum = maximum == nil and x or math.max(maximum, x)
         counts[5] = counts[5] + 1
     end
 end
@@ -53,6 +53,8 @@ for i = 1, 5 do
     elseif i == 4 then
         result[i] = string.format("%.1f", sums[i] / counts[i])
     -- 第5类输出最大值
+    elseif i == 3 then
+        result[i] = tostring(counts[i])
     elseif i == 5 then
         result[i] = tostring(maximum)
     -- 其他类直接输出和

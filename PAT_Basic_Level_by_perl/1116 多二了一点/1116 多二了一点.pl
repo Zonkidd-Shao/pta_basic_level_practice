@@ -26,15 +26,60 @@ use warnings;
 my $s = <STDIN>;
 chomp $s;
 
+sub normalize {
+    my ($v) = @_;
+    $v =~ s/^0+//;
+    return $v eq '' ? '0' : $v;
+}
+
+sub cmp_abs {
+    my ($a, $b) = @_;
+    return length($a) <=> length($b) || $a cmp $b;
+}
+
+sub subtract_abs {
+    my ($a, $b) = @_;       # 要求 a >= b
+    my @a = split //, $a;
+    my @b = split //, $b;
+    my @out;
+    my ($i, $j, $borrow) = ($#a, $#b, 0);
+    while ($i >= 0) {
+        my $x = $a[$i] - $borrow;
+        my $y = $j >= 0 ? $b[$j] : 0;
+        if ($x < $y) {
+            $x += 10;
+            $borrow = 1;
+        } else {
+            $borrow = 0;
+        }
+        unshift @out, $x - $y;
+        $i--;
+        $j--;
+    }
+    return normalize(join('', @out));
+}
+
 if (length($s) % 2) {
     # 奇数个数位
     print "Error: ", length($s), " digit(s)\n";
 }
 else {
     my $h = int(length($s) / 2);
-    my $a = substr($s, 0, $h) + 0;    # 前一半
-    my $b = substr($s, $h) + 0;       # 后一半
-    if ($b - $a == 2) {
+    my $a = normalize(substr($s, 0, $h));  # 前一半
+    my $b = normalize(substr($s, $h));     # 后一半
+
+    my $cmp = cmp_abs($b, $a);
+    my ($diff_sign, $diff_abs);
+    if ($cmp >= 0) {
+        $diff_sign = '';
+        $diff_abs = subtract_abs($b, $a);
+    } else {
+        $diff_sign = '-';
+        $diff_abs = subtract_abs($a, $b);
+    }
+    my $diff = $diff_sign . $diff_abs;
+
+    if ($diff eq '2') {
         print "Yes: $b - $a = 2\n";
     }
     else {

@@ -9,20 +9,26 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  expr = gets(chomp: true)
-  a, op, b = expr.split
-  a = a.to_f
-  b = b.to_f
-  correct = case op
-            when '+' then a + b
-            when '-' then a - b
-            when '*' then a * b
-            when '/' then a / b
-            end
+  x, y = gets.split.map(&:to_i)
+  n, m = gets.split.map(&:to_i)
+  answers = n.times.map { gets.split.map(&:to_i) }
+  seen = { x => true, y => true }
+  valid = { (x - y).abs => true }
+  alive = (0...n).to_a
 
-  n = gets.to_i
-  n.times do
-    ans = gets.to_f
-    puts((ans - correct).abs < 1e-9 ? 'Yes' : 'No')
+  m.times do |round|
+    out = []
+    alive.each do |i|
+      value = answers[i][round]
+      if seen.key?(value) || !valid.key?(value)
+        out << i
+      else
+        seen.each_key { |old| valid[(value - old).abs] = true }
+        seen[value] = true
+      end
+    end
+    out.each { |i| puts "Round ##{round + 1}: #{i + 1} is out." }
+    alive -= out
   end
+  puts(alive.empty? ? 'No winner.' : "Winner(s): #{alive.map { |i| i + 1 }.join(' ')}")
 end

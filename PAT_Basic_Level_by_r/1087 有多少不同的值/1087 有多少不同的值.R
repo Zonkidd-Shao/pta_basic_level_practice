@@ -10,4 +10,4 @@
 #   利用R语言向量化运算特性，可以一次性计算所有值，再用unique去重。
 # 时间复杂度：O(N)，遍历一次计算并去重
 # 空间复杂度：O(N)，存储所有计算结果
-z<-as.integer(scan("stdin",quiet=TRUE));a<-z[-1];cat(length(unique(abs(a-seq_along(a)))),"\n")
+n<-as.integer(scan("stdin",quiet=TRUE)[1]);v<-floor(1:n/2)+floor(1:n/3)+floor(1:n/5);cat(length(unique(v)),"\n")

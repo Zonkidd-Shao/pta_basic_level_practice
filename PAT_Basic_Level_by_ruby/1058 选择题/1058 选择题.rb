@@ -10,11 +10,12 @@
 require 'set'
 
 if __FILE__ == $PROGRAM_NAME
-  n, m = gets.split.map(&:to_i)
+  lines = STDIN.each_line.map(&:chomp)
+  n, m = lines.shift.split.map(&:to_i)
 
   questions = []
   m.times do
-    parts = gets.split
+    parts = lines.shift.split
     full = parts[0].to_i
     correct_count = parts[2].to_i
     correct = parts[3, correct_count].to_set
@@ -24,13 +25,15 @@ if __FILE__ == $PROGRAM_NAME
   wrong = Array.new(m, 0)
   scores = []
   n.times do
-    parts = gets.split
-    idx = 0
+    groups = []
+    while groups.length < m && !lines.empty?
+      groups.concat(lines.shift.scan(/\(([^)]*)\)/).flatten)
+    end
     score = 0
     m.times do |qi|
-      cnt = parts[idx].to_i
-      ans = parts[idx + 1, cnt].to_set
-      idx += 1 + cnt
+      parts = groups[qi].to_s.split
+      cnt = parts.shift.to_i
+      ans = parts.first(cnt).to_set
       if ans == questions[qi][:correct]
         score += questions[qi][:full]
       else
@@ -48,6 +51,6 @@ if __FILE__ == $PROGRAM_NAME
   else
     result = []
     wrong.each_with_index { |w, i| result << (i + 1) if w == max_wrong }
-    puts result.join(' ')
+    puts ([max_wrong] + result).join(' ')
   end
 end

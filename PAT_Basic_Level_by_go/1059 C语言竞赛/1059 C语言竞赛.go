@@ -32,36 +32,36 @@ func main() {
 		return
 	}
 	N, _ := strconv.Atoi(strings.TrimSpace(scanner.Text()))
-	rank := make(map[int]int)
-	inList := make(map[int]bool)
+	rank := make(map[string]int)
+	inList := make(map[string]bool)
 	for i := 0; i < N; i++ {
 		if !scanner.Scan() {
 			break
 		}
-		id, _ := strconv.Atoi(strings.TrimSpace(scanner.Text()))
+		id := strings.TrimSpace(scanner.Text())
 		rank[id] = i + 1
 		inList[id] = true
 	}
 	scanner.Scan()
 	K, _ := strconv.Atoi(strings.TrimSpace(scanner.Text()))
-	checked := make(map[int]bool)
+	checked := make(map[string]bool)
 	for i := 0; i < K; i++ {
 		if !scanner.Scan() {
 			break
 		}
-		id, _ := strconv.Atoi(strings.TrimSpace(scanner.Text()))
+		id := strings.TrimSpace(scanner.Text())
 		if !inList[id] {
-			fmt.Printf("%d: Are you kidding?\n", id)
+			fmt.Printf("%s: Are you kidding?\n", id)
 		} else if checked[id] {
-			fmt.Printf("%d: Checked\n", id)
+			fmt.Printf("%s: Checked\n", id)
 		} else {
 			checked[id] = true
 			if rank[id] == 1 {
-				fmt.Printf("%d: Mystery Award\n", id)
-			} else if isPrime(id) {
-				fmt.Printf("%d: Minion\n", id)
+				fmt.Printf("%s: Mystery Award\n", id)
+			} else if isPrime(rank[id]) {
+				fmt.Printf("%s: Minion\n", id)
 			} else {
-				fmt.Printf("%d: Champion\n", id)
+				fmt.Printf("%s: Chocolate\n", id)
 			}
 		}
 	}

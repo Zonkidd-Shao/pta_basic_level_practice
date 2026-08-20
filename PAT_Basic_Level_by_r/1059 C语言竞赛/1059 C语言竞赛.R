@@ -1,13 +1,1 @@
-# 题目名称：C语言竞赛
-# 题目编号：PAT Basic 1059
-# 实现原理：
-#   1. 读取参赛者排名，用命名向量建立 ID 到排名的映射（O(1) 查找）
-#   2. 对每个查询的 ID：
-#      - 不在排名中：输出 "Are you kidding?"
-#      - 排名第 1：输出 "Mystery Award"（神秘大奖）
-#      - 排名为奇数：输出 "Minion"（小黄人）
-#      - 其他：输出 "Chocolate"（巧克力）
-#   使用 setNames 创建命名向量实现快速查找。
-# 时间复杂度：O(N + K)，N 为参赛者数，K 为查询数
-# 空间复杂度：O(N)
-x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);rank<-setNames(seq_len(n),x[2:(n+1)]);for(id in x[(n+3):length(x)]){r<-rank[id];cat(id,if(is.na(r))": Are you kidding?" else if(r==1)": Mystery Award" else if(r%%2)": Minion" else ": Chocolate", "\n",sep="")}
+x<-readLines("stdin",warn=FALSE);n<-as.integer(x[1]);ids<-x[2:(n+1)];rank<-setNames(seq_len(n),ids);q<-scan(text=paste(x[(n+2):length(x)],collapse=" "),what="",quiet=TRUE)[-1];checked<-character();prime<-function(v){if(v<2)return(FALSE);if(v==2)return(TRUE);if(v%%2==0)return(FALSE);if(v<9)return(TRUE);!any(v%%seq(3L,floor(sqrt(v)),by=2L)==0)};for(id in q){r<-rank[id];if(!is.na(r)&&id%in%checked)cat(id,": Checked\n",sep="")else{if(!is.na(r))checked<-c(checked,id);if(is.na(r))cat(id,": Are you kidding?\n",sep="")else if(r==1)cat(id,": Mystery Award\n",sep="")else if(prime(r))cat(id,": Minion\n",sep="")else cat(id,": Chocolate\n",sep="")}}

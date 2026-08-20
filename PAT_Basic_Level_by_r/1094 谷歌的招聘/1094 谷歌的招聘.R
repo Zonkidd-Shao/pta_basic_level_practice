@@ -15,4 +15,4 @@
 #   注意前导零也要保留（直接输出子串，包括前导零）。
 # 时间复杂度：O(L * sqrt(10^K))，L为数字串长度，试除到sqrt(n)
 # 空间复杂度：O(1)，仅使用常数额外空间
-x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);s<-x[2];for(i in 1:(h[1]-h[2]+1)){v<-substr(s,i,i+h[2]-1);if(as.numeric(v)==as.integer(v)&&all(as.integer(v)%%2:(floor(sqrt(as.integer(v))))!=0)){cat(v,"\n");quit()}};cat("404\n")
+isprime<-function(v){n<-as.integer(v);if(n<2)return(FALSE);if(n==2)return(TRUE);if(n%%2==0)return(FALSE);!any(n%%seq(3L,floor(sqrt(n)),by=2L)==0L)};x<-readLines("stdin",warn=FALSE);h<-as.integer(strsplit(x[1],"\\s+")[[1]]);s<-x[2];for(i in 1:(h[1]-h[2]+1)){v<-substr(s,i,i+h[2]-1);if(isprime(v)){cat(v,"\n");quit(save="no")}};cat("404\n")

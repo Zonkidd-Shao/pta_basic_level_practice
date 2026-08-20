@@ -20,8 +20,9 @@ if __FILE__ == $PROGRAM_NAME
     students << { ticket: ticket, score: score.to_i, level: ticket[0], loc: ticket[1..3], date: ticket[4..9] }
   end
 
-  m.times do
+  m.times do |query_index|
     type, term = gets.split
+    puts "Case #{query_index + 1}: #{type} #{term}"
     if type == '1'
       matched = students.select { |s| s[:level] == term }.sort_by { |s| [-s[:score], s[:ticket]] }
       if matched.empty?

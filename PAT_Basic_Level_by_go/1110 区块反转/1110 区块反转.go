@@ -2,10 +2,9 @@
 题目：1110 区块反转
 
 解题思路：
-给定一个单链表和一个正整数 K，将链表按每 K 个节点一组进行反转。
-即从链表头部开始，每 K 个节点构成一个区块，将每个区块内的节点
-顺序反转，最后区块顺序不变。如果最后一组不足 K 个节点则不反转。
-实现上先构建有序链表切片，然后按 K 分组反转后再拼接。
+给定一个单链表和一个正整数 K，将链表按每 K 个节点划分为区块，
+然后反转所有区块之间的链接，区块内部的节点顺序保持不变。
+实现上先构建有序链表切片，再按 K 分组并以相反顺序拼接。
 */
 
 package main
@@ -14,6 +13,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 // node 表示链表中的一个节点
@@ -29,14 +29,19 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 	defer out.Flush()
 
-	var head, n, k int
-	fmt.Fscan(in, &head, &n, &k)
+	var headText string
+	var n, k int
+	fmt.Fscan(in, &headText, &n, &k)
+	head, _ := strconv.Atoi(headText)
 
 	// 读取所有节点存入 map，以地址为键
 	nodes := make(map[int]node, n)
 	for i := 0; i < n; i++ {
-		var a, d, nx int
-		fmt.Fscan(in, &a, &d, &nx)
+		var aText, nextText string
+		var d int
+		fmt.Fscan(in, &aText, &d, &nextText)
+		a, _ := strconv.Atoi(aText)
+		nx, _ := strconv.Atoi(nextText)
 		nodes[a] = node{a, d, nx}
 	}
 
@@ -51,18 +56,18 @@ func main() {
 		cur = nd.next
 	}
 
-	// 按 K 个一组反转区块
-	var result []node
+	// 按 K 个节点划分区块，再将区块整体逆序；区块内部顺序不变。
+	blocks := make([][]node, 0, (len(list)+k-1)/k)
 	for i := 0; i < len(list); i += k {
 		end := i + k
 		if end > len(list) {
-			end = len(list) // 最后一组不足 K 个时不反转
+			end = len(list)
 		}
-		block := list[i:end]
-		// 反转该区块内的节点顺序
-		for j := len(block) - 1; j >= 0; j-- {
-			result = append(result, block[j])
-		}
+		blocks = append(blocks, list[i:end])
+	}
+	var result []node
+	for i := len(blocks) - 1; i >= 0; i-- {
+		result = append(result, blocks[i]...)
 	}
 
 	// 输出结果，每个节点的 next 指向结果中下一个节点的地址

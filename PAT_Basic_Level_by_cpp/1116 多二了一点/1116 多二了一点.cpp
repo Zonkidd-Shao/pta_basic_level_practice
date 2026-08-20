@@ -31,19 +31,22 @@ int main() {
     string Y = s.substr(0, len / 2);          // 前一半
     string X = s.substr(len / 2);             // 后一半
 
-    // 大数减法 X - Y（逐位相减，处理借位）
+    // 只有 X >= Y 时才进行无符号大数减法；否则差值为负，不可能等于 2。
+    bool xAtLeastY = (X >= Y); // 两个等长数字字符串可直接按字典序比较
     string diff;
-    int borrow = 0;
-    for (int i = (int)X.size() - 1; i >= 0; --i) {
-        int d = (X[i] - '0') - (Y[i] - '0') - borrow;
-        if (d < 0) { d += 10; borrow = 1; } else borrow = 0;
-        diff = char('0' + d) + diff;
+    if (xAtLeastY) {
+        int borrow = 0;
+        for (int i = (int)X.size() - 1; i >= 0; --i) {
+            int d = (X[i] - '0') - (Y[i] - '0') - borrow;
+            if (d < 0) { d += 10; borrow = 1; } else borrow = 0;
+            diff = char('0' + d) + diff;
+        }
     }
     // 去掉前导零
     size_t pos = diff.find_first_not_of('0');
     string dstr = (pos == string::npos) ? "0" : diff.substr(pos);
 
-    if (dstr == "2") cout << "Yes: " << X << " - " << Y << " = 2" << endl;
+    if (xAtLeastY && dstr == "2") cout << "Yes: " << X << " - " << Y << " = 2" << endl;
     else cout << "No: " << X << " - " << Y << " != 2" << endl;
     return 0;
 }

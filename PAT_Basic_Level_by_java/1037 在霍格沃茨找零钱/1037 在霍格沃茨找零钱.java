@@ -24,11 +24,10 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String p = br.readLine().trim();
-        String p2 = br.readLine().trim();
-        long v1 = toKnuts(p);
-        long v2 = toKnuts(p2);
-        long diff = v1 - v2;
+        String[] input = br.readLine().trim().split("\\s+");
+        long v1 = toKnuts(input[0]);
+        long v2 = toKnuts(input[1]);
+        long diff = v2 - v1;
         boolean neg = diff < 0;
         if (neg) diff = -diff;
         long g = diff / (17 * 29);

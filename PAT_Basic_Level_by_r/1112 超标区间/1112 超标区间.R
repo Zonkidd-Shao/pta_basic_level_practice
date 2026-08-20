@@ -9,4 +9,4 @@
 #   关键是用一次遍历找出所有连续超标的区间。
 # 时间复杂度：O(N)，一次遍历找超标区间，或一次遍历求最大值
 # 空间复杂度：O(N)，存储数据数组
-z<-as.numeric(scan("stdin",quiet=TRUE));n<-z[1];k<-z[2];a<-z[-c(1,2)];cat(sum(vapply(1:n,function(i)any(cumsum(a[i:n])>k),logical(1))),"\n")
+z<-as.numeric(scan("stdin",quiet=TRUE));n<-z[1];t<-z[2];a<-z[3:(n+2)];bad<-a>t;if(!any(bad)){cat(max(a),"\n")}else{st<-which(bad)[c(TRUE,diff(which(bad))>1)];en<-which(bad)[c(diff(which(bad))>1,TRUE)];for(i in seq_along(st))cat("[",st[i]-1,", ",en[i]-1,"]\n",sep="")}

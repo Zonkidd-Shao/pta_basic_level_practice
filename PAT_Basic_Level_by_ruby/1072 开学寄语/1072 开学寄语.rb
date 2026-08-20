@@ -12,15 +12,22 @@
 require 'set'
 
 if __FILE__ == $PROGRAM_NAME
-  n, = gets.split.map(&:to_i)
+  n, _m = gets.split.map(&:to_i)
   forbidden = gets.split.to_set
+  students_with_items = 0
+  confiscated = 0
 
   n.times do
     parts = gets.split
     name = parts[0]
     k = parts[1].to_i
     items = parts[2, k]
-    found = items.select { |it| forbidden.include?(it) }.uniq
-    puts "#{name}: #{found.map(&:upcase).join(' ')}" if found.any?
+    found = items.select { |it| forbidden.include?(it) }
+    unless found.empty?
+      puts "#{name}: #{found.join(' ')}"
+      students_with_items += 1
+      confiscated += found.length
+    end
   end
+  puts "#{students_with_items} #{confiscated}"
 end

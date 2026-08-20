@@ -7,4 +7,4 @@
 #   通过比较字符串与其反转判断是否为回文数。
 # 时间复杂度：O(10*D)，D为数字位数，最多10次迭代
 # 空间复杂度：O(D)，存储数字字符串
-n<-scan("stdin",what="",quiet=TRUE)[1];for(i in 0:10){r<-paste0(rev(strsplit(n,"")[[1]]),collapse="");if(n==r){cat(n," is a palindromic number.\n",sep="");break};cat(n," + ",r," = ",as.numeric(n)+as.numeric(r),"\n",sep="");n<-as.character(as.numeric(n)+as.numeric(r));if(i==9)cat("Not found in 10 iterations.\n")}
+add<-function(a,b){x<-as.integer(strsplit(a,"",fixed=TRUE)[[1]]);y<-as.integer(strsplit(b,"",fixed=TRUE)[[1]]);i<-length(x);j<-length(y);carry<-0L;out<-character();while(i>0||j>0||carry>0){s<-carry;if(i>0)s<-s+x[i];if(j>0)s<-s+y[j];out<-c(as.character(s%%10L),out);carry<-s%/%10L;i<-i-1L;j<-j-1L};paste0(out,collapse="")};n<-scan("stdin",what="",quiet=TRUE)[1];for(i in 0:10){r<-paste0(rev(strsplit(n,"",fixed=TRUE)[[1]]),collapse="");if(n==r){cat(n," is a palindromic number.\n",sep="");break};c<-add(n,r);cat(n," + ",r," = ",c,"\n",sep="");if(i==9){cat("Not found in 10 iterations.\n");break};n<-c}

@@ -1,16 +1,1 @@
-# 题目名称：舍入
-# 题目编号：PAT Basic 1123
-# 实现原理：
-#   按指定方法对浮点数进行舍入处理，保留D位小数。支持三种舍入方式：
-#   1-四舍五入：第D+1位≥5则进位，否则舍去；
-#   2-截断：直接舍去D位之后的所有数字；
-#   3-四舍六入五成双：第D+1位>5进位，<5舍去，=5时若后面有非零则进位，
-#     否则看第D位是奇数则进位、偶数则舍去（银行家舍入）。
-#   解题思路：由于数字可能很长（200位），需用字符串处理避免精度丢失。
-#   1. 将数字按小数点分割为整数部分和小数部分；
-#   2. 根据指令符选择舍入规则，判断第D+1位及之后的数字来决定是否进位；
-#   3. 若需进位则从D位开始向前处理进位（可能影响整数部分）；
-#   4. 格式化输出，确保D位小数。
-# 时间复杂度：O(N×L)，N为数字个数，L为数字长度，逐位处理
-# 空间复杂度：O(L)，存储数字字符串
-x<-scan("stdin",what="",quiet=TRUE);n<-as.numeric(x[1]);d<-as.integer(x[2]);cat(format(round(n,d),nsmall=d,scientific=FALSE),"\n")
+tok<-scan("stdin",what="",quiet=TRUE);n<-as.integer(tok[1]);D<-as.integer(tok[2]);norm<-function(s){s<-sub("^0+","",s);if(!nzchar(s))"0"else s};inc<-function(s){d<-as.integer(strsplit(s,"",fixed=TRUE)[[1]]);i<-length(d);carry<-1L;while(i>0&&carry){v<-d[i]+carry;d[i]<-v%%10L;carry<-v%/%10L;i<-i-1L};if(carry)d<-c(carry,d);paste0(d,collapse="")};roundone<-function(inst,num){neg<-startsWith(num,"-");u<-sub("^-","",num);pp<-strsplit(u,".",fixed=TRUE)[[1]];whole<-norm(pp[1]);frac<-if(length(pp)>1)pp[2]else"";keep<-if(D>0)substr(frac,1,D)else"";if(D>0)keep<-paste0(keep,strrep("0",D-nchar(keep)));nextd<-if(nchar(frac)>D)substr(frac,D+1L,D+1L)else"0";tail<-if(nchar(frac)>D+1L)substr(frac,D+2L,nchar(frac))else"";last<-if(D>0)substr(keep,D,D)else substr(whole,nchar(whole),nchar(whole));up<-(inst==1L&&nextd>="5")||(inst==3L&&(nextd>"5"||(nextd=="5"&&(nzchar(gsub("0","",tail))||as.integer(last)%%2L==1L))));digits<-paste0(whole,keep);if(up)digits<-inc(digits);digits<-norm(digits);if(D>0){if(nchar(digits)<=D)digits<-paste0(strrep("0",D+1L-nchar(digits)),digits);w<-substr(digits,1,nchar(digits)-D);f<-substr(digits,nchar(digits)-D+1L,nchar(digits));ans<-paste0(w,".",f)}else ans<-digits;if(neg&&digits!="0")paste0("-",ans)else ans};ans<-character(n);pos<-3L;for(i in seq_len(n)){ans[i]<-roundone(as.integer(tok[pos]),tok[pos+1L]);pos<-pos+2L};cat(paste(ans,collapse="\n"),"\n",sep="")

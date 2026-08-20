@@ -11,10 +11,28 @@
 #
 
 if __FILE__ == $PROGRAM_NAME
-  phone = gets(chomp: true)
-  while (line = gets)
-    break if line.chomp.empty?
+  names = %w[ling yi er san si wu liu qi ba jiu]
+  results = []
+  11.times do
+    expression = gets.to_s.chomp
+    if (match = expression.match(/\Asqrt(\d+)\z/))
+      results << Math.sqrt(match[1].to_i).to_i
+      next
+    end
 
-    puts phone
+    if (match = expression.match(/\A(\d+)([+\-*\/%^])(\d+)\z/))
+      left, op, right = match[1].to_i, match[2], match[3].to_i
+      results << case op
+                 when '+' then left + right
+                 when '-' then left - right
+                 when '*' then left * right
+                 when '/' then left / right
+                 when '%' then left % right
+                 when '^' then left**right
+                 end
+    else
+      results << names.index(expression)
+    end
   end
+  puts results.join
 end

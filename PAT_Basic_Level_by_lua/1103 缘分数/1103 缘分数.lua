@@ -17,7 +17,7 @@ for a = m, n do
         -- 同时要求r必须为奇数
         if r * r == 2 * c - 1 and r % 2 == 1 then
             -- 输出缘分数a和对应的另一个数(r+1)/2
-            print(a .. " " .. ((r + 1) / 2))
+            print(a .. " " .. math.floor((r + 1) / 2))
             any = true
         end
     end

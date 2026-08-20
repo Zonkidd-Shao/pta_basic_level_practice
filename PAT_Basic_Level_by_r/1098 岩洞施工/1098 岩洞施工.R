@@ -13,4 +13,4 @@
 #   需要削掉的高度 = 1 - 最小高度（如果最小高度<1）
 # 时间复杂度：O(N)，遍历N个采样点计算高度差并找最小值
 # 空间复杂度：O(N)，存储顶部和底部高度数据
-z<-as.numeric(scan("stdin",quiet=TRUE));n<-z[1];a<-matrix(z[-(1:2)],ncol=2,byrow=TRUE);cat(sprintf("%.2f\n",min(a[,2])))
+z<-as.numeric(scan("stdin",quiet=TRUE));n<-z[1];top<-z[2:(n+1)];bot<-z[(n+2):(2*n+1)];gap<-min(top-bot);if(gap>=1)cat("Yes",gap,"\n",sep=" ")else cat("No",1-gap,"\n",sep=" ")

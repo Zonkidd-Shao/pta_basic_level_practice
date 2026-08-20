@@ -9,27 +9,13 @@
 
 if __FILE__ == $PROGRAM_NAME
   n = gets.to_i
-  products = {}
-  n.times do
-    id, price, stock = gets.split
-    products[id] = { price: price.to_f, stock: stock.to_i, revenue: 0.0 }
+  products = n.times.map do
+    id, price, sales = gets.split
+    [id, price.to_i, sales.to_i]
   end
 
-  m = gets.to_i
-  m.times do
-    id, qty = gets.split
-    qty = qty.to_i
-    p = products[id]
-    if p && p[:stock] >= qty
-      amount = p[:price] * qty
-      p[:stock] -= qty
-      p[:revenue] += amount
-      printf "%.2f\n", amount
-    else
-      puts "Sorry, we don't have enough items."
-    end
-  end
-
-  best = products.max_by { |_, p| p[:revenue] }
-  printf "%s %.2f\n", best[0], best[1][:revenue]
+  best_sales = products.max_by { |_, _, sales| sales }
+  best_revenue = products.max_by { |_, price, sales| price * sales }
+  puts "#{best_sales[0]} #{best_sales[2]}"
+  puts "#{best_revenue[0]} #{best_revenue[1] * best_revenue[2]}"
 end

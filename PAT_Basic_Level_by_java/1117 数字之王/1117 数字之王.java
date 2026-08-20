@@ -39,14 +39,22 @@ public class Main {
         // count[i] 统计最终结果为 i 的个数（i 为 0~9 的一位数字）
         int[] count = new int[10];
         
-        // 对区间内每个数进行变换，直到变为一位数
-        for (int i = n1; i <= n2; i++) {
-            int num = i;
-            while (num >= 10) {
-                num = transform(num);
+        int size = n2 - n1 + 1;
+        int[] values = new int[size];
+        for (int i = 0; i < size; i++) values[i] = n1 + i;
+
+        // 每一轮同时变换所有数；即使某个数暂时已经是一位数，
+        // 在其他数结束前它仍然要继续参加后续轮次。
+        int singleDigitCount;
+        do {
+            singleDigitCount = 0;
+            for (int i = 0; i < size; i++) {
+                values[i] = transform(values[i]);
+                if (values[i] < 10) singleDigitCount++;
             }
-            count[num]++;
-        }
+        } while (singleDigitCount < size);
+
+        for (int value : values) count[value]++;
         
         // 找出最大出现次数
         int maxCount = 0;
@@ -83,6 +91,7 @@ public class Main {
      * @return 变换后的结果
      */
     private static int transform(int num) {
+        if (num == 0) return 0;
         // 第一步：各位数字的立方相乘
         int product = 1;
         boolean hasZero = false;

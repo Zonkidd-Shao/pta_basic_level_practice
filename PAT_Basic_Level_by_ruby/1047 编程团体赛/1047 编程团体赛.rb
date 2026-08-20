@@ -13,8 +13,9 @@ if __FILE__ == $PROGRAM_NAME
   scores = Hash.new(0)
 
   n.times do
-    team, _member, score = gets.split
-    scores[team.to_i] += score.to_i
+    team_member, score = gets.split
+    team = team_member.split('-').first.to_i
+    scores[team] += score.to_i
   end
 
   best = scores.max_by { |_, v| v }

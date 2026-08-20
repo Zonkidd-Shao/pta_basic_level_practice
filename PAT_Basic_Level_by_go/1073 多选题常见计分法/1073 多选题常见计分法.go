@@ -35,6 +35,7 @@ func main() {
 	// 题目结构：分值和正确选项集合
 	type q struct {
 		score   int
+		options int
 		correct map[byte]bool
 	}
 	qs := make([]q, M)
@@ -51,11 +52,12 @@ func main() {
 		for j := 3; j < len(fl); j++ { // 从第 4 项开始为正确选项字母
 			correct[fl[j][0]] = true
 		}
-		qs[i] = q{score: score, correct: correct}
+		options, _ := strconv.Atoi(fl[1])
+		qs[i] = q{score: score, options: options, correct: correct}
 		wrongOpt[i] = make([]int, 5) // 初始化选项错误计数器
 	}
 
-	scores := make([]int, N)
+	scores := make([]float64, N)
 	// 批改每位学生的答题卡
 	for s := 0; s < N; s++ {
 		if !scanner.Scan() {
@@ -65,15 +67,18 @@ func main() {
 		ti := 0 // token 索引
 		for qi := 0; qi < M; qi++ {
 			// 解析该题的作答选项
-			k, _ := strconv.Atoi(tokens[ti+1]) // 选择的选项个数
+			countToken := strings.TrimPrefix(tokens[ti], "(")
+			countToken = strings.TrimSuffix(countToken, ")")
+			k, _ := strconv.Atoi(countToken) // 选择的选项个数
 			chosen := make(map[byte]bool)
 			for j := 0; j < k; j++ {
-				chosen[tokens[ti+2+j][0]] = true
+				option := strings.TrimSuffix(tokens[ti+1+j], ")")
+				chosen[option[0]] = true
 			}
-			ti += 3 + k // 移到下一题的 token 位置
+			ti += 1 + k // 移到下一题的 token 位置
 
 			// 统计每个选项的错选情况（漏选或错选均计为错误）
-			for opt := byte('a'); opt <= 'e'; opt++ {
+			for opt := byte('a'); opt < byte('a'+qs[qi].options); opt++ {
 				if chosen[opt] != qs[qi].correct[opt] {
 					wrongOpt[qi][opt-'a']++
 				}
@@ -90,7 +95,7 @@ func main() {
 					}
 				}
 				if allMatch {
-					scores[s] += qs[qi].score // 满分
+					scores[s] += float64(qs[qi].score) // 满分
 					continue
 				}
 			}
@@ -103,7 +108,7 @@ func main() {
 				}
 			}
 			if subset {
-				scores[s] += qs[qi].score / 2 // 半份
+				scores[s] += float64(qs[qi].score) / 2 // 半份
 			}
 			// 否则得 0 分
 		}

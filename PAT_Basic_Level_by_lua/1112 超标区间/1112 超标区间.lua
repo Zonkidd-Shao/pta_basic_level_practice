@@ -21,8 +21,8 @@ while i <= n do
         while i <= n and a[i] > t do
             i = i + 1
         end
-        -- 输出区间下标（题目中下标从0开始，所以减1）
-        print("[" .. (l - 1) .. ", " .. (i - 1) .. "]")
+        -- i 已经指向下一个未超标位置，最后一个超标下标为 i-2
+        print("[" .. (l - 1) .. ", " .. (i - 2) .. "]")
         found = true
     else
         i = i + 1

@@ -27,7 +27,6 @@ if __FILE__ == $PROGRAM_NAME
   if count.zero?
     puts 0
   else
-    puts count
-    puts "#{youngest[0]} #{oldest[0]}"
+    puts "#{count} #{oldest[0]} #{youngest[0]}"
   end
 end

@@ -22,9 +22,9 @@ main(): Int64 {
             }
             let cnt = j - i  // 连续相同字符的个数
             if (cnt > 1) {
-                Console.stdOut.write(cnt.toString())  // 输出重复次数
+                print(cnt.toString())  // 输出重复次数
             }
-            Console.stdOut.write(s[i].toString())      // 输出字符本身
+            print(Rune(s[i]).toString())      // 输出字符本身
             i = j
         }
         println("")
@@ -32,22 +32,22 @@ main(): Int64 {
         // === 解压模式 ===
         var i: Int64 = 0
         while (i < s.size) {
-            if (s[i] >= '0' && s[i] <= '9') {
+            if (s[i] >= 48 && s[i] <= 57) {
                 // 遇到数字，解析完整的数字作为重复次数
                 var j = i
-                while (j < s.size && s[j] >= '0' && s[j] <= '9') {
+                while (j < s.size && s[j] >= 48 && s[j] <= 57) {
                     j += 1
                 }
                 let cnt = Int64.parse(s[i..j])  // 解析数字
                 let ch = s[j]                    // 数字后面的字符
                 // 按重复次数输出字符
                 for (_ in 1..=cnt) {
-                    Console.stdOut.write(ch.toString())
+                    print(Rune(ch).toString())
                 }
                 i = j + 1
             } else {
                 // 普通字符直接输出
-                Console.stdOut.write(s[i].toString())
+                print(Rune(s[i]).toString())
                 i += 1
             }
         }

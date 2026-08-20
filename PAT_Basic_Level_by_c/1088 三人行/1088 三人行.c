@@ -31,18 +31,14 @@ int main() {
     scanf("%d %d %d", &m, &x, &y);
     for (int i = 99; i >= 10; i--) {    // 从大到小枚举甲的两位数年龄
         int j = i / 10 + (i % 10) * 10;     // 乙 = 甲的逆序数
-        double k = abs(i - j) * 1.0 / x;    // 丙 = |甲-乙| / x
-        if (j == k * y) {       // 验证条件：乙 == 丙 * y
+        int diff = abs(i - j);
+        if (diff % x != 0) continue;         // 丙必须是整数
+        int k = diff / x;                    // 丙 = |甲-乙| / x
+        if (j == k * y) {                    // 验证条件：乙 == 丙 * y
             printf("%d", i);    // 输出甲的年龄
             print_rel(i, m);    // 依次比较甲、乙、丙与自己年龄的大小
             print_rel(j, m);
-            if (k > m) {                    // k可能不是整数，单独处理比较
-                printf(" Cong");
-            } else if ((int)k == m) {
-                printf(" Ping");
-            } else {
-                printf(" Gai");
-            }
+            print_rel(k, m);
             printf("\n");
             return 0;
         }

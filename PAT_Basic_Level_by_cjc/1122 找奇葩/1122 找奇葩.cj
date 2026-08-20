@@ -10,7 +10,7 @@ main() {
     let line = getStdIn().readln().getOrThrow()
     let parts = line.split(" ")
 
-    var counts = Array<Int64>(100001, item: 0)  // 计数数组，下标为数值
+    var counts = Array<Int64>(100001, repeat: 0)  // 计数数组，下标为数值
 
     // 统计每个奇数的出现次数（偶数不参与统计）
     for (i in 0..n) {

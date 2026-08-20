@@ -16,7 +16,7 @@ int main() {
     int N;
     scanf("%d", &N);        // 测试用例个数
     while (N--) {
-        char month[4], day_str[10], year_str[10];
+        char month[4];
         int day, year;
         scanf("%s %d, %d", month, &day, &year);     // 读入月份缩写、日、年
         int m;

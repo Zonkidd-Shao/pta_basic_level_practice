@@ -16,8 +16,9 @@ func isValidNumber(s: String): Bool {
         return false
     }
     
-    // 只有一个正负号不合法
-    if ((first == 45 || first == 43) && s.size == 1) {
+    // 符号后必须紧跟整数位，不能出现 .5 或只有符号的形式。
+    let start = if (first == 45 || first == 43) { 1 } else { 0 }
+    if (start >= s.size || s[start] < 48 || s[start] > 57) {
         return false
     }
     
@@ -25,12 +26,13 @@ func isValidNumber(s: String): Bool {
     var digitAfterDot: Int64 = 0  // 小数点后的数字位数
     var afterDot = false          // 是否已进入小数部分
     
-    // 从第 2 个字符开始逐个检查
-    for (i in 1..s.size) {
+    // 从有效数字的第一位开始逐个检查
+    for (i in start..s.size) {
         let ch = s[i]
         if (ch == 46) {            // '.' 的 ASCII 码为 46
             dotCount++
-            if (dotCount > 1) { return false }  // 多余一个小数点不合法
+            // 小数点不能重复，也不能位于末尾。
+            if (dotCount > 1 || i == s.size - 1) { return false }
             afterDot = true
         } else if (ch >= 48 && ch <= 57) {  // 数字字符
             if (afterDot) {
@@ -76,9 +78,18 @@ main() {
     if (cnt == 0) {
         println("The average of 0 numbers is Undefined")
     } else if (cnt == 1) {
-        println("The average of 1 number is ${(sum / Float64(cnt)).format("0.00")}")
+        println("The average of 1 number is ${fixed2(sum / Float64(cnt))}")
     } else {
-        println("The average of ${cnt} numbers is ${(sum / Float64(cnt)).format("0.00")}")
+        println("The average of ${cnt} numbers is ${fixed2(sum / Float64(cnt))}")
     }
 }
 
+func fixed2(v: Float64): String {
+    var negative = v < 0.0
+    var x = if (negative) { -v } else { v }
+    let scaled = Int64(x * 100.0 + 0.5)
+    let whole = scaled / 100
+    let frac = scaled % 100
+    let body = if (frac < 10) { "${whole}.0${frac}" } else { "${whole}.${frac}" }
+    return if (negative && scaled != 0) { "-" + body } else { body }
+}

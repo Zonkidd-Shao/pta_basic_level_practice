@@ -26,7 +26,7 @@ main() {
     let n = Int64.parse(parts[0])  // 学生数
     let m = Int64.parse(parts[1])  // 题目数
     
-    var questions = Array<Question>(m, item: Question(0, 0, 0, ""))
+    var questions = Array<Question>(m, repeat: Question(0, 0, 0, ""))
     
     // 读取每道题的信息
     for (i in 0..m) {
@@ -42,8 +42,8 @@ main() {
         questions[i] = Question(fullScore, optCount, correctCnt, correctOpts)
     }
     
-    var studentScores = Array<Int64>(n, item: 0)  // 每个学生的总分
-    var wrongCount = Array<Int64>(m, item: 0)     // 每道题的错误次数
+    var studentScores = Array<Int64>(n, repeat: 0)  // 每个学生的总分
+    var wrongCount = Array<Int64>(m, repeat: 0)     // 每道题的错误次数
     
     // 逐行处理每个学生的答题
     for (si in 0..n) {
@@ -56,17 +56,17 @@ main() {
         
         while (qi < m && pos < len) {
             // 跳过空格
-            while (pos < len && line[pos] == ' ') { pos++ }
+            while (pos < len && line[pos] == 32) { pos++ }
             if (pos >= len) { break }
             
             // 期望遇到 '(' 开始解析一个答案
-            if (line[pos] != '(') { pos++; continue }
+            if (line[pos] != 40) { pos++; continue }
             pos++  // 跳过 '('
             
             // 读取选项个数（数字）
             var cntStr = ""
-            while (pos < len && line[pos] >= '0' && line[pos] <= '9') {
-                cntStr += line[pos].toString()
+            while (pos < len && line[pos] >= 48 && line[pos] <= 57) {
+                cntStr += Rune(line[pos]).toString()
                 pos++
             }
             let cnt = Int64.parse(cntStr)
@@ -74,15 +74,15 @@ main() {
             // 读取学生的选项字母
             var studentOpts = ""
             for (_ in 0..cnt) {
-                while (pos < len && line[pos] == ' ') { pos++ }
+                while (pos < len && line[pos] == 32) { pos++ }
                 if (pos < len) {
-                    studentOpts += line[pos].toString()
+                    studentOpts += Rune(line[pos]).toString()
                     pos++
                 }
             }
             
             // 跳过直到 ')' 结束
-            while (pos < len && line[pos] != ')') { pos++ }
+            while (pos < len && line[pos] != 41) { pos++ }
             if (pos < len) { pos++ }  // 跳过 ')'
             
             // 比较学生答案与标准答案是否一致

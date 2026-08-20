@@ -16,8 +16,8 @@ func isTwoMore(X: String, Y: String): Bool {
         }
     }
     // 最后一位满足 X的最后一位 = Y的最后一位 + 2
-    let lastX = Int64.parse(X[len - 1].toString())
-    let lastY = Int64.parse(Y[len - 1].toString())
+    let lastX = Int64(X[len - 1]) - 48
+    let lastY = Int64(Y[len - 1]) - 48
     return lastX == lastY + 2
 }
 
@@ -43,4 +43,3 @@ main() {
         println("No: ${X} - ${Y} != 2")
     }
 }
-

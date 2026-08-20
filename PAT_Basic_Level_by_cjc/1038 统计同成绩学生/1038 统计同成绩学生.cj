@@ -13,7 +13,7 @@ main(): Int64 {
     let scoreParts = scoreLine.split(" ")
 
     // 计数数组，下标 0-100 对应分数 0-100 分
-    var counts = Array<Int64>(101, item: 0)
+    var counts = Array<Int64>(101, repeat: 0)
     for (i in 0..N) {
         let s = Int64.parse(scoreParts[i])
         counts[s]++  // 对应分数计数加 1
@@ -28,9 +28,9 @@ main(): Int64 {
     for (i in 0..K) {
         let target = Int64.parse(queryParts[i + 1])
         if (i > 0) {
-            Console.stdOut.write(" ")  // 除第一个外，前面加空格分隔
+            print(" ")  // 除第一个外，前面加空格分隔
         }
-        Console.stdOut.write(counts[target].toString())
+        print(counts[target].toString())
     }
     println("")
     return 0

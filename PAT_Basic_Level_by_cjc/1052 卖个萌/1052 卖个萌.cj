@@ -1,5 +1,6 @@
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // PAT Basic Level 1052 卖个萌
 // 解题思路：每行输入用方括号 [] 括起来的多个可选表情符号
@@ -11,16 +12,15 @@ func parseSymbols(line: String): Array<String> {
     var i: Int64 = 0
     let n = line.size
     while (i < n) {
-        if (line[i] == '[') {
+        if (line[i] == 91) {
             // 遇到 '[' 开始提取方括号内的内容
-            var sb = ""
+            let contentStart = i + 1
             i++
-            while (i < n && line[i] != ']') {
-                sb += line[i].toString()
+            while (i < n && line[i] != 93) {
                 i++
             }
             if (i < n) { i++ } // 跳过 ']'
-            symbols.append(sb)  // 将提取到的符号加入列表
+            symbols.add(line[contentStart..i-1])  // 将提取到的符号加入列表
         } else {
             i++
         }

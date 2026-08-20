@@ -4,6 +4,7 @@
 // 使用归并排序实现稳定高效的排序。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 归并排序的合并操作，按照题目要求的排序规则进行比较
 func merge(arr: ArrayList<Int64>, left: Int64, mid: Int64, right: Int64,
@@ -13,10 +14,10 @@ func merge(arr: ArrayList<Int64>, left: Int64, mid: Int64, right: Int64,
     var L = ArrayList<Int64>()
     var R = ArrayList<Int64>()
     for (i in 0..n1) {
-        L.append(arr[left + i])
+        L.add(arr[left + i])
     }
     for (i in 0..n2) {
-        R.append(arr[mid + 1 + i])
+        R.add(arr[mid + 1 + i])
     }
     var i: Int64 = 0
     var j: Int64 = 0
@@ -58,7 +59,7 @@ func merge(arr: ArrayList<Int64>, left: Int64, mid: Int64, right: Int64,
 
 // 归并排序的递归分治部分
 func mergeSort(arr: ArrayList<Int64>, left: Int64, right: Int64,
-               ids: ArrayList<Int64>, des: ArrayList<Int64>, totals: ArrayList<Int64>, cls: ArrayList<Int64>) {
+               ids: ArrayList<Int64>, des: ArrayList<Int64>, totals: ArrayList<Int64>, cls: ArrayList<Int64>): Unit {
     if (left < right) {
         let mid = (left + right) / 2
         mergeSort(arr, left, mid, ids, des, totals, cls)
@@ -87,19 +88,19 @@ main(): Int64 {
         let de = Int64.parse(parts[1])
         let cai = Int64.parse(parts[2])
         if (de >= l && cai >= l) {
-            ids.append(id)
-            des.append(de)
-            cais.append(cai)
-            totals.append(de + cai)
+            ids.add(id)
+            des.add(de)
+            cais.add(cai)
+            totals.add(de + cai)
             // 分档：1类（德才均>=h），2类（德>=h但才<h），3类（德才<h但德>=才），4类（其他）
             if (de >= h && cai >= h) {
-                cls.append(1)
+                cls.add(1)
             } else if (de >= h && cai < h) {
-                cls.append(2)
+                cls.add(2)
             } else if (de < h && cai < h && de >= cai) {
-                cls.append(3)
+                cls.add(3)
             } else {
-                cls.append(4)
+                cls.add(4)
             }
         }
     }
@@ -107,7 +108,7 @@ main(): Int64 {
     // 创建索引数组，对索引进行排序以避免移动大量数据
     var indices = ArrayList<Int64>()
     for (i in 0..m) {
-        indices.append(i)
+        indices.add(i)
     }
     if (m > 1) {
         mergeSort(indices, 0, m - 1, ids, des, totals, cls)

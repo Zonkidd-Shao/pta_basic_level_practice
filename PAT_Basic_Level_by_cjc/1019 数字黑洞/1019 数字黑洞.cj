@@ -21,9 +21,9 @@ main(): Int64 {
         let desc = getDescending(digits)  // 非递减排列（小数）
         n = desc - asc                    // 大数减小数
         printNumber(desc)
-        Console.stdOut.write(" - ")
+        print(" - ")
         printNumber(asc)
-        Console.stdOut.write(" = ")
+        print(" = ")
         printNumber(n)
         println("")
         if (n == 6174) {
@@ -36,7 +36,7 @@ main(): Int64 {
 // 将整数 n 的各位数字拆分到数组中（不足 4 位的高位补 0）
 func getDigits(n: Int64): Array<Int64> {
     var num = n
-    let arr = Array<Int64>(4, item: 0)
+    let arr = Array<Int64>(4, repeat: 0)
     for (i in 0..4) {
         arr[i] = num % 10
         num = num / 10
@@ -46,7 +46,8 @@ func getDigits(n: Int64): Array<Int64> {
 
 // 将 4 个数字按从小到大排序，组成最小的 4 位数
 func getAscending(digits: Array<Int64>): Int64 {
-    let sorted = digits.copy()
+    var sorted = Array<Int64>(4, repeat: 0)
+    for (i in 0..4) { sorted[i] = digits[i] }
     // 冒泡排序升序
     for (i in 0..3) {
         for (j in i+1..4) {
@@ -62,7 +63,8 @@ func getAscending(digits: Array<Int64>): Int64 {
 
 // 将 4 个数字按从大到小排序，组成最大的 4 位数
 func getDescending(digits: Array<Int64>): Int64 {
-    let sorted = digits.copy()
+    var sorted = Array<Int64>(4, repeat: 0)
+    for (i in 0..4) { sorted[i] = digits[i] }
     // 冒泡排序降序
     for (i in 0..3) {
         for (j in i+1..4) {
@@ -79,12 +81,11 @@ func getDescending(digits: Array<Int64>): Int64 {
 // 按 4 位宽度输出数字，不足 4 位在前面补 0
 func printNumber(n: Int64) {
     if (n < 10) {
-        Console.stdOut.write("000")
+        print("000")
     } else if (n < 100) {
-        Console.stdOut.write("00")
+        print("00")
     } else if (n < 1000) {
-        Console.stdOut.write("0")
+        print("0")
     }
-    Console.stdOut.write(n.toString())
+    print(n.toString())
 }
-

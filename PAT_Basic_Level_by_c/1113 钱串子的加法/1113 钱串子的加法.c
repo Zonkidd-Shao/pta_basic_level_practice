@@ -32,10 +32,11 @@ int main() {
         strcpy(t, a); strcpy(a, b); strcpy(b, t);
         int tmp = len_a; len_a = len_b; len_b = tmp;
     }
-    for (int i = len_a - len_b; i > 0; i--) {   // 短串前面补 '0' 对齐长度
-        char temp[100005];
-        sprintf(temp, "0%s", b);
-        strcpy(b, temp);
+    if (len_b < len_a) {   // 短串前面补 '0' 对齐长度
+        int diff = len_a - len_b;
+        memmove(b + diff, b, (size_t)len_b + 1);
+        memset(b, '0', (size_t)diff);
+        len_b = len_a;
     }
     int carry = 0, idx = 0;
     for (int i = len_a - 1; i >= 0; i--) {      // 从低位向高位逐位相加

@@ -6,43 +6,43 @@ import std.env.*
 import std.convert.*
 
 // 将大写字母 A-G 映射为星期几的英文缩写
-func charToDay(c: Char): String {
-    if (c == 'A') { return "MON" }
-    if (c == 'B') { return "TUE" }
-    if (c == 'C') { return "WED" }
-    if (c == 'D') { return "THU" }
-    if (c == 'E') { return "FRI" }
-    if (c == 'F') { return "SAT" }
-    if (c == 'G') { return "SUN" }
+func charToDay(c: UInt8): String {
+    if (c == 65) { return "MON" }
+    if (c == 66) { return "TUE" }
+    if (c == 67) { return "WED" }
+    if (c == 68) { return "THU" }
+    if (c == 69) { return "FRI" }
+    if (c == 70) { return "SAT" }
+    if (c == 71) { return "SUN" }
     return ""
 }
 
 // 将字符映射为小时：0-9 映射为 00-09，A-N 映射为 10-23
-func charToHour(c: Char): String {
-    if (c >= '0' && c <= '9') {
-        return "0" + Int64.parse(c.toString()).toString()
+func charToHour(c: UInt8): String {
+    if (c >= 48 && c <= 57) {
+        return "0" + (Int64(c) - 48).toString()
     }
     // A=10, B=11, ..., N=23
-    if (c == 'A') { return "10" }
-    if (c == 'B') { return "11" }
-    if (c == 'C') { return "12" }
-    if (c == 'D') { return "13" }
-    if (c == 'E') { return "14" }
-    if (c == 'F') { return "15" }
-    if (c == 'G') { return "16" }
-    if (c == 'H') { return "17" }
-    if (c == 'I') { return "18" }
-    if (c == 'J') { return "19" }
-    if (c == 'K') { return "20" }
-    if (c == 'L') { return "21" }
-    if (c == 'M') { return "22" }
-    if (c == 'N') { return "23" }
+    if (c == 65) { return "10" }
+    if (c == 66) { return "11" }
+    if (c == 67) { return "12" }
+    if (c == 68) { return "13" }
+    if (c == 69) { return "14" }
+    if (c == 70) { return "15" }
+    if (c == 71) { return "16" }
+    if (c == 72) { return "17" }
+    if (c == 73) { return "18" }
+    if (c == 74) { return "19" }
+    if (c == 75) { return "20" }
+    if (c == 76) { return "21" }
+    if (c == 77) { return "22" }
+    if (c == 78) { return "23" }
     return ""
 }
 
 // 判断字符是否为英文字母
-func isLetter(c: Char): Bool {
-    return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
+func isLetter(c: UInt8): Bool {
+    return (c >= 65 && c <= 90) || (c >= 97 && c <= 122)
 }
 
 main(): Int64 {
@@ -62,7 +62,7 @@ main(): Int64 {
         if (c1 == c2) {
             if (!foundDay) {
                 // 第一个相同的字符必须是 A-G 之间，决定星期
-                if (c1 >= 'A' && c1 <= 'G') {
+                if (c1 >= 65 && c1 <= 71) {
                     day = charToDay(c1)
                     foundDay = true
                 }
@@ -92,4 +92,3 @@ main(): Int64 {
     println("${day} ${hour}:${minuteStr}")
     return 0
 }
-

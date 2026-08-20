@@ -16,9 +16,10 @@
 
 int main() {
     char op, str[1001];     // op:操作类型(C压缩/D解压); str:待处理的字符串
-    scanf("%c", &op);
+    scanf(" %c", &op);
     getchar();              // 吃掉操作符后的换行符
-    gets(str);
+    fgets(str, sizeof(str), stdin);
+    str[strcspn(str, "\n")] = '\0';
     if (op == 'C') {        // 压缩：把连续重复字符写成"个数+字符"
         int len = strlen(str);
         for (int i = 0; i < len; i++) {

@@ -9,7 +9,7 @@ import std.convert.*
 func findOp(s: String): Int64 {
     for (i in 0..s.size) {
         let c = s[i]
-        if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '^') {
+        if (c == 43 || c == 45 || c == 42 || c == 47 || c == 37 || c == 94) {
             return i
         }
     }
@@ -72,17 +72,17 @@ main() {
                 let right = Int64.parse(expr[(opPos + 1)..])    // 右操作数
                 let op = expr[opPos]
                 // 根据运算符执行相应计算
-                if (op == '+') {
+                if (op == 43) {
                     result = left + right
-                } else if (op == '-') {
+                } else if (op == 45) {
                     result = left - right
-                } else if (op == '*') {
+                } else if (op == 42) {
                     result = left * right
-                } else if (op == '/') {
+                } else if (op == 47) {
                     result = left / right
-                } else if (op == '%') {
+                } else if (op == 37) {
                     result = left % right
-                } else if (op == '^') {
+                } else if (op == 94) {
                     result = power(left, right)
                 }
             } else {

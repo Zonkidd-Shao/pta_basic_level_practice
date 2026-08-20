@@ -4,6 +4,7 @@
 
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 main() {
     // 读取裁判给出的两个初始正整数
@@ -25,25 +26,25 @@ main() {
         let parts = line.split(" ")
         var nums = ArrayList<Int64>()
         for (j in 0..M) {
-            nums.append(Int64.parse(parts[Int64(j)]))
+            nums.add(Int64.parse(parts[Int64(j)]))
         }
-        playerNums.append(nums)
+        playerNums.add(nums)
     }
 
     let MAXV: Int64 = 100000
-    var appeared = Array<Bool>(Int64(MAXV + 1), item: false)  // 标记某数是否已出现
-    var diffs = Array<Bool>(Int64(MAXV + 1), item: false)     // 标记某差值是否已被产生
+    var appeared = Array<Bool>(Int64(MAXV + 1), repeat: false)  // 标记某数是否已出现
+    var diffs = Array<Bool>(Int64(MAXV + 1), repeat: false)     // 标记某差值是否已被产生
     var appearedList = ArrayList<Int64>()                     // 记录已出现的数字列表
 
     // 用两个初始数字初始化
     appeared[a] = true
     appeared[b] = true
-    appearedList.append(a)
-    appearedList.append(b)
+    appearedList.add(a)
+    appearedList.add(b)
     let initDiff = if (a > b) { a - b } else { b - a }  // 初始差值
     diffs[initDiff] = true
 
-    var outPlayers = Array<Bool>(N, item: false)  // 标记每位玩家是否已出局
+    var outPlayers = Array<Bool>(N, repeat: false)  // 标记每位玩家是否已出局
 
     // 逐轮逐人进行游戏
     for (round in 1..(M + 1)) {
@@ -66,7 +67,7 @@ main() {
                     }
                 }
                 appeared[num] = true
-                appearedList.append(num)
+                appearedList.add(num)
             } else {
                 // 数字不合法，该玩家出局
                 println("Round #${round}: ${i + 1} is out.")
@@ -79,7 +80,7 @@ main() {
     var winners = ArrayList<Int64>()
     for (i in 0..N) {
         if (!outPlayers[i]) {
-            winners.append(i + 1)
+            winners.add(i + 1)
         }
     }
 

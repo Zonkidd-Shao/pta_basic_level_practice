@@ -14,7 +14,7 @@ main() {
     let n = Int64.parse(parts[0])
     let m = Int64.parse(parts[1])
 
-    var champions = Array<Int64>(n, item: 0)  // 存储每组的最大体重
+    var champions = Array<Int64>(n, repeat: 0)  // 存储每组的最大体重
     var overallMax: Int64 = -1               // 总冠军体重
 
     for (i in 0..n) {

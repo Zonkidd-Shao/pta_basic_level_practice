@@ -15,7 +15,7 @@ int main() {
     char c;
     
     while ((c = getchar()) != '\n') {
-        map[c]++;
+        map[(unsigned char)c]++;
     }
     
     while (map['P'] > 0 || map['A'] > 0 || map['T'] > 0 ||  // 只要还有目标字符剩余就继续循环

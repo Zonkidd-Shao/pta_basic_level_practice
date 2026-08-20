@@ -13,14 +13,14 @@ main(): Int64 {
 
     // 读取每道题的分值
     let scoreLine = getStdIn().readln().getOrThrow().split(" ")
-    let scores = Array<Int64>(m, item: 0)
+    let scores = Array<Int64>(m, repeat: 0)
     for (i in 0..m) {
         scores[i] = Int64.parse(scoreLine[i])
     }
 
     // 读取每道题的标准答案
     let answerLine = getStdIn().readln().getOrThrow().split(" ")
-    let answers = Array<Int64>(m, item: 0)
+    let answers = Array<Int64>(m, repeat: 0)
     for (i in 0..m) {
         answers[i] = Int64.parse(answerLine[i])
     }

@@ -8,12 +8,12 @@ main(): Int64 {
     // 读入一个不超过 1000 位的正整数（以字符串形式输入）
     let input = getStdIn().readln().getOrThrow()
     // 计数数组，counts[i] 表示数字 i 出现的次数
-    var counts = Array<Int64>(10, item: 0)
+    var counts = Array<Int64>(10, repeat: 0)
 
     // 遍历字符串的每个字符，统计每个数字出现的次数
     for (ch in input) {
         if (ch >= 48 && ch <= 57) {  // 字符 '0'~'9' 的 ASCII 码为 48~57
-            let d = Int64.parse(ch.toString())
+            let d = Int64(ch) - 48
             counts[d]++
         }
     }
@@ -26,4 +26,3 @@ main(): Int64 {
     }
     return 0
 }
-

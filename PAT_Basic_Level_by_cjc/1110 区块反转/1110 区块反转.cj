@@ -6,6 +6,7 @@
 
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 链表节点类
 class Node {
@@ -46,7 +47,7 @@ main() {
         let addr = Int64.parse(parts[0])
         let data = Int64.parse(parts[1])
         let next = Int64.parse(parts[2])
-        nodeMap.put(addr, Node(addr, data, next))
+        nodeMap[addr] = Node(addr, data, next)
     }
 
     // 从头节点开始遍历，按原始顺序收集节点地址
@@ -54,7 +55,7 @@ main() {
     var cur = head
     while (cur != -1) {
         let node = nodeMap.get(cur)
-        if (node == nil) { break }
+        if (node.isNone()) { break }
         order.add(cur)
         cur = node.getOrThrow().next
     }

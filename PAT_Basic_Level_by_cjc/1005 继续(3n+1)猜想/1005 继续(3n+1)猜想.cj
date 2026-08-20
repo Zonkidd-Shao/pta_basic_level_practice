@@ -1,5 +1,6 @@
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 1005 继续(3n+1)猜想
 // 解题思路：对每个输入数字模拟卡拉兹猜想的过程，
@@ -10,11 +11,11 @@ main(): Int64 {
     let k = Int64.parse(getStdIn().readln().getOrThrow())  // 读取待验证数字的个数
     let line = getStdIn().readln().getOrThrow()
     let parts = line.split(" ")
-    let nums = Array<Int64>(k, item: 0)
+    let nums = Array<Int64>(k, repeat: 0)
     for (i in 0..k) {
         nums[i] = Int64.parse(parts[i])  // 读取每个待验证的数字
     }
-    let covered = Array<Bool>(101, item: false)  // 标记数组，记录哪些数被覆盖（数字范围 1~100）
+    let covered = Array<Bool>(101, repeat: false)  // 标记数组，记录哪些数被覆盖（数字范围 1~100）
     for (num in nums) {
         var n = num
         while (n != 1) {            // 模拟卡拉兹猜想过程
@@ -31,7 +32,7 @@ main(): Int64 {
     var keys = ArrayList<Int64>()
     for (num in nums) {
         if (!covered[num]) {         // 如果该数字未被其他数字覆盖，则为关键数
-            keys.append(num)
+            keys.add(num)
         }
     }
     keys.sort()                      // 升序排序

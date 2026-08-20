@@ -31,7 +31,7 @@ main(): Int64 {
     let priceParts = priceLine.split(" ")
 
     // 创建月饼数组
-    var cakes = Array<Mooncake>(N)
+    var cakes = Array<Mooncake>(N, repeat: Mooncake(1.0, 0.0))
     for (i in 0..N) {
         let inv = Float64.parse(invParts[i])
         let price = Float64.parse(priceParts[i])

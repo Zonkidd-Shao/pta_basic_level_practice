@@ -9,7 +9,7 @@ main(): Int64 {
     let N = Int64.parse(getStdIn().readln().getOrThrow())
 
     // 学校编号从 1 开始连续，假设最大编号不超过 N
-    var scores = Array<Int64>(N + 1, item: 0)
+    var scores = Array<Int64>(N + 1, repeat: 0)
 
     // 逐行读取每个参赛者的学校编号和成绩，累加到对应学校
     for (_ in 0..N) {

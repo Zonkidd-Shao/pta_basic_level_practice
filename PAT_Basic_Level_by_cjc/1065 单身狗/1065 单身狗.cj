@@ -3,6 +3,7 @@
 // 若伴侣不在场或该客人没有伴侣，则为落单客人。最后将落单客人按 ID 递增排序输出。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 main(): Int64 {
     // 读入夫妻/伴侣对数 N
@@ -13,15 +14,15 @@ main(): Int64 {
         let parts = getStdIn().readln().getOrThrow().split(" ")
         let a = Int64.parse(parts[0])
         let b = Int64.parse(parts[1])
-        coupleMap.put(a, b)  // A 的伴侣是 B
-        coupleMap.put(b, a)  // B 的伴侣是 A
+        coupleMap[a] = b  // A 的伴侣是 B
+        coupleMap[b] = a  // B 的伴侣是 A
     }
 
     // 读入参加派对的总人数 M 和所有客人的 ID
     let m = Int64.parse(getStdIn().readln().getOrThrow())
     let guestLine = getStdIn().readln().getOrThrow()
     let guestParts = guestLine.split(" ")
-    var guests = Array<Int64>(m, item: 0)
+    var guests = Array<Int64>(m, repeat: 0)
     for (i in 0..m) {
         guests[i] = Int64.parse(guestParts[i])
     }
@@ -29,14 +30,14 @@ main(): Int64 {
     // 将所有客人 ID 存入 HashSet 以便快速查找
     let guestSet = HashSet<Int64>()
     for (g in guests) {
-        guestSet.put(g)
+        guestSet.add(g)
     }
 
     // 遍历每位客人，判断是否落单
     var singles = ArrayList<Int64>()
     for (g in guests) {
         let partner = coupleMap.get(g)  // 查找该客人的伴侣
-        if (partner == nil) {
+        if (partner.isNone()) {
             // 没有伴侣，直接判定为落单
             singles.add(g)
         } else {
@@ -53,9 +54,9 @@ main(): Int64 {
     println(singles.size)
     for (i in 0..singles.size) {
         if (i > 0) {
-            Console.stdOut.write(" ")
+            print(" ")
         }
-        Console.stdOut.write(formatId(singles[i]))
+        print(formatId(singles[i]))
     }
     if (singles.size > 0) {
         println("")

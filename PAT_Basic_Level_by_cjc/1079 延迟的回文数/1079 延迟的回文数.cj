@@ -22,15 +22,11 @@ func isPalindrome(s: String): Bool {
 
 // 将数字字符串s逆转
 func reverseStr(s: String): String {
-    var arr = Array<Rune>(s.size)
-    var idx = 0
-    for (i in s.size - 1..0) {
-        arr[idx] = s[i]
-        idx++
-    }
     var rs = ""
-    for (c in arr) {
-        rs += c.toString()
+    var i = s.size - 1
+    while (i >= 0) {
+        rs += Rune(s[i]).toString()
+        i--
     }
     return rs
 }
@@ -45,9 +41,10 @@ func addBig(a: String, b: String): String {
         var da = 0
         var db = 0
         if (i >= 0) {
-            da = Int64.parse(a[i].toString())
+            da = Int64(a[i]) - 48
+        }
         if (j >= 0) {
-            db = Int64.parse(b[j].toString())
+            db = Int64(b[j]) - 48
         }
         var sum = da + db + carry
         carry = sum / 10          // 计算进位
@@ -61,8 +58,9 @@ func addBig(a: String, b: String): String {
 main() {
     var s = getStdIn().readln().getOrThrow()  // 读取输入的正整数
     var found = false
-    // 最多迭代10步
-    for (step in 0..10) {
+    // 检查初始值以及每次加法后的结果，最多执行10次加法。
+    var step = 0
+    while (step <= 10) {
         if (isPalindrome(s)) {
             println("${s} is a palindromic number.")
             found = true
@@ -75,6 +73,7 @@ main() {
         var sum = addBig(s, rev)   // 原数 + 逆转数
         println("${s} + ${rev} = ${sum}")
         s = sum                    // 更新为和，继续下一轮
+        step++
     }
     if (!found) {
         println("Not found in 10 iterations.")

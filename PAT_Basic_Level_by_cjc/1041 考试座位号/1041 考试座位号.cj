@@ -10,8 +10,8 @@ main() {
     let n = Int64.parse(getStdIn().readln().getOrThrow())
     
     // 用数组以试机座位号为索引存储考生信息，座位号范围1~N，最大1000
-    var id = Array<String>(1001, item: "")         // 考生号
-    var examSeat = Array<Int64>(1001, item: 0)     // 考试座位号
+    var id = Array<String>(1001, repeat: "")         // 考生号
+    var examSeat = Array<Int64>(1001, repeat: 0)     // 考试座位号
     
     // 读取N个考生的信息
     for (_ in 0..n) {

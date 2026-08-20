@@ -40,6 +40,10 @@ int cmp(const void *a, const void *b) {
     return strcmp(sa->name, sb->name);  // 校名升序
 }
 
+int cmp_name(const void *a, const void *b) {
+    return strcmp(((const School *)a)->name, ((const School *)b)->name);
+}
+
 int main() {
     int n;
     scanf("%d", &n);
@@ -54,27 +58,26 @@ int main() {
                 name[j] += 32;
             }
         }
-        int found = 0;
-        for (int j = 0; j < count; j++) {    // 查找学校是否已存在
-            if (strcmp(schools[j].name, name) == 0) {
-                found = 1;
-                schools[j].cnt++;            // 已存在：人数+1，按准考证号首字母归类累计成绩
-                if (id[0] == 'A') schools[j].scoreA += score;
-                else if (id[0] == 'B') schools[j].scoreB += score;
-                else schools[j].scoreT += score;
-                break;
-            }
-        }
-        if (!found) {                        // 新学校：初始化后归入相应成绩
-            strcpy(schools[count].name, name);
-            schools[count].cnt = 1;
-            schools[count].scoreA = 0;
-            schools[count].scoreB = 0;
-            schools[count].scoreT = 0;
-            if (id[0] == 'A') schools[count].scoreA = score;
-            else if (id[0] == 'B') schools[count].scoreB = score;
-            else schools[count].scoreT = score;
+        strcpy(schools[i].name, name);
+        schools[i].cnt = 1;
+        schools[i].scoreA = 0;
+        schools[i].scoreB = 0;
+        schools[i].scoreT = 0;
+        if (id[0] == 'A') schools[i].scoreA = score;
+        else if (id[0] == 'B') schools[i].scoreB = score;
+        else schools[i].scoreT = score;
+    }
+    qsort(schools, (size_t)n, sizeof(schools[0]), cmp_name);
+    count = 0;
+    for (int i = 0; i < n; i++) {
+        if (count == 0 || strcmp(schools[count - 1].name, schools[i].name) != 0) {
+            if (count != i) schools[count] = schools[i];
             count++;
+        } else {
+            schools[count - 1].cnt += schools[i].cnt;
+            schools[count - 1].scoreA += schools[i].scoreA;
+            schools[count - 1].scoreB += schools[i].scoreB;
+            schools[count - 1].scoreT += schools[i].scoreT;
         }
     }
     qsort(schools, count, sizeof(School), cmp);     // 按总分/人数/校名排序

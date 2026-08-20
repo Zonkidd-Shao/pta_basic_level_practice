@@ -32,8 +32,8 @@ main(): Int64 {
     var tie2: Int64 = 0    // 乙平局次数
     var lose2: Int64 = 0   // 乙失败次数
     // wins[0]=B, wins[1]=C, wins[2]=J 分别记录各自用不同手势获胜的次数
-    var wins1 = Array<Int64>(3, item: 0)
-    var wins2 = Array<Int64>(3, item: 0)
+    var wins1 = Array<Int64>(3, repeat: 0)
+    var wins2 = Array<Int64>(3, repeat: 0)
     // 逐行读取每轮出拳记录并统计
     for (_ in 1..=n) {
         let line = getStdIn().readln().getOrThrow()

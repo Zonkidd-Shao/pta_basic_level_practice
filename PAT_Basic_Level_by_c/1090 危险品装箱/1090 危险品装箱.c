@@ -11,29 +11,41 @@
  */
 #include <stdio.h>
 
+#define MAX_ID 100000
+#define MAX_EDGES 20000
+
+typedef struct {
+    int to;
+    int next;
+} Edge;
+
 int main() {
     int n, m;           // n:危险品配对组数; m:装箱批次
     scanf("%d %d", &n, &m);
-    int conflict[100000][1000] = {0};       // conflict[x]存与x互为危险品的物品列表
-    int conflict_cnt[100000] = {0};         // 每个物品的冲突物品个数
+    int head[MAX_ID];
+    Edge edges[MAX_EDGES];
+    int edge_count = 0;
+    for (int i = 0; i < MAX_ID; i++) head[i] = -1;
     for (int i = 0; i < n; i++) {
         int x, y;
         scanf("%d %d", &x, &y);
-        conflict[x][conflict_cnt[x]++] = y;     // 无向关系，双向登记
-        conflict[y][conflict_cnt[y]++] = x;
+        edges[edge_count] = (Edge){y, head[x]};
+        head[x] = edge_count++;
+        edges[edge_count] = (Edge){x, head[y]};
+        head[y] = edge_count++;
     }
     for (int i = 0; i < m; i++) {
         int k;
         scanf("%d", &k);
-        int goods[1000];            // 本批货物
         int exists[100000] = {0};   // exists[g]标记货物g是否已在本批出现
         int safe = 1;               // 是否安全
         for (int j = 0; j < k; j++) {
-            scanf("%d", &goods[j]);
-            int g = goods[j];
-            for (int l = 0; l < conflict_cnt[g]; l++) {     // 检查g的所有冲突物品
-                if (exists[conflict[g][l]]) {               // 冲突物品已在箱中则不安全
+            int g;
+            scanf("%d", &g);
+            for (int edge = head[g]; edge != -1; edge = edges[edge].next) {
+                if (exists[edges[edge].to]) {                // 冲突物品已在箱中则不安全
                     safe = 0;
+                    break;
                 }
             }
             exists[g] = 1;

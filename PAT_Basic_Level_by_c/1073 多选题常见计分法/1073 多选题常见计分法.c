@@ -41,7 +41,8 @@ int main() {
                     flag++;
                 }
             }
-            if (flag == ans_num[j]) total += score[j];
+            /* 满分必须恰好选中全部正确选项，且不能选错项。 */
+            if (flag == ans_num[j] && partial && cnt == ans_num[j]) total += score[j];
             else if (partial && flag > 0) total += score[j] / 2.0;
         }
         printf("%.1f\n", total);

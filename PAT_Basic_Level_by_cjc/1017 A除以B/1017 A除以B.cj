@@ -14,7 +14,7 @@ main(): Int64 {
     var r: Int64 = 0   // 余数
     // 逐位模拟除法竖式：当前位 = 上一位余数 * 10 + 当前位数字
     for (ch in a) {
-        let digit = Int64.parse(ch.toString())
+        let digit = Int64(ch) - 48
         let cur = r * 10 + digit   // 当前被除数
         let quotientDigit = cur / b  // 当前位的商
         r = cur % b                  // 更新余数
@@ -30,4 +30,3 @@ main(): Int64 {
     println("${q} ${r}")
     return 0
 }
-

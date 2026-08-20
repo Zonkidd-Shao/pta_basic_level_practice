@@ -10,12 +10,20 @@ main(): Int64 {
     let n = Int64.parse(getStdIn().readln().getOrThrow())
     let line = getStdIn().readln().getOrThrow()
     let parts = line.split(" ")
-    var arr = Array<Int64>(parts.size, item: 0)
+    var arr = Array<Int64>(parts.size, repeat: 0)
     for (i in 0..parts.size) {
         arr[i] = Int64.parse(parts[i])
     }
     // 将骑行里程从小到大排序
-    arr.sort()
+    for (i in 0..n) {
+        for (j in i + 1..n) {
+            if (arr[i] > arr[j]) {
+                let tmp = arr[i]
+                arr[i] = arr[j]
+                arr[j] = tmp
+            }
+        }
+    }
     var e: Int64 = 0
     // 从最小里程开始遍历，找到最大的满足条件的 E
     for (i in 0..n) {

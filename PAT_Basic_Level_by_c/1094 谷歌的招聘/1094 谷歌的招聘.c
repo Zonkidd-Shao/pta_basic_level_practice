@@ -31,7 +31,8 @@ int main() {
     char s[1003];
     scanf("%d %d", &l, &k);
     getchar();          // 吃掉换行符
-    gets(s);
+    fgets(s, sizeof(s), stdin);
+    s[strcspn(s, "\n")] = '\0';
     for (int i = 0; i <= l - k; i++) {      // 依次取每个长度为k的连续子串
         char temp[10];
         strncpy(temp, s + i, k);

@@ -9,7 +9,7 @@ main(): Int64 {
     // 读入 10 个数字，分别表示数字 0-9 的可用个数
     let line = getStdIn().readln().getOrThrow()
     let parts = line.split(" ")
-    var counts = Array<Int64>(10, item: 0)
+    var counts = Array<Int64>(10, repeat: 0)
     for (i in 0..10) {
         counts[i] = Int64.parse(parts[i])
     }
@@ -17,7 +17,7 @@ main(): Int64 {
     // 找最小的非零数字放在首位（确保没有前导零）
     for (i in 1..10) {
         if (counts[i] > 0) {
-            Console.stdOut.write(i.toString())
+            print(i.toString())
             counts[i]--
             break
         }
@@ -26,7 +26,7 @@ main(): Int64 {
     // 然后按 0-9 的顺序依次输出剩余的所有数字
     for (i in 0..10) {
         while (counts[i] > 0) {
-            Console.stdOut.write(i.toString())
+            print(i.toString())
             counts[i]--
         }
     }

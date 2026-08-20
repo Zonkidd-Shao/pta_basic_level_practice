@@ -12,8 +12,8 @@ main() {
     let buyer = getStdIn().readln().getOrThrow()
     
     // 用ASCII码表大小的数组统计每个字符出现次数，初始为0
-    var sellCnt = Array<Int64>(128, item: 0)
-    var buyCnt = Array<Int64>(128, item: 0)
+    var sellCnt = Array<Int64>(128, repeat: 0)
+    var buyCnt = Array<Int64>(128, repeat: 0)
     
     // 统计摊主珠串中各字符的数量
     for (ch in seller) {

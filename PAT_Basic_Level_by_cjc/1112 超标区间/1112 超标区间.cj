@@ -17,7 +17,7 @@ main() {
     // 读取数组数据
     let dataLine = getStdIn().readln().getOrThrow()
     let data = dataLine.split(" ")
-    var vals = Array<Int64>(N, item: 0)
+    var vals = Array<Int64>(N, repeat: 0)
     var maxVal: Int64 = 0
     for (i in 0..N) {
         vals[i] = Int64.parse(data[Int64(i)])

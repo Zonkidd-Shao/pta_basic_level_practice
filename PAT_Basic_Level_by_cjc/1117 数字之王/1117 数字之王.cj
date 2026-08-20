@@ -14,21 +14,22 @@ func transform(n: Int64): Int64 {
     var product: Int64 = 1
     // 每位数字的立方相乘
     for (i in 0..s.size) {
-        let d = Int64.parse(s[i].toString())
+        let d = Int64(s[i]) - 48
         product *= d * d * d
     }
     // 对乘积的各位数字求和
     let ps = product.toString()
     var sum: Int64 = 0
     for (i in 0..ps.size) {
-        sum += Int64.parse(ps[i].toString())
+        sum += Int64(ps[i]) - 48
     }
     return sum
 }
 
 // 反复变换直到结果变为一位数
 func reduceToDigit(n: Int64): Int64 {
-    var cur = n
+    // 题目要求先执行一轮操作，即使 n 本身已经是一位数。
+    var cur = transform(n)
     while (cur >= 10) {
         cur = transform(cur)
     }
@@ -41,9 +42,9 @@ main() {
     let N1 = Int64.parse(parts[0])  // 区间起点
     let N2 = Int64.parse(parts[1])  // 区间终点
 
-    var counts = Array<Int64>(10, item: 0)  // 统计每个一位数字(0-9)的出现次数
+    var counts = Array<Int64>(10, repeat: 0)  // 统计每个一位数字(0-9)的出现次数
 
-    // 对区间内的每个数进行规约，统计结果
+    // 对闭区间 [N1, N2] 内的每个数进行规约，统计结果。
     for (n in N1..(N2 + 1)) {
         let d = reduceToDigit(n)
         counts[d]++
@@ -72,4 +73,3 @@ main() {
     }
     println()
 }
-

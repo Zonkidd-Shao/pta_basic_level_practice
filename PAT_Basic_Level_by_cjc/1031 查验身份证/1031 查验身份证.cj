@@ -10,7 +10,7 @@ main(): Int64 {
     // 前17位的权重分配
     let weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
     // Z值对应的校验码映射表
-    let checkCodes = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
+    let checkCodes = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"]
 
     var allPassed = true  // 标记是否所有号码都有效
     for (_ in 0..N) {
@@ -22,8 +22,8 @@ main(): Int64 {
         for (i in 0..17) {
             if (i < 17) {
                 // 检查前17位是否都是数字
-                if (id[i] >= '0' && id[i] <= '9') {
-                    sum += Int64(id[i] - '0') * weights[i]
+                if (id[i] >= 48 && id[i] <= 57) {
+                    sum += (Int64(id[i]) - 48) * weights[i]
                 } else {
                     valid = false  // 含非数字字符，校验失败
                     break
@@ -35,7 +35,7 @@ main(): Int64 {
             let z = sum % 11           // 取模得到 Z 值
             let expectedCheck = checkCodes[z]  // 查找预期的校验码
             // 比对第18位校验码是否匹配
-            if (id[17] != expectedCheck) {
+            if (Rune(id[17]).toString() != expectedCheck) {
                 valid = false
             }
         }

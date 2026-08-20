@@ -1,5 +1,6 @@
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // PAT Basic Level 1062 最简分数
 // 解题思路：给定两个分数 n1/m1 和 n2/m2，以及分母 k
@@ -47,9 +48,9 @@ main(): Int64 {
     // 输出结果，分数之间用空格分隔
     for (i in 0..results.size) {
         if (i > 0) {
-            Console.stdOut.write(" ")
+            print(" ")
         }
-        Console.stdOut.write("${results[i]}/${k}")
+        print("${results[i]}/${k}")
     }
     println("")
     return 0

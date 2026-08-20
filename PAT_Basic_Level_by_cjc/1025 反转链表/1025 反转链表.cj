@@ -3,6 +3,7 @@
 // 然后每 K 个节点为一组进行反转，最后更新每个节点的 next 指针并输出。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 链表节点：包含地址、数据和下一节点地址
 class Node {
@@ -26,7 +27,7 @@ main(): Int64 {
     let K = Int64.parse(parts[2])
 
     // 用数组存储所有节点，地址为 5 位数，最大 100000
-    var nodes = Array<Node>(100000, item: Node("", 0, ""))
+    var nodes = Array<Node>(100000, repeat: Node("", 0, ""))
 
     // 读取所有节点信息，按地址存入数组
     for (_ in 0..N) {
@@ -39,11 +40,11 @@ main(): Int64 {
     }
 
     // 从 headAddr 开始按链接顺序将所有节点加入列表
-    var list = Array<Node>(0)
+    var list = ArrayList<Node>()
     var curAddr = headAddr
     while (curAddr != "-1") {
         let idx = Int64.parse(curAddr)
-        list.append(nodes[idx])
+        list.add(nodes[idx])
         curAddr = nodes[idx].next
     }
 

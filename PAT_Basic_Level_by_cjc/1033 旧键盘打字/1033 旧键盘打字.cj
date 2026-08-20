@@ -11,7 +11,7 @@ main(): Int64 {
     let text = getStdIn().readln().getOrThrow()
 
     var shiftBroken = false               // 标记上档键 (+) 是否损坏
-    var brokenSet = Array<Bool>(256, item: false)  // ASCII 字符集标记坏键
+    var brokenSet = Array<Bool>(256, repeat: false)  // ASCII 字符集标记坏键
 
     // 遍历坏键字符串，标记每个坏键
     for (ch in broken) {
@@ -42,11 +42,10 @@ main(): Int64 {
                 continue
             }
         }
-        result = result + ch.toString()
+        result = result + Rune(ch).toString()
     }
 
     // 输出最终能打出的文字
     println(result)
     return 0
 }
-

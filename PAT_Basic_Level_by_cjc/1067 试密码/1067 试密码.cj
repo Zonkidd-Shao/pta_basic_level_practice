@@ -7,13 +7,9 @@ import std.convert.*
 main(): Int64 {
     let first = getStdIn().readln().getOrThrow()
     // 将第一行拆分为密码和最大尝试次数 N
-    let spaceIdx = first.find(" ")
-    if (spaceIdx == nil) {
-        return 0
-    }
-    let idx = spaceIdx.getOrThrow()
-    let password = first[0..idx]          // 正确密码
-    let n = Int64.parse(first[idx + 1..]) // 最大尝试次数
+    let firstParts = first.split(" ")
+    let password = firstParts[0]          // 正确密码
+    let n = Int64.parse(firstParts[1])    // 最大尝试次数
 
     var attempts: Int64 = 0  // 已尝试次数
     while (true) {

@@ -16,8 +16,8 @@ main(): Int64 {
     var validCount: Int64 = 0     // 有效生日计数器
     var oldestName = ""            // 最年长者姓名
     var youngestName = ""          // 最年轻者姓名
-    var oldestDate = maxDate       // 最年长者的日期（初始为最大日期）
-    var youngestDate = minDate     // 最年轻者的日期（初始为最小日期）
+    var oldestDate = ""           // 最年长者的日期
+    var youngestDate = ""         // 最年轻者的日期
 
     // 遍历每个人
     for (_ in 0..N) {
@@ -29,13 +29,13 @@ main(): Int64 {
         // 判断生日是否在合法范围内
         if (date >= minDate && date <= maxDate) {
             validCount++
-            // 日期越小表示出生越早，更新最年长者
-            if (date < oldestDate) {
+            // 第一个合法日期必须初始化两端，边界日期也不能被漏掉
+            if (validCount == 1 || date < oldestDate) {
                 oldestDate = date
                 oldestName = name
             }
             // 日期越大表示出生越晚，更新最年轻者
-            if (date > youngestDate) {
+            if (validCount == 1 || date > youngestDate) {
                 youngestDate = date
                 youngestName = name
             }

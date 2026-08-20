@@ -1,6 +1,7 @@
 import std.env.*
 import std.convert.*
 import std.sort.*
+import std.collection.*
 
 // PAT Basic Level 1055 集体照
 // 解题思路：先按身高降序排序（身高相同按名字字典序升序）
@@ -25,7 +26,7 @@ main() {
     let k = Int64.parse(parts[1])
     
     // 读取所有人的姓名和身高
-    var persons = Array<Person>(n, item: Person("", 0))
+    var persons = Array<Person>(n, repeat: Person("", 0))
     for (i in 0..n) {
         let info = getStdIn().readln().getOrThrow()
         let infoParts = info.split(" ")
@@ -33,14 +34,20 @@ main() {
     }
     
     // 按身高降序排序，身高相同则按姓名字典序升序
-    persons.sort((a, b) => {
-        if (a.height != b.height) {
-            return b.height - a.height
+    for (i in 0..n) {
+        for (j in i + 1..n) {
+            let shouldSwap = if (persons[i].height != persons[j].height) {
+                persons[i].height < persons[j].height
+            } else {
+                persons[i].name > persons[j].name
+            }
+            if (shouldSwap) {
+                let tmp = persons[i]
+                persons[i] = persons[j]
+                persons[j] = tmp
+            }
         }
-        if (a.name < b.name) { return -1 }
-        if (a.name > b.name) { return 1 }
-        return 0
-    })
+    }
     
     let base = n / k       // 每排基础人数（最后一排除外）
     let lastExtra = n % k  // 最后一排的额外人数
@@ -56,7 +63,7 @@ main() {
             m = base
         }
         
-        var names = Array<String>(m, item: "")
+        var names = Array<String>(m, repeat: "")
         let mid = m / 2  // 中间位置（0-based），最高的人站这里
         
         // 先让最高的人站中间位置
@@ -81,7 +88,7 @@ main() {
             }
         }
         
-        allRows.append(names)
+        allRows.add(names)
     }
     
     // 按顺序输出各排（最后一排先输出，即 row=0 先输出）

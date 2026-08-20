@@ -3,6 +3,7 @@
 // 检查清单中是否存在互为不相容的物品对，若存在则输出"No"，否则"Yes"。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 main() {
     // 读取不相容物品对数 N 和装箱清单数 M
@@ -25,8 +26,8 @@ main() {
         if (!incompatible.contains(b)) {
             incompatible[b] = ArrayList<String>()
         }
-        incompatible[a].append(b)
-        incompatible[b].append(a)
+        incompatible[a].add(b)
+        incompatible[b].add(a)
     }
 
     // 处理每个装箱清单
@@ -37,7 +38,7 @@ main() {
         // 将当前清单中的物品存入 HashSet 便于快速查找
         var items = HashSet<String>()
         for (i in 1..(K + 1)) {
-            items.put(parts[Int64(i)])
+            items.add(parts[Int64(i)])
         }
         var safe = true
         // 遍历清单中的每个物品，检查其不相容物品是否也在清单中

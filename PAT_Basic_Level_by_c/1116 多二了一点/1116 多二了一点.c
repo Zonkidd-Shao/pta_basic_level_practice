@@ -15,7 +15,7 @@ int main() {
     }
     int n = len / 2;
     char X[1005], Y[1005];
-    strncpy(Y, s, n);
+    memcpy(Y, s, n);
     Y[n] = '\0';
     strcpy(X, s + n);
     // 数值比较

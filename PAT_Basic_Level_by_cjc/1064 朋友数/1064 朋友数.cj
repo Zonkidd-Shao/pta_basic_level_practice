@@ -3,6 +3,7 @@
 // 然后排序后依次输出个数和所有朋友证号。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 计算数字 x 的各位数字之和
 func sumDigits(x: Int64): Int64 {
@@ -25,19 +26,27 @@ main(): Int64 {
     let friendSet = HashSet<Int64>()
     for (i in 0..parts.size) {
         let val = Int64.parse(parts[i])
-        friendSet.put(sumDigits(val))
+        friendSet.add(sumDigits(val))
     }
     // 将去重后的结果转为数组并排序
     let result = friendSet.toArray()
-    result.sort()
+    for (i in 0..result.size) {
+        for (j in i + 1..result.size) {
+            if (result[i] > result[j]) {
+                let tmp = result[i]
+                result[i] = result[j]
+                result[j] = tmp
+            }
+        }
+    }
     // 输出朋友证号的个数
     println(result.size)
     // 按递增顺序输出所有朋友证号，空格分隔
     for (i in 0..result.size) {
         if (i > 0) {
-            Console.stdOut.write(" ")
+            print(" ")
         }
-        Console.stdOut.write(result[i].toString())
+        print(result[i].toString())
     }
     println("")
     return 0

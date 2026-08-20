@@ -1,5 +1,6 @@
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // PAT Basic Level 1059 C语言竞赛
 // 解题思路：为每个参赛选手记录排名（从 1 开始），需要查询时按以下规则发奖：
@@ -27,7 +28,7 @@ main(): Int64 {
     let rankMap = HashMap<String, Int64>()
     for (i in 1..=n) {
         let id = getStdIn().readln().getOrThrow()
-        rankMap.put(id, i)
+        rankMap[id] = i
     }
     // 用哈希集合记录已查询过的 ID
     let checked = HashSet<String>()
@@ -36,14 +37,14 @@ main(): Int64 {
     for (_ in 1..=k) {
         let id = getStdIn().readln().getOrThrow()
         let prize = rankMap.get(id)  // 在排名表中查找该 ID
-        if (prize == nil) {
+        if (prize.isNone()) {
             // ID 不存在
             println("${id}: Are you kidding?")
         } else if (checked.contains(id)) {
             // ID 已被查询过
             println("${id}: Checked")
         } else {
-            checked.put(id)  // 标记为已查询
+            checked.add(id)  // 标记为已查询
             let r = prize.getOrThrow()
             if (r == 1) {
                 println("${id}: Mystery Award")       // 第 1 名：神秘大奖

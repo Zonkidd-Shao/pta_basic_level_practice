@@ -32,18 +32,18 @@ main() {
     
     var result = ""
     // 映射表，0~9对应数字，10~12对应J、Q、K
-    let map = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K']
+    let map = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K"]
     
     // 从高位到低位遍历，但位数的奇偶以个位（最右边）为第1位
     for (i in 0..maxLen) {
         let pos = maxLen - i  // 从右数的位置，1-indexed（个位为第1位）
-        let aDigit = aPad[i].toInt64() - '0'.toInt64()
-        let bDigit = bPad[i].toInt64() - '0'.toInt64()
+        let aDigit = Int64(aPad[i]) - 48
+        let bDigit = Int64(bPad[i]) - 48
         
         if (pos % 2 == 1) {
             // 奇数位：对应位数字相加后对13取余，查映射表
             let sum = (aDigit + bDigit) % 13
-            result += map[sum].toString()
+            result += map[sum]
         } else {
             // 偶数位：B的数字减去A的数字，结果为负数则加10
             var diff = bDigit - aDigit

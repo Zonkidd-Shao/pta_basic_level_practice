@@ -10,7 +10,7 @@ main() {
     let s = getStdIn().readln().getOrThrow()
     
     // 计数数组，下标0~25对应字母a~z
-    var cnt = Array<Int64>(26, item: 0)
+    var cnt = Array<Int64>(26, repeat: 0)
     
     // 遍历字符串，统计英文字母出现次数（不区分大小写）
     for (ch in s) {
@@ -34,6 +34,6 @@ main() {
     }
     
     // 将数组索引（0~25）转换为对应的小写字母
-    let resultChar = (97 + maxIdx).toRune()
+    let resultChar = Rune(97 + maxIdx).toString()
     println("${resultChar} ${maxCnt}")
 }

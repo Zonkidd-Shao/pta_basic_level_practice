@@ -22,7 +22,10 @@ main(): Int64 {
     let ss = totalSeconds % 60           // 秒
 
     // 按 %02d:%02d:%02d 格式输出，不足2位补前导零
-    println(String.format("%02d:%02d:%02d", hh, mm, ss))
+    let hhStr = if (hh < 10) { "0" + hh.toString() } else { hh.toString() }
+    let mmStr = if (mm < 10) { "0" + mm.toString() } else { mm.toString() }
+    let ssStr = if (ss < 10) { "0" + ss.toString() } else { ss.toString() }
+    println("${hhStr}:${mmStr}:${ssStr}")
     return 0
 }
 

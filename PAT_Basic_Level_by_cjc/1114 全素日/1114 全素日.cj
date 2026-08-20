@@ -37,7 +37,8 @@ main() {
         let sub = dateStr[start..]       // 从start到末尾的子串
         let num = Int64.parse(sub)       // 转为整数
         let ok = isPrime(num)            // 判断是否为素数
-        println("${sub} ${if (ok) { \"Yes\" } else { \"No\" }}")
+        let status = if (ok) { "Yes" } else { "No" }
+        println("${sub} ${status}")
         if (!ok) {
             allPrime = false
         }

@@ -14,12 +14,24 @@
  *   3. 排序后输出结果
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 struct Student {
     char id[21];            // 学号
     int gp, gm, gf, g;      // 编程作业、期中、期终成绩及最终成绩（-1表示缺考）
 };
+
+struct InputScore {
+    char id[21];
+    int type;
+    int score;
+};
+
+int cmp_input_score(const void *a, const void *b) {
+    return strcmp(((const struct InputScore *)a)->id,
+                  ((const struct InputScore *)b)->id);
+}
 
 int cmp(const void *a, const void *b) {
     struct Student *sa = (struct Student *)a;
@@ -33,63 +45,48 @@ int cmp(const void *a, const void *b) {
 int main() {
     int P, M, N;            // 分别代表编程作业、期中、期终成绩的条数
     scanf("%d %d %d", &P, &M, &N);
-    struct Student students[30000];     // 存放所有出现过的学生
-    int count = 0;          // 学生总数
+    struct InputScore records[30000];   // 暂存三类成绩，按学号排序后合并
+    int total = P + M + N;
+    int position = 0;
     char id[21];            // 临时存放当前读入的学号
     int score;              // 临时存放当前读入的成绩
     for (int i = 0; i < P; i++) {       // 读入编程作业成绩
         scanf("%s %d", id, &score);
-        int found = 0;
-        for (int j = 0; j < count; j++) {       // 查找该学号是否已存在
-            if (strcmp(students[j].id, id) == 0) {
-                students[j].gp = score;         // 已存在则更新成绩
-                found = 1;
-                break;
-            }
-        }
-        if (!found) {                           // 不存在则新增学生，缺考成绩置-1
-            strcpy(students[count].id, id);
-            students[count].gp = score;
-            students[count].gm = -1;
-            students[count].gf = -1;
-            count++;
-        }
+        strcpy(records[position].id, id);
+        records[position].type = 0;
+        records[position++].score = score;
     }
     for (int i = 0; i < M; i++) {       // 读入期中成绩，逻辑同上
         scanf("%s %d", id, &score);
-        int found = 0;
-        for (int j = 0; j < count; j++) {
-            if (strcmp(students[j].id, id) == 0) {
-                students[j].gm = score;
-                found = 1;
-                break;
-            }
-        }
-        if (!found) {
-            strcpy(students[count].id, id);
-            students[count].gp = -1;
-            students[count].gm = score;
-            students[count].gf = -1;
-            count++;
-        }
+        strcpy(records[position].id, id);
+        records[position].type = 1;
+        records[position++].score = score;
     }
     for (int i = 0; i < N; i++) {       // 读入期终成绩，逻辑同上
         scanf("%s %d", id, &score);
-        int found = 0;
-        for (int j = 0; j < count; j++) {
-            if (strcmp(students[j].id, id) == 0) {
-                students[j].gf = score;
-                found = 1;
-                break;
-            }
+        strcpy(records[position].id, id);
+        records[position].type = 2;
+        records[position++].score = score;
+    }
+
+    qsort(records, (size_t)total, sizeof(records[0]), cmp_input_score);
+
+    struct Student students[30000];
+    int count = 0;
+    for (int i = 0; i < total;) {
+        strcpy(students[count].id, records[i].id);
+        students[count].gp = -1;
+        students[count].gm = -1;
+        students[count].gf = -1;
+        int j = i;
+        while (j < total && strcmp(records[j].id, records[i].id) == 0) {
+            if (records[j].type == 0) students[count].gp = records[j].score;
+            else if (records[j].type == 1) students[count].gm = records[j].score;
+            else students[count].gf = records[j].score;
+            j++;
         }
-        if (!found) {
-            strcpy(students[count].id, id);
-            students[count].gp = -1;
-            students[count].gm = -1;
-            students[count].gf = score;
-            count++;
-        }
+        count++;
+        i = j;
     }
     struct Student res[30000];      // 存放符合输出条件的学生
     int res_count = 0;

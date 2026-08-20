@@ -23,21 +23,11 @@ main(): Int64 {
         }
     }
     // 四舍五入保留两位小数：先乘100加0.5再截断，最后除以100
-    let rounded = (maxMod * 100.0 + 0.5).truncate() / 100.0
-    let str = rounded.toString()
-    let dotIdx = str.find(".")
-    if (dotIdx != nil) {
-        // 有小数点，截取整数部分并补齐两位小数
-        let idx = dotIdx.getOrThrow()
-        var decimal = str[idx + 1..]
-        while (decimal.size < 2) {
-            decimal += "0"
-        }
-        println("${str[0..=idx]}${decimal[0..2]}")
-    } else {
-        // 无小数点，直接补 ".00"
-        println("${str}.00")
-    }
+    let rounded = Int64(maxMod * 100.0 + 0.5)
+    let intPart = rounded / 100
+    let fracPart = rounded % 100
+    if (fracPart < 10) { println("${intPart}.0${fracPart}") }
+    else { println("${intPart}.${fracPart}") }
     return 0
 }
 

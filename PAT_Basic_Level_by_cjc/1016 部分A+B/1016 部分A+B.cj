@@ -8,7 +8,7 @@ import std.convert.*
 func countDigit(s: String, d: String): Int64 {
     var count: Int64 = 0
     for (ch in s) {
-        if (ch.toString() == d) {
+        if (ch == d[0]) {
             count = count + 1
         }
     }

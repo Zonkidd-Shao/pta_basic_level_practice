@@ -17,11 +17,11 @@ func checkPassword(pwd: String) {
     var hasDigit = false   // 是否包含数字
     var valid = true       // 是否只包含合法字符
     for (c in pwd) {
-        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+        if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90)) {
             hasLetter = true
-        } else if (c >= '0' && c <= '9') {
+        } else if (c >= 48 && c <= 57) {
             hasDigit = true
-        } else if (c == '.') {
+        } else if (c == 46) {
             // 小数点也是合法字符
         } else {
             // 遇到非法字符

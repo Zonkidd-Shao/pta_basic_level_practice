@@ -1,5 +1,6 @@
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 1080 MOOC期终成绩
 // 思路：分别读取编程、期中、期末三块成绩，用哈希表按学号存储。
@@ -99,22 +100,28 @@ main() {
     for (s in students.values()) {
         s.calc()
         if (s.g >= 60) {
-            qualified.append(s)
+            qualified.add(s)
         }
     }
 
     // 排序：按总评降序，学号升序
-    qualified.sort(func(a: Student, b: Student): Int64 {
-        if (a.g != b.g) {
-            return b.g - a.g
+    for (i in 0..qualified.size) {
+        for (j in i + 1..qualified.size) {
+            let a = qualified[i]
+            let b = qualified[j]
+            let shouldSwap = if (a.g != b.g) { a.g < b.g } else { a.id > b.id }
+            if (shouldSwap) {
+                let tmp = qualified[i]
+                qualified[i] = qualified[j]
+                qualified[j] = tmp
+            }
         }
-        return a.id.compareTo(b.id)
-    })
+    }
 
     // 输出合格学生信息
     for (s in qualified) {
-        var gmidStr = if (s.gmid == -1) "-1" else s.gmid.toString()
-        var gfinalStr = if (s.gfinal == -1) "-1" else s.gfinal.toString()
+        var gmidStr = if (s.gmid == -1) { "-1" } else { s.gmid.toString() }
+        var gfinalStr = if (s.gfinal == -1) { "-1" } else { s.gfinal.toString() }
         println("${s.id} ${s.gp} ${gmidStr} ${gfinalStr} ${s.g}")
     }
 }

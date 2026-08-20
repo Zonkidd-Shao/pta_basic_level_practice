@@ -6,6 +6,7 @@
 //   类型3：统计某日期的各考场人数，按人数降序、考场号升序排列
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 考生类，解析准考证号并存储成绩
 class Examinee {
@@ -19,7 +20,7 @@ class Examinee {
     init(id: String, score: Int64) {
         this.id = id
         this.score = score
-        this.level = id[0].toString()
+        this.level = Rune(id[0]).toString()
         this.room = id[1..4]
         this.date = id[4..10]
         this.seq = id[10..13]
@@ -40,31 +41,37 @@ main() {
         parts = line.split(" ")
         var id = parts[0]
         var score = Int64.parse(parts[1])
-        examinees.append(Examinee(id, score))
+        examinees.add(Examinee(id, score))
     }
 
     // 处理 M 条查询指令
     for (caseNum in 1..(M + 1)) {
         line = getStdIn().readln().getOrThrow()
         parts = line.split(" ")
-        var type = Int64.parse(parts[0])
+        var queryType = Int64.parse(parts[0])
         var instruction = parts[1]
-        println("Case ${caseNum}: ${type} ${instruction}")
+        println("Case ${caseNum}: ${queryType} ${instruction}")
 
-        if (type == 1) {
+        if (queryType == 1) {
             // 类型1：按级别查询，按成绩降序、准考证号升序排序
             var filtered = ArrayList<Examinee>()
             for (e in examinees) {
                 if (e.level == instruction) {
-                    filtered.append(e)
+                    filtered.add(e)
                 }
             }
-            filtered.sort(func(a: Examinee, b: Examinee): Int64 {
-                if (a.score != b.score) {
-                    return b.score - a.score  // 成绩降序
+            for (i in 0..filtered.size) {
+                for (j in i + 1..filtered.size) {
+                    let a = filtered[i]
+                    let b = filtered[j]
+                    let shouldSwap = if (a.score != b.score) { a.score < b.score } else { a.id > b.id }
+                    if (shouldSwap) {
+                        let tmp = filtered[i]
+                        filtered[i] = filtered[j]
+                        filtered[j] = tmp
+                    }
                 }
-                return a.id.compareTo(b.id)   // 准考证号升序
-            })
+            }
             if (filtered.size == 0) {
                 println("NA")
             } else {
@@ -72,7 +79,7 @@ main() {
                     println("${e.id} ${e.score}")
                 }
             }
-        } else if (type == 2) {
+        } else if (queryType == 2) {
             // 类型2：统计考场人数和总分
             var total: Int64 = 0
             var count: Int64 = 0
@@ -87,13 +94,15 @@ main() {
             } else {
                 println("${count} ${total}")
             }
-        } else if (type == 3) {
+        } else if (queryType == 3) {
             // 类型3：统计某日期的各考场人数
             var roomCount = HashMap<String, Int64>()
             for (e in examinees) {
                 if (e.date == instruction) {
                     var room = e.room
-                    roomCount[room] = roomCount.getOrDefault(room, 0) + 1
+                    let oldCount = roomCount.get(room)
+                    let count = if (oldCount.isSome()) { oldCount.getOrThrow() } else { 0 }
+                    roomCount[room] = count + 1
                 }
             }
             if (roomCount.size == 0) {
@@ -102,16 +111,22 @@ main() {
                 // 转换为列表，按人数降序、考场号升序排序
                 var list = ArrayList<Array<String>>()
                 for (r in roomCount.keys()) {
-                    list.append([r, roomCount[r].toString()])
+                    list.add([r, roomCount[r].toString()])
                 }
-                list.sort(func(a: Array<String>, b: Array<String>): Int64 {
-                    var ca = Int64.parse(a[1])
-                    var cb = Int64.parse(b[1])
-                    if (ca != cb) {
-                        return cb - ca  // 人数降序
+                for (i in 0..list.size) {
+                    for (j in i + 1..list.size) {
+                        let a = list[i]
+                        let b = list[j]
+                        let ca = Int64.parse(a[1])
+                        let cb = Int64.parse(b[1])
+                        let shouldSwap = if (ca != cb) { ca < cb } else { a[0] > b[0] }
+                        if (shouldSwap) {
+                            let tmp = list[i]
+                            list[i] = list[j]
+                            list[j] = tmp
+                        }
                     }
-                    return a[0].compareTo(b[0])  // 考场号升序
-                })
+                }
                 for (item in list) {
                     println("${item[0]} ${item[1]}")
                 }

@@ -10,12 +10,12 @@ main() {
     let line = getStdIn().readln().getOrThrow()
     let parts = line.split(" ")
 
-    var weights = Array<Int64>(n, item: 0)  // 每只胖达的体重
+    var weights = Array<Int64>(n, repeat: 0)  // 每只胖达的体重
     for (i in 0..n) {
         weights[i] = Int64.parse(parts[Int64(i)])
     }
 
-    var milk = Array<Int64>(n, item: 200)  // 每只胖达的初始奶量（最少200ml）
+    var milk = Array<Int64>(n, repeat: 200)  // 每只胖达的初始奶量（最少200ml）
 
     // 从左到右扫描：保证每只胖达比左边更重的胖达奶量多100ml
     for (i in 1..n) {

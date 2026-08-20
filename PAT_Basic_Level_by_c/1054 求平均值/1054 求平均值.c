@@ -13,25 +13,43 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <math.h>
+
+static int is_legal_number(const char *s, double *value) {
+    int i = 0, digits = 0, fraction_digits = 0;
+    if (s[i] == '-') i++;
+    if (s[i] == '\0') return 0;
+
+    while (s[i] >= '0' && s[i] <= '9') {
+        digits++;
+        i++;
+    }
+    if (s[i] == '.') {
+        i++;
+        while (s[i] >= '0' && s[i] <= '9') {
+            fraction_digits++;
+            i++;
+        }
+    }
+    if (digits == 0 && fraction_digits == 0) return 0;
+    if (fraction_digits > 2 || s[i] != '\0') return 0;
+
+    char *end;
+    *value = strtod(s, &end);
+    return *end == '\0' && isfinite(*value) && *value >= -1000.0 && *value <= 1000.0;
+}
 
 int main() {
     int N, cnt = 0;   // N: 输入个数; cnt: 合法数字个数
-    char a[50], b[50];  // a: 原始输入串; b: 格式化后的参考串
+    char a[205];         // 题面允许数字总长度不超过 200
     double temp = 0.0, sum = 0.0;  // temp: 解析出的数值; sum: 合法数字总和
     scanf("%d", &N);
     
     for (int i = 0; i < N; i++) {
-        scanf("%s", a);
-        sscanf(a, "%lf", &temp);      // 把字符串解析为 double
-        sprintf(b, "%.2lf", temp);    // 再格式化为两位小数，作为合法性参照
-        int flag = 0;  // 标记：格式是否非法
-        for (int j = 0; j < strlen(a); j++) {  // 逐位比较：原串与两位小数形式不同则非法
-            if (a[j] != b[j]) {
-                flag = 1;
-                break;
-            }
-        }
-        if (flag || temp < -1000 || temp > 1000) {  // 格式非法或超出范围
+        scanf("%204s", a);
+        int legal = is_legal_number(a, &temp);
+        if (!legal) {
             printf("ERROR: %s is not a legal number\n", a);
         } else {  // 合法：累加总和并计数
             sum += temp;

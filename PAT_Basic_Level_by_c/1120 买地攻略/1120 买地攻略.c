@@ -16,19 +16,17 @@
 int main() {
     int n, m;
     scanf("%d %d", &n, &m);     // 土地数量 n，预算 m
-    int price[MAXN] = {0};      // price[i] 为前 i 块土地价格总和（前缀和）
-    for (int i = 1; i <= n; i++) {
-        scanf("%d", &price[i]);
-        price[i] += price[i-1];     // 累加为前缀和
+    int price[MAXN];
+    int left = 0;
+    long long window = 0;
+    long long ans = 0;
+    for (int right = 0; right < n; right++) {
+        scanf("%d", &price[right]);
+        window += price[right];
+        while (left <= right && window > m)
+            window -= price[left++];
+        ans += right - left + 1;
     }
-    int ans = 0;
-    for (int i = 1; i <= n; i++) {          // 枚举连续区间起点
-        for (int j = i; j <= n; j++) {      // 枚举区间终点
-            if (price[j] - price[i-1] <= m) {   // 区间总价不超过预算则计数
-                ans++;
-            }
-        }
-    }
-    printf("%d\n", ans);
+    printf("%lld\n", ans);
     return 0;
 }

@@ -20,14 +20,14 @@ main(): Int64 {
         // 逐列处理每个像素
         for (j in 0..n) {
             if (j > 0) {
-                Console.stdOut.write(" ")  // 两个输出值之间用空格分隔
+                print(" ")  // 两个输出值之间用空格分隔
             }
             let val = Int64.parse(parts[j])
             // 判断像素值是否在区间 [a, b] 内
             if (val >= a && val <= b) {
-                Console.stdOut.write(format3(replaceVal))  // 替换为指定值
+                print(format3(replaceVal))  // 替换为指定值
             } else {
-                Console.stdOut.write(format3(val))          // 保持原值
+                print(format3(val))          // 保持原值
             }
         }
         println("")  // 每行末尾换行

@@ -9,8 +9,7 @@ import std.convert.*
 let DIGITS = "0123456789abcdefghijklmnopqrst"
 
 // 将30进制字符转换为对应的数值
-func charToVal(c: Rune): Int64 {
-    let s = c.toString()
+func charToVal(c: UInt8): Int64 {
     for (i in 0..30) {
         if (DIGITS[i] == c) {
             return Int64(i)
@@ -20,8 +19,8 @@ func charToVal(c: Rune): Int64 {
 }
 
 // 将数值转换为对应的30进制字符
-func valToChar(v: Int64): Rune {
-    return DIGITS[v]
+func valToChar(v: Int64): String {
+    return Rune(DIGITS[v]).toString()
 }
 
 main() {
@@ -45,18 +44,18 @@ main() {
         let vb = charToVal(b[i])
         let sum = va + vb + carry  // 当前位相加，加上进位
         carry = sum / 30           // 计算进位（30进制）
-        result = valToChar(sum % 30).toString() + result  // 当前位结果拼接到前面
+        result = valToChar(sum % 30) + result  // 当前位结果拼接到前面
         i--
     }
 
     // 最高位仍有进位，需添加一位
     if (carry > 0) {
-        result = valToChar(carry).toString() + result
+        result = valToChar(carry) + result
     }
 
     // 去除结果中的前导零（保留最后一位0，如果结果全为0的话）
     var start: Int64 = 0
-    while (start < result.size - 1 && result[start] == '0') {
+    while (start < result.size - 1 && result[start] == 48) {
         start++
     }
     println(result[start..])  // 输出最终结果

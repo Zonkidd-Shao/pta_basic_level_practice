@@ -31,9 +31,9 @@ main(): Int64 {
     let addNum = f1.num * f2.den + f2.num * f1.den
     let addDen = f1.den * f2.den
     printFormatted(f1)
-    Console.stdOut.write(" + ")
+    print(" + ")
     printFormatted(f2)
-    Console.stdOut.write(" = ")
+    print(" = ")
     printFormatted(Fraction(addNum, addDen))
     println("")
 
@@ -41,9 +41,9 @@ main(): Int64 {
     let subNum = f1.num * f2.den - f2.num * f1.den
     let subDen = f1.den * f2.den
     printFormatted(f1)
-    Console.stdOut.write(" - ")
+    print(" - ")
     printFormatted(f2)
-    Console.stdOut.write(" = ")
+    print(" = ")
     printFormatted(Fraction(subNum, subDen))
     println("")
 
@@ -51,17 +51,17 @@ main(): Int64 {
     let mulNum = f1.num * f2.num
     let mulDen = f1.den * f2.den
     printFormatted(f1)
-    Console.stdOut.write(" * ")
+    print(" * ")
     printFormatted(f2)
-    Console.stdOut.write(" = ")
+    print(" = ")
     printFormatted(Fraction(mulNum, mulDen))
     println("")
 
     // 除法：a1/b1 / a2/b2 = (a1*b2) / (b1*a2)
     printFormatted(f1)
-    Console.stdOut.write(" / ")
+    print(" / ")
     printFormatted(f2)
-    Console.stdOut.write(" = ")
+    print(" = ")
     if (f2.num == 0) {
         // 除数为 0 时输出 Inf
         println("Inf")
@@ -104,13 +104,13 @@ func abs(x: Int64): Int64 {
 func printFormatted(f: Fraction) {
     // 分母为 0 输出 Inf
     if (f.den == 0) {
-        Console.stdOut.write("Inf")
+        print("Inf")
         return
     }
 
     // 分子为 0 输出 0
     if (f.num == 0) {
-        Console.stdOut.write("0")
+        print("0")
         return
     }
 
@@ -138,23 +138,23 @@ func printFormatted(f: Fraction) {
 
     // 负数加括号
     if (negative) {
-        Console.stdOut.write("(-")
+        print("(-")
     }
 
     // 输出带分数：整数部分 + 分数部分（如有）
     if (intPart != 0) {
-        Console.stdOut.write(intPart.toString())
+        print(intPart.toString())
         if (remainder != 0) {
-            Console.stdOut.write(" ${remainder}/${den}")
+            print(" ${remainder}/${den}")
         }
     } else {
         // 只有分数部分
-        Console.stdOut.write("${remainder}/${den}")
+        print("${remainder}/${den}")
     }
 
     // 关闭括号
     if (negative) {
-        Console.stdOut.write(")")
+        print(")")
     }
 }
 

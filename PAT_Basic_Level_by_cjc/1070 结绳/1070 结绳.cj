@@ -11,19 +11,27 @@ main(): Int64 {
     let line = getStdIn().readln().getOrThrow()
     let parts = line.split(" ")
     // 存储所有绳段长度
-    var arr = Array<Int64>(n, item: 0)
+    var arr = Array<Int64>(n, repeat: 0)
     for (i in 0..n) {
         arr[i] = Int64.parse(parts[i])
     }
     // 按长度升序排序，贪心策略：先对折短的
-    arr.sort()
+    for (i in 0..n) {
+        for (j in i + 1..n) {
+            if (arr[i] > arr[j]) {
+                let tmp = arr[i]
+                arr[i] = arr[j]
+                arr[j] = tmp
+            }
+        }
+    }
     // 从最短的绳段开始，每次与下一段对折连接
-    var total = arr[0] as Float64
+    var total = Float64(arr[0])
     for (i in 1..n) {
-        total = (total + arr[i] as Float64) / 2.0
+        total = (total + Float64(arr[i])) / 2.0
     }
     // 取整输出最终长度
-    let result = total.truncate()
+    let result = Int64(total)
     println(result)
     return 0
 }

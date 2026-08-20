@@ -7,6 +7,7 @@
 
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 链表节点类
 class Node {
@@ -47,7 +48,7 @@ main() {
         let addr = Int64.parse(parts[0])
         let data = Int64.parse(parts[1])
         let next = Int64.parse(parts[2])
-        nodeMap.put(addr, Node(addr, data, next))
+        nodeMap[addr] = Node(addr, data, next)
     }
 
     // 从 head1 开始遍历，构建链表 L1 的地址顺序列表
@@ -55,7 +56,7 @@ main() {
     var cur = head1
     while (cur != -1) {
         let node = nodeMap.get(cur)
-        if (node == nil) { break }
+        if (node.isNone()) { break }
         list1.add(cur)
         cur = node.getOrThrow().next
     }
@@ -65,7 +66,7 @@ main() {
     cur = head2
     while (cur != -1) {
         let node = nodeMap.get(cur)
-        if (node == nil) { break }
+        if (node.isNone()) { break }
         list2.add(cur)
         cur = node.getOrThrow().next
     }

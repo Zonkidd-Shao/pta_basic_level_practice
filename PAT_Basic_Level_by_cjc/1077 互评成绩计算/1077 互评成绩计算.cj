@@ -37,11 +37,11 @@ main(): Int64 {
         count -= 2
 
         // 计算G1（同学评分的平均值）
-        let g1 = sum as Float64 / count as Float64
+        let g1 = Float64(sum) / Float64(count)
         // 最终得分 = (G1 + G2) / 2
-        let final = (g1 + g2 as Float64) / 2.0
+        let final = (g1 + Float64(g2)) / 2.0
         // 四舍五入取整（加0.5后截断）
-        let result = (final + 0.5).truncate()
+        let result = Int64(final + 0.5)
         println(result)
     }
     return 0

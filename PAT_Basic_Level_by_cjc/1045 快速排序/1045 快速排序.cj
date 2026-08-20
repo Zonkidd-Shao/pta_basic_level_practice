@@ -13,20 +13,20 @@ main() {
     let parts = line.split(" ")
     
     // 读取正整数序列
-    var arr = Array<Int64>(n, item: 0)
+    var arr = Array<Int64>(n, repeat: 0)
     for (i in 0..n) {
         arr[i] = Int64.parse(parts[i])
     }
     
     // leftMax[i] = arr[0..i-1] 中的最大值
-    var leftMax = Array<Int64>(n, item: 0)
+    var leftMax = Array<Int64>(n, repeat: 0)
     leftMax[0] = 0  // 第一个元素左边无元素，设最小值为0
     for (i in 1..n) {
         leftMax[i] = max(leftMax[i-1], arr[i-1])
     }
     
     // rightMin[i] = arr[i+1..n-1] 中的最小值
-    var rightMin = Array<Int64>(n, item: 0)
+    var rightMin = Array<Int64>(n, repeat: 0)
     rightMin[n-1] = 1000000001  // 最后一个元素右边无元素，设一个很大的数
     var i = n - 2
     while (i >= 0) {
@@ -34,7 +34,7 @@ main() {
         i--
     }
     
-    var result = Array<Int64>(n, item: 0)  // 存储所有主元
+    var result = Array<Int64>(n, repeat: 0)  // 存储所有主元
     var cnt: Int64 = 0                       // 主元个数
     
     // 判断每个元素是否可能为主元

@@ -48,6 +48,8 @@ main() {
     let emptyPct = Float64(empty) / Float64(n) * 100.0
     
     // 输出结果，保留一位小数
-    println("${maybePct.format("0.0")}% ${emptyPct.format("0.0")}%")
+    let maybe10 = Int64(maybePct * 10.0 + 0.5)
+    let empty10 = Int64(emptyPct * 10.0 + 0.5)
+    println("${maybe10 / 10}.${maybe10 % 10}% ${empty10 / 10}.${empty10 % 10}%")
 }
 

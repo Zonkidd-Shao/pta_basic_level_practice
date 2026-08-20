@@ -28,11 +28,19 @@ func binarySearch(arr: Array<String>, key: String): Bool {
 main() {
     // 读取校友人数 n 和校友名单
     let n = Int64.parse(getStdIn().readln().getOrThrow())
-    var alumni = Array<String>(n, item: "")
+    var alumni = Array<String>(n, repeat: "")
     for (i in 0..n) {
         alumni[i] = getStdIn().readln().getOrThrow()
     }
-    alumni.sort()                      // 排序，为二分查找做准备
+    for (i in 0..n) {
+        for (j in i + 1..n) {
+            if (alumni[i] > alumni[j]) {
+                let tmp = alumni[i]
+                alumni[i] = alumni[j]
+                alumni[j] = tmp
+            }
+        }
+    }
 
     // 读取参会人数 m 和参会人员名单
     let m = Int64.parse(getStdIn().readln().getOrThrow())

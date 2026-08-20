@@ -9,7 +9,7 @@ main() {
     var sum: Int64 = 0
     for (ch in input) {              // 遍历每一位字符，累加各位数字
         if (ch >= 48 && ch <= 57) {  // 判断字符是否为数字 '0'~'9'
-            sum = sum + Int64.parse(ch.toString())
+            sum = sum + Int64(ch) - 48
         }
     }
     let pinyins = ["ling", "yi", "er", "san", "si", "wu", "liu", "qi", "ba", "jiu"]
@@ -20,10 +20,9 @@ main() {
         if (!first) {
             result = result + " "    // 非首位，先加空格分隔
         }
-        let digit = Int64.parse(ch.toString())
+        let digit = Int64(ch) - 48
         result = result + pinyins[digit]  // 将数字转换为对应的拼音
         first = false
     }
     println(result)                  // 输出拼音结果
 }
-

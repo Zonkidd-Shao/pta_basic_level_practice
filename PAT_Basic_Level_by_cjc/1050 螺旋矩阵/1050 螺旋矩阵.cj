@@ -13,13 +13,21 @@ main() {
     let parts = line.split(" ")
     
     // 读取所有正整数
-    var arr = Array<Int64>(n, item: 0)
+    var arr = Array<Int64>(n, repeat: 0)
     for (i in 0..n) {
         arr[i] = Int64.parse(parts[i])
     }
     
     // 降序排序（从大到小）
-    arr.sort((a, b) => b - a)
+    for (i in 0..n) {
+        for (j in i + 1..n) {
+            if (arr[i] < arr[j]) {
+                let tmp = arr[i]
+                arr[i] = arr[j]
+                arr[j] = tmp
+            }
+        }
+    }
     
     // 寻找满足条件的 m（行数）和 nCol（列数），使得 m>=nCol 且 m-nCol 最小
     var m: Int64 = n
@@ -35,7 +43,10 @@ main() {
     }
     
     // 创建 m×n 的矩阵
-    var matrix = Array<Array<Int64>>(m, item: Array<Int64>(nCol, item: 0))
+    var matrix = Array<Array<Int64>>(m, repeat: Array<Int64>(nCol, repeat: 0))
+    for (i in 0..m) {
+        matrix[i] = Array<Int64>(nCol, repeat: 0)
+    }
     
     // 螺旋填充的四个边界
     var top: Int64 = 0

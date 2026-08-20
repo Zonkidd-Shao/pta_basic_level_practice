@@ -20,7 +20,7 @@ func lookAndSay(s: String): String {
             i++
         }
         // 输出"字符+个数"
-        result += ch.toString() + cnt.toString()
+        result += Rune(ch).toString() + cnt.toString()
     }
     return result
 }

@@ -18,7 +18,7 @@ main() {
     for (_ in 0..n) {
         let line = getStdIn().readln().getOrThrow()
         // 根据首字符判断是地球数字还是火星文
-        if (line.size > 0 && line[0] >= '0' && line[0] <= '9') {
+        if (line.size > 0 && line[0] >= 48 && line[0] <= 57) {
             // 情况1：地球数字 → 火星文
             let num = Int64.parse(line)
             if (num == 0) {

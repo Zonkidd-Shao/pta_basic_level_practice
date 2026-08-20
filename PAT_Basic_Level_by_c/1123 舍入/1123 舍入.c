@@ -58,13 +58,15 @@ int main() {
             printf("%s\n", res);
             continue;
         }
-        char integer[105] = {0}, decimal[105] = {0};     // 分离整数部分和小数部分
+        char integer[205] = {0}, decimal[205] = {0};     // 分离整数部分和小数部分
         int int_len = dot - num;
         int dec_len = strlen(num) - int_len - 1;
         strncpy(integer, num, int_len);
         strncpy(decimal, dot + 1, dec_len);
-        while (strlen(decimal) < D + 1) {   // 小数部分补 0 到 D+1 位，便于判断舍入
+        size_t decimal_len = strlen(decimal);
+        while (decimal_len < (size_t)D + 1) {   // 小数部分补 0 到 D+1 位，便于判断舍入
             strcat(decimal, "0");
+            decimal_len++;
         }
         char L = decimal[D - 1];    // 保留的最后一位（第 D 位）
         char H = decimal[D];        // 被舍去部分的最高位（第 D+1 位）
@@ -78,7 +80,7 @@ int main() {
             else if (H > '5') need_round = 1;
             else {                  // 恰为 5：看第 D 位奇偶及后面是否有非零数字
                 int has_nonzero = 0;
-                for (int i = D + 1; i < strlen(decimal); i++) {     // 检查 5 之后是否还有非零位
+                for (size_t i = (size_t)D + 1; i < decimal_len; i++) {     // 检查 5 之后是否还有非零位
                     if (decimal[i] != '0') {
                         has_nonzero = 1;
                         break;
@@ -96,7 +98,7 @@ int main() {
         }
         if (res[0] == '-') {    // 处理 -0.xxx 的情况：结果全为零时去掉负号
             int all_zero = 1;
-            for (int i = 1; i < strlen(res); i++) {
+            for (size_t i = 1; i < strlen(res); i++) {
                 if (res[i] != '.' && res[i] != '0') {
                     all_zero = 0;
                     break;

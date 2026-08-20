@@ -11,7 +11,7 @@ main() {
     var N = Int64.parse(parts[0])
     var M = Int64.parse(parts[1])
     // 初始化销量数组，长度为 N
-    var sales = Array<Int64>(N, item: 0)
+    var sales = Array<Int64>(N, repeat: 0)
     // 累加每个城市的销量数据
     for (_ in 0..M) {
         line = getStdIn().readln().getOrThrow()
@@ -34,9 +34,9 @@ main() {
     for (i in 0..N) {
         if (sales[i] == maxSale) {
             if (!first) {
-                Console.stdOut.write(" ")
+                print(" ")
             }
-            Console.stdOut.write((i + 1).toString())
+            print((i + 1).toString())
             first = false
         }
     }

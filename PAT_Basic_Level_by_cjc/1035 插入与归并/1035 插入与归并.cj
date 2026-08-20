@@ -15,8 +15,8 @@ main(): Int64 {
     let midLine = getStdIn().readln().getOrThrow()
     let midParts = midLine.split(" ")
 
-    var orig = Array<Int64>(N)
-    var mid = Array<Int64>(N)
+    var orig = Array<Int64>(N, repeat: 0)
+    var mid = Array<Int64>(N, repeat: 0)
     for (i in 0..N) {
         orig[i] = Int64.parse(origParts[i])
         mid[i] = Int64.parse(midParts[i])
@@ -57,15 +57,15 @@ main(): Int64 {
         // 输出下一轮结果
         for (i in 0..N) {
             if (i > 0) {
-                Console.stdOut.write(" ")
+                print(" ")
             }
-            Console.stdOut.write(mid[i].toString())
+            print(mid[i].toString())
         }
         println("")
     } else {
         // 归并排序：模拟归并过程
         println("Merge Sort")
-        var arr = Array<Int64>(N)
+        var arr = Array<Int64>(N, repeat: 0)
         for (i in 0..N) {
             arr[i] = orig[i]  // 从原始序列开始模拟
         }
@@ -84,15 +84,15 @@ main(): Int64 {
             }
 
             // 检查当前状态是否与中间序列匹配
-            var match = true
+            var matched = true
             for (j in 0..N) {
                 if (arr[j] != mid[j]) {
-                    match = false
+                    matched = false
                     break
                 }
             }
 
-            if (match) {
+            if (matched) {
                 // 匹配成功，再执行一轮归并后输出
                 step = step * 2
                 var j: Int64 = 0
@@ -106,9 +106,9 @@ main(): Int64 {
                 // 输出下一轮结果
                 for (k in 0..N) {
                     if (k > 0) {
-                        Console.stdOut.write(" ")
+                        print(" ")
                     }
-                    Console.stdOut.write(arr[k].toString())
+                    print(arr[k].toString())
                 }
                 println("")
                 break
@@ -123,7 +123,7 @@ func merge(arr: Array<Int64>, left: Int64, midIdx: Int64, right: Int64) {
     if (left >= midIdx || midIdx >= right) {
         return
     }
-    var temp = Array<Int64>(right - left)  // 临时数组存放归并结果
+    var temp = Array<Int64>(right - left, repeat: 0)  // 临时数组存放归并结果
     var i = left
     var j = midIdx
     var p: Int64 = 0

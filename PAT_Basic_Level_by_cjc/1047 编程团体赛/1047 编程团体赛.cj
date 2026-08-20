@@ -10,7 +10,7 @@ main() {
     let n = Int64.parse(getStdIn().readln().getOrThrow())  // 参赛队员总数
     
     // 队伍编号范围1~1000，用数组存储各队总成绩
-    var scores = Array<Int64>(1001, item: 0)
+    var scores = Array<Int64>(1001, repeat: 0)
     
     // 读取每个队员的成绩，累加到对应队伍
     for (_ in 0..n) {

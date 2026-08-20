@@ -27,10 +27,10 @@ int main() {
         scanf("%s %d %s", addr, &data, nxt);
         int idx = atoi(addr);
         if (idx < 0 || idx >= 100000) continue;
-        strncpy(nodes[idx].address, addr, 5);
+        memcpy(nodes[idx].address, addr, 5);
         nodes[idx].address[5] = '\0';
         nodes[idx].data = data;
-        strncpy(nodes[idx].next, nxt, 5);
+        memcpy(nodes[idx].next, nxt, 5);
         nodes[idx].next[5] = '\0';
         // 处理 -1 情况：strncpy 会复制 "-1"
         if (strcmp(nxt, "-1") == 0) strcpy(nodes[idx].next, "-1");

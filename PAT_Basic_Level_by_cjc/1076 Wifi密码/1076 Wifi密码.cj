@@ -14,13 +14,13 @@ main(): Int64 {
         let parts = line.split(" ")  // 分割出4个选项，如"A-T"
         for (opt in parts) {
             // 检查选项字符串的第3个字符（索引2）是否为'T'，即正确答案标记
-            if (opt[2] == 'T') {
+            if (opt[2] == 84) {
                 let choice = opt[0]
                 // 将选项字母转换为对应的数字
-                if (choice == 'A') { result += "1" }
-                else if (choice == 'B') { result += "2" }
-                else if (choice == 'C') { result += "3" }
-                else if (choice == 'D') { result += "4" }
+                if (choice == 65) { result += "1" }
+                else if (choice == 66) { result += "2" }
+                else if (choice == 67) { result += "3" }
+                else if (choice == 68) { result += "4" }
             }
         }
     }

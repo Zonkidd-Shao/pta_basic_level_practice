@@ -1,5 +1,6 @@
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 // 1075 链表元素分类
 // 思路：读取链表节点存入哈希表，按链表顺序将节点收集到列表中，
@@ -33,7 +34,7 @@ main(): Int64 {
         let addr = Int64.parse(parts[0])
         let data = Int64.parse(parts[1])
         let next = Int64.parse(parts[2])
-        nodeMap.put(addr, Node(addr, data, next))
+        nodeMap[addr] = Node(addr, data, next)
     }
 
     // 从链表头开始，按原始顺序收集所有节点
@@ -41,7 +42,7 @@ main(): Int64 {
     var cur = head
     while (cur != -1) {
         let node = nodeMap.get(cur)
-        if (node != nil) {
+        if (node.isSome()) {
             nodes.add(node.getOrThrow())
             cur = node.getOrThrow().next
         } else {

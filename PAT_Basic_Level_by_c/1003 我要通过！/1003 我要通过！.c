@@ -19,7 +19,7 @@ int main() {
         scanf("%s", s);
         int len = strlen(s);
         int p = -1, t = -1;                             // 记录 P、T 的下标（-1 表示未出现）
-        int cnt_p = 0, cnt_t = 0, cnt_a = 0;            // P、T、A 的出现次数
+        int cnt_p = 0, cnt_t = 0;                       // P、T 的出现次数
         int flag = 1;                                   // 是否符合规则
         for (int i = 0; i < len; i++) {
             if (s[i] == 'P') {

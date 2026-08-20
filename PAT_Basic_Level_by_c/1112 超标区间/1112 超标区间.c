@@ -17,14 +17,12 @@ int main() {
     scanf("%d %d", &N, &T);     // 数据个数 N 和超标阈值 T
     int max_val = -1;           // 所有数中的最大值
     int in_interval = 0;        // 当前是否处于超标区间中
-    int start = 0;              // 当前区间起始下标
     for (int i = 0; i < N; i++) {
         int a;
         scanf("%d", &a);        // 依次读入每个数值
         if (a > max_val) max_val = a;
         if (a > T && !in_interval) {    // 新超标区间开始
             in_interval = 1;
-            start = i;
             printf("[%d, ", i);
         }
         if (a <= T && in_interval) {    // 超标区间结束

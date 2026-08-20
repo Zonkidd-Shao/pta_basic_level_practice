@@ -10,7 +10,7 @@ main(): Int64 {
         println(0)
         return 0
     }
-    let isPrime = Array<Bool>(n + 1, item: true)  // 布尔数组标记是否为素数
+    let isPrime = Array<Bool>(n + 1, repeat: true)  // 布尔数组标记是否为素数
     isPrime[0] = false
     isPrime[1] = false
     var i: Int64 = 2

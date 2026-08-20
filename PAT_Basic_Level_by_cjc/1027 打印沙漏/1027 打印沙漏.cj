@@ -27,10 +27,10 @@ main(): Int64 {
         let spaces = i               // 左侧空格数 = 行号
         let chars = 2 * (h - i) - 1  // 当前行符号数 = 2*(h-i)-1
         for (_ in 0..spaces) {
-            Console.stdOut.write(" ")
+            print(" ")
         }
         for (_ in 0..chars) {
-            Console.stdOut.write(ch)
+            print(ch)
         }
         println("")
     }
@@ -40,10 +40,10 @@ main(): Int64 {
         let spaces = h - 1 - i      // 左侧空格数递减
         let chars = 2 * i + 1       // 当前行符号数递增
         for (_ in 0..spaces) {
-            Console.stdOut.write(" ")
+            print(" ")
         }
         for (_ in 0..chars) {
-            Console.stdOut.write(ch)
+            print(ch)
         }
         println("")
     }

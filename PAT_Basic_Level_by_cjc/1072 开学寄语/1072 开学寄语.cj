@@ -3,6 +3,7 @@
 // 若发现违禁物品则记录并输出该学生信息，最后统计问题学生和问题物品总数。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 main(): Int64 {
     // 读入学生人数 N 和违禁物品种类数 M
@@ -14,7 +15,7 @@ main(): Int64 {
     let bannedLine = getStdIn().readln().getOrThrow().split(" ")
     let bannedSet = HashSet<String>()
     for (i in 0..m) {
-        bannedSet.put(bannedLine[i])
+        bannedSet.add(bannedLine[i])
     }
 
     // 统计问题学生人数和问题物品总件数
@@ -38,9 +39,9 @@ main(): Int64 {
         if (foundItems.size > 0) {
             problemStudents += 1
             problemItems += foundItems.size
-            Console.stdOut.write("${name}:")
+            print("${name}:")
             for (it in foundItems) {
-                Console.stdOut.write(" ${it}")
+                print(" ${it}")
             }
             println("")
         }

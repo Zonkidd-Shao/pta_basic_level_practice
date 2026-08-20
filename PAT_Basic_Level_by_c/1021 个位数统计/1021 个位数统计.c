@@ -16,7 +16,7 @@ int main() {
     char num[1001];                 // 数字可能很长（达 1000 位），用字符串存储
     scanf("%s", num);
     int count[10] = {0};            // count[i] 记录数字 i 出现的次数
-    for (int i = 0; i < strlen(num); i++) {
+    for (size_t i = 0; i < strlen(num); i++) {
         count[num[i] - '0']++;      // 字符数字转数值，对应计数加 1
     }
     for (int i = 0; i < 10; i++) {

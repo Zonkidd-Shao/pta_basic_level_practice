@@ -12,7 +12,7 @@ main(): Int64 {
     var m = Int64.parse(parts1[1])  // 右移位数
     let line2 = getStdIn().readln().getOrThrow()
     let parts2 = line2.split(" ")
-    let arr = Array<Int64>(n, item: 0)
+    let arr = Array<Int64>(n, repeat: 0)
     for (i in 0..n) {
         arr[i] = Int64.parse(parts2[i])  // 读取数组元素
     }

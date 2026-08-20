@@ -3,6 +3,7 @@
 // 检查是否存在一组因数的和能被 N 整除。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 main() {
     // 读取待检测数字的个数 K
@@ -16,7 +17,7 @@ main() {
         var divisors = ArrayList<Int64>()
         for (d in 1..(N + 1)) {
             if (N % d == 0) {
-                divisors.append(d)
+                divisors.add(d)
             }
         }
         var sz = divisors.size

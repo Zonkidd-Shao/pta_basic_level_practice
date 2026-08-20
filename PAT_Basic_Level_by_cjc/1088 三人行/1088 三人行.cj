@@ -39,9 +39,10 @@ main() {
     var yi: Int64 = 0
     var bing: Float64 = 0.0
     // 甲是2位数，从大到小（99到9）遍历，确保解是甲的最大值
-    for (a in 99..9) {
+    var a: Int64 = 99
+    while (a >= 10) {
         var b = (a % 10) * 10 + a / 10  // 乙是甲的数字反转
-        var diff = if (a > b) a - b else b - a  // 甲乙之差的绝对值
+        var diff = if (a > b) { a - b } else { b - a }  // 甲乙之差的绝对值
         // 由 |甲-乙| = 丙×X 和 乙 = 丙×Y 推导出：乙×X = |甲-乙|×Y
         // 即 b * X == diff * Y
         if (b * X == diff * Y) {
@@ -51,15 +52,16 @@ main() {
             found = true
             break
         }
+        a--
     }
     if (!found) {
         println("No Solution")
     } else {
         // 输出甲的能力值，以及甲、乙、丙分别与M的比较结果
-        Console.stdOut.write(jia.toString())
-        Console.stdOut.write(" " + compareInt(M, jia))
-        Console.stdOut.write(" " + compareInt(M, yi))
-        Console.stdOut.write(" " + compareFloat(M, bing))
+        print(jia.toString())
+        print(" " + compareInt(M, jia))
+        print(" " + compareInt(M, yi))
+        print(" " + compareFloat(M, bing))
         println("")
     }
 }

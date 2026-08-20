@@ -5,6 +5,7 @@
 import std.env.*
 import std.convert.*
 import std.math.*
+import std.collection.*
 
 main(): Int64 {
     // 读入第一行：M(列数), N(行数), TOL(色差阈值)
@@ -14,21 +15,27 @@ main(): Int64 {
     let tol = Int64.parse(first[2])
 
     // 存储图像每个像素的颜色值，注意行数为 N，列数为 M
-    let image = Array<Array<Int64>>(n, item: Array<Int64>(m, item: 0))
+    let image = Array<Array<Int64>>(n, repeat: Array<Int64>(m, repeat: 0))
+    for (i in 0..n) {
+        image[i] = Array<Int64>(m, repeat: 0)
+    }
     // 统计每个颜色值出现的次数，用于判断是否"独一无二"
     let colorCount = HashMap<Int64, Int64>()
 
     for (i in 0..n) {
         let line = getStdIn().readln().getOrThrow()
-        let parts = line.split(" ")
+        let parts = line.replace("\t", " ").split(" ")
+        var token: Int64 = 0
         for (j in 0..m) {
-            let val = Int64.parse(parts[j])
+            while (token < parts.size && parts[token] == "") { token++ }
+            let val = Int64.parse(parts[token])
+            token++
             image[i][j] = val
             let cnt = colorCount.get(val)
-            if (cnt == nil) {
-                colorCount.put(val, 1)
+            if (cnt.isNone()) {
+                colorCount[val] = 1
             } else {
-                colorCount.put(val, cnt.getOrThrow() + 1)
+                colorCount[val] = cnt.getOrThrow() + 1
             }
         }
     }
@@ -44,7 +51,7 @@ main(): Int64 {
             let color = image[i][j]
             // 条件1：颜色值必须独一无二（在整个图像中只出现一次）
             let cnt = colorCount.get(color)
-            if (cnt != nil && cnt.getOrThrow() > 1) {
+            if (cnt.isSome() && cnt.getOrThrow() > 1) {
                 continue
             }
             // 条件2：与周围 8 个相邻像素的色差均大于阈值 TOL
@@ -54,7 +61,7 @@ main(): Int64 {
                 let nj = j + d[1]  // 相邻像素的列坐标
                 // 只检查在图像范围内的相邻像素
                 if (ni >= 0 && ni < n && nj >= 0 && nj < m) {
-                    let diff = color - image[ni][nj]
+                    var diff = color - image[ni][nj]
                     if (diff < 0) { diff = -diff }  // 取绝对值
                     if (diff <= tol) {               // 色差不大于阈值，不符合条件
                         unique = false

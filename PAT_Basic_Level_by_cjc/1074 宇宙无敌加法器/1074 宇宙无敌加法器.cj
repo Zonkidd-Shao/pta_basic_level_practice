@@ -25,22 +25,23 @@ main(): Int64 {
     var carry: Int64 = 0  // 进位
     var result = ""
     // 从最低位（最右边）开始逐位相加
-    for (i in (extBase.size - 1)..0) {
-        let digitA = Int64.parse(aDigits[i].toString())
-        let digitB = Int64.parse(bDigits[i].toString())
+    var i = extBase.size - 1
+    while (i >= 0) {
+        let digitA = Int64(aDigits[i]) - 48
+        let digitB = Int64(bDigits[i]) - 48
         // 获取当前位的进制，若为 '0' 则表示十进制（10）
-        let radix = if (extBase[i] == '0') { 10 } else { Int64.parse(extBase[i].toString()) }
+        let radix = if (extBase[i] == 48) { 10 } else { Int64(extBase[i]) - 48 }
         let sum = digitA + digitB + carry  // 当前位相加结果
         result = (sum % radix).toString() + result  // 当前位结果（取模）
         carry = sum / radix  // 计算进位
+        i--
     }
 
     // 去除结果前面的前导零
     var start: Int64 = 0
-    while (start < result.size - 1 && result[start] == '0') {
+    while (start < result.size - 1 && result[start] == 48) {
         start += 1
     }
     println(result[start..])
     return 0
 }
-

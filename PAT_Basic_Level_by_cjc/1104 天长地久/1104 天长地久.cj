@@ -12,6 +12,7 @@
 import std.env.*
 import std.convert.*
 import std.math.*
+import std.collection.*
 
 // 用于存储结果对 (n, A)
 class Result {
@@ -79,7 +80,7 @@ var gResults = ArrayList<Int64>()
 // remaining: 剩余需要分配的数字和
 // prefixLen: 前缀的总位数
 // t: 末尾连续 9 的个数
-func dfs(pos: Int64, remaining: Int64, prefixLen: Int64, t: Int64) {
+func dfs(pos: Int64, remaining: Int64, prefixLen: Int64, t: Int64): Unit {
     if (pos == prefixLen) {
         if (remaining == 0) {
             // 已构建完前缀，末尾拼接 t 个 9 形成完整的 A
@@ -138,7 +139,7 @@ main() {
             if (prefixSum > 9 * prefixLen) { continue }
 
             // DFS 生成所有合法前缀
-            gDigits = Array<Int64>(prefixLen, item: 0)
+            gDigits = Array<Int64>(prefixLen, repeat: 0)
             gResults = ArrayList<Int64>()
             dfs(0, prefixSum, prefixLen, t)
 
@@ -156,12 +157,18 @@ main() {
             println("No Solution")
         } else {
             // 按 n 升序排列，n 相同时按 A 升序排列
-            allResults.sort(func(a: Result, b: Result): Int64 {
-                if (a.n != b.n) {
-                    return a.n - b.n
+            for (i in 0..allResults.size) {
+                for (j in i + 1..allResults.size) {
+                    let a = allResults[i]
+                    let b = allResults[j]
+                    let shouldSwap = if (a.n != b.n) { a.n > b.n } else { a.a > b.a }
+                    if (shouldSwap) {
+                        let tmp = allResults[i]
+                        allResults[i] = allResults[j]
+                        allResults[j] = tmp
+                    }
                 }
-                return a.a - b.a
-            })
+            }
             for (r in allResults) {
                 println("${r.n} ${r.a}")
             }

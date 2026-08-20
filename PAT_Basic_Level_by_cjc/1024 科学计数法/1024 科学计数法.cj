@@ -10,7 +10,7 @@ main(): Int64 {
     // 找到字符 'E' 的位置，将输入分为尾数和指数两部分
     var ePos: Int64 = 0
     for (i in 0..input.size) {
-        if (input[i] == 'E') {
+        if (input[i] == 69) {
             ePos = i
             break
         }
@@ -27,7 +27,7 @@ main(): Int64 {
     // 找到尾数中小数点的位置
     var dotPos: Int64 = 0
     for (i in 0..mantissa.size) {
-        if (mantissa[i] == '.') {
+        if (mantissa[i] == 46) {
             dotPos = i
             break
         }
@@ -38,11 +38,11 @@ main(): Int64 {
     let fracPart = mantissa[dotPos + 1..]
 
     var result = ""
-    if (expSign == '+') {
+    if (expSign == 43) {
         // 指数为正：小数点右移
         if (exp >= fracPart.size) {
             // 右移位数超过小数部分长度，需要补零
-            result = intPart + fracPart + repeatChar('0', exp - fracPart.size)
+            result = intPart + fracPart + repeatChar("0", exp - fracPart.size)
         } else {
             // 右移位数在小数部分范围内，移动小数点
             result = intPart + fracPart[0..exp] + "." + fracPart[exp..]
@@ -51,7 +51,7 @@ main(): Int64 {
         // 指数为负：小数点左移
         if (exp >= intPart.size) {
             // 左移位数超过整数部分长度，需要在前面补零
-            result = "0." + repeatChar('0', exp - intPart.size) + intPart + fracPart
+            result = "0." + repeatChar("0", exp - intPart.size) + intPart + fracPart
         } else {
             // 左移位数在整数部分范围内，移动小数点
             let intLen = intPart.size
@@ -60,18 +60,18 @@ main(): Int64 {
     }
 
     // 如果原数为负数，添加负号
-    if (sign == '-') {
-        Console.stdOut.write("-")
+    if (sign == 45) {
+        print("-")
     }
     println(result)
     return 0
 }
 
 // 生成由指定字符重复 count 次组成的字符串
-func repeatChar(ch: Char, count: Int64): String {
+func repeatChar(ch: String, count: Int64): String {
     var s = ""
     for (_ in 0..count) {
-        s = s + ch.toString()
+        s = s + ch
     }
     return s
 }

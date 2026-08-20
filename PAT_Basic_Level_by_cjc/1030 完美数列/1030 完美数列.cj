@@ -15,7 +15,7 @@ main(): Int64 {
     // 读取数列并存入数组
     let line2 = getStdIn().readln().getOrThrow()
     let parts2 = line2.split(" ")
-    var arr = Array<Int64>(N)
+    var arr = Array<Int64>(N, repeat: 0)
     for (i in 0..N) {
         arr[i] = Int64.parse(parts2[i])
     }
@@ -43,7 +43,7 @@ main(): Int64 {
 }
 
 // 快速排序递归函数
-func quickSort(arr: Array<Int64>, low: Int64, high: Int64) {
+func quickSort(arr: Array<Int64>, low: Int64, high: Int64): Unit {
     if (low < high) {
         let pi = partition(arr, low, high)
         quickSort(arr, low, pi - 1)

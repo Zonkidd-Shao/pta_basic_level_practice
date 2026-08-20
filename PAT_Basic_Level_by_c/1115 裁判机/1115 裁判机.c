@@ -28,7 +28,7 @@ int main() {
         }
     }
     int exist[MAX_VAL] = {0};   // 标记数字是否已出现过
-    int record[2000] = {0};     // 按顺序记录所有已出现的数字
+    int record[10005] = {0};     // 最多 N*M+2 个不同数字
     int rcnt = 0;               // 已出现数字的个数
     exist[a] = 1;
     exist[b] = 1;
@@ -42,7 +42,7 @@ int main() {
         for (int i = 0; i < N; i++) {
             if (!alive[i]) continue;    // 已出局玩家不再检查
             int num = players[i][round];
-            if (exist[num]) {           // 数字重复出现：出局
+            if (num < 0 || num >= MAX_VAL || exist[num]) { // 越界或重复：出局
                 out[out_cnt++] = i;
                 continue;
             }

@@ -32,7 +32,7 @@ int main() {
     
     qsort(arr, N, sizeof(int), cmp);  // 从大到小排序
     
-    int m, n;
+    int m = N, n = 1;
     for (n = sqrt(N); n >= 1; n--) {  // 从 sqrt(N) 向下找第一个能整除 N 的 n，保证 m>=n 且 m-n 最小
         if (N % n == 0) {
             m = N / n;

@@ -61,7 +61,8 @@ int main() {
         int K, m;
         scanf("%d %d", &K, &m);     // 位数 K 和各位数字之和 m
         printf("Case %d\n", case_num);
-        Result res[10000];          // 存储所有满足条件的结果
+        Result *res = NULL;         // 存储所有满足条件的结果
+        size_t capacity = 0;
         int cnt = 0;                // 结果个数
         long long start = 1;        // 计算 K 位数的最小值 10^(K-1)
         for (int i = 0; i < K - 1; i++) start *= 10;
@@ -71,6 +72,16 @@ int main() {
                 int n = digit_sum(i + 1);       // 计算 A+1 的各位数字之和
                 int g = gcd(m, n);              // 求 m 与 n 的最大公约数
                 if (g > 2 && is_prime(g)) {     // gcd 需为大于 2 的素数
+                    if ((size_t)cnt == capacity) {
+                        size_t new_capacity = capacity == 0 ? 1024 : capacity * 2;
+                        Result *new_res = realloc(res, new_capacity * sizeof(*res));
+                        if (new_res == NULL) {
+                            free(res);
+                            return 1;
+                        }
+                        res = new_res;
+                        capacity = new_capacity;
+                    }
                     res[cnt].n = n;
                     res[cnt].A = i;
                     cnt++;
@@ -85,6 +96,7 @@ int main() {
                 printf("%d %lld\n", res[i].n, res[i].A);
             }
         }
+        free(res);
     }
     return 0;
 }

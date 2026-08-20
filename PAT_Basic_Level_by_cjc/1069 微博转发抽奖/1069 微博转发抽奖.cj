@@ -3,6 +3,7 @@
 // 若该用户已中奖则顺延到下一位。使用 HashSet 记录已中奖者以防重复。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 main(): Int64 {
     // 读入第一行：M(转发总量), N(间隔数), S(起始序号)
@@ -12,7 +13,7 @@ main(): Int64 {
     let s = Int64.parse(first[2])  // 第一个中奖者的序号
 
     // 读取所有用户的昵称
-    var nicknames = Array<String>(m, item: "")
+    var nicknames = Array<String>(m, repeat: "")
     for (i in 0..m) {
         nicknames[i] = getStdIn().readln().getOrThrow()
     }
@@ -30,7 +31,7 @@ main(): Int64 {
             continue
         }
         // 该用户中奖，记录并加入集合
-        winnerSet.put(nicknames[idx])
+        winnerSet.add(nicknames[idx])
         winners.add(nicknames[idx])
         // 跳过 n 个用户（因为每 n 人中奖一次）
         idx += n

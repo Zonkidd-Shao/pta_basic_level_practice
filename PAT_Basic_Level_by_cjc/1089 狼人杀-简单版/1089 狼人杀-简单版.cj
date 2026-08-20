@@ -8,9 +8,10 @@ main() {
     // 读取玩家数量 N
     var N = Int64.parse(getStdIn().readln().getOrThrow())
     // 存储每个玩家的发言，正数表示"XX号是好人"，负数表示"XX号是狼人"
-    var statements = Array<Int64>(N)
+    var statements = Array<Int64>(N, repeat: 0)
     for (i in 0..N) {
         var s = getStdIn().readln().getOrThrow()
+        if (s.size > 0 && s[0] == 43) { s = s[1..] }
         statements[i] = Int64.parse(s)
     }
     var found = false
@@ -24,7 +25,7 @@ main() {
                 var stmt = statements[p - 1]
                 // stmt < 0 表示"XX号是狼人"，> 0 表示"XX号是好人"
                 var saidWolf = stmt < 0
-                var targetId = if (saidWolf) -stmt else stmt  // 被指认的玩家编号
+                var targetId = if (saidWolf) { -stmt } else { stmt }  // 被指认的玩家编号
                 var isWolf = (targetId == w1) || (targetId == w2)  // 被指认者是否为狼人
                 // 玩家 p 说真话的条件：saidWolf 与 isWolf 一致
                 var isLying = (saidWolf != isWolf)

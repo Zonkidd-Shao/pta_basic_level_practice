@@ -25,8 +25,8 @@ class Question {
 }
 
 // 将选项字母转换为位位置（0-indexed）：'a' -> 0, 'b' -> 1, ...
-func optionToBit(opt: Char): Int64 {
-    return opt - 'a'
+func optionToBit(opt: UInt8): Int64 {
+    return Int64(opt) - 97
 }
 
 // 解析学生答案字符串，如 "(2 a c)"，返回 (位掩码, 选项个数)
@@ -48,7 +48,7 @@ main(): Int64 {
     let m = Int64.parse(first[1])
 
     // 读取每道题目的信息
-    var questions = Array<Question>(m, item: Question(0.0, 0, 0, 0))
+    var questions = Array<Question>(m, repeat: Question(0.0, 0, 0, 0))
     for (i in 0..m) {
         let parts = getStdIn().readln().getOrThrow().split(" ")
         let fullScore = Float64.parse(parts[0])  // 满分
@@ -64,7 +64,10 @@ main(): Int64 {
     }
 
     // wrongCount[qi][opt] 记录第 qi 题第 opt 个选项的出错次数
-    var wrongCount = Array<Array<Int64>>(m, item: Array<Int64>(5, item: 0))
+    var wrongCount = Array<Array<Int64>>(m, repeat: Array<Int64>(5, repeat: 0))
+    for (i in 0..m) {
+        wrongCount[i] = Array<Int64>(5, repeat: 0)
+    }
     var maxWrong: Int64 = 0  // 记录最大出错次数
 
     // 逐位学生处理答题情况
@@ -76,12 +79,12 @@ main(): Int64 {
         var ansStart: Int64 = 0
         for (qi in 0..m) {
             // 找到下一个 '(' 的位置
-            while (ansStart < line.size && line[ansStart] != '(') {
+            while (ansStart < line.size && line[ansStart] != 40) {
                 ansStart += 1
             }
             // 找到对应的 ')' 的位置
             var ansEnd = ansStart + 1
-            while (ansEnd < line.size && line[ansEnd] != ')') {
+            while (ansEnd < line.size && line[ansEnd] != 41) {
                 ansEnd += 1
             }
             // 提取括号内的答案字符串
@@ -94,9 +97,9 @@ main(): Int64 {
             let fullScore = questions[qi].fullScore
 
             // 计算学生选错了哪些选项（选了不该选的）
-            let wrongSelected = stuMask & (~corrMask)
+            let wrongSelected = stuMask & (31 - corrMask)
             // 计算学生漏选了哪些正确选项（该选没选的）
-            let missedCorrect = corrMask & (~stuMask)
+            let missedCorrect = corrMask & (31 - stuMask)
 
             if (wrongSelected != 0) {
                 // 选择了错误选项，本题得 0 分
@@ -128,9 +131,12 @@ main(): Int64 {
         }
         // 输出学生得分，保留 1 位小数
         let scoreStr = score.toString()
-        let dotIdx = scoreStr.find(".")
-        if (dotIdx != nil) {
-            let idx = dotIdx.getOrThrow()
+        var dotIdx: Int64 = -1
+        for (di in 0..scoreStr.size) {
+            if (scoreStr[di] == 46) { dotIdx = di; break }
+        }
+        if (dotIdx >= 0) {
+            let idx = dotIdx
             if (idx + 2 < scoreStr.size) {
                 println(scoreStr[0..=idx + 1])
             } else {
@@ -149,7 +155,7 @@ main(): Int64 {
         for (qi in 0..m) {
             for (opt in 0..5) {
                 if (wrongCount[qi][opt] == maxWrong) {
-                    let optChar = ('a' + opt) as Char
+                    let optChar = ["a", "b", "c", "d", "e"][opt]
                     println("${maxWrong} ${qi + 1}-${optChar}")
                 }
             }

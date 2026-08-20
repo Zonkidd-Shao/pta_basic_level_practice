@@ -33,7 +33,8 @@ int main() {
     }
     getchar();                          // 吃掉点阵后的换行符
     char sentence[1000];
-    gets(sentence);                     // 读入待显示的句子
+    fgets(sentence, sizeof(sentence), stdin); // 读入待显示的句子
+    sentence[strcspn(sentence, "\n")] = '\0';
     char word[11];                      // 单词缓冲
     int word_len = 0;                   // 当前单词长度
     int first_word = 1;                 // 是否为第一个单词（决定是否输出空行）
@@ -42,7 +43,7 @@ int main() {
         if (i == len || !(sentence[i] >= 'A' && sentence[i] <= 'Z')) {  // 遇到分隔符或结尾
             if (word_len > 0) {         // 已收集完一个单词则输出
                 word[word_len] = '\0';
-                if (!first_word) printf("\n\n");    // 单词之间输出空行
+                if (!first_word) printf("\n");       // 单词之间输出一个空行
                 print_word(word);
                 first_word = 0;
                 word_len = 0;

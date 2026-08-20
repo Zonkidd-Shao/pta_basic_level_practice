@@ -11,7 +11,7 @@ func addOne(digits: String): String {
     var result = ""
     var i = digits.size - 1
     while (i >= 0) {
-        let d = Int64.parse(digits[i].toString()) + carry  // 当前位加上进位
+        let d = Int64(digits[i]) - 48 + carry  // 当前位加上进位
         result = (d % 10).toString() + result               // 当前位结果
         carry = d / 10                                      // 进位
         i--
@@ -33,28 +33,34 @@ main() {
         // 找到第一个空格，分隔指令符和数字
         var spacePos: Int64 = -1
         for (i in 0..exprLine.size) {
-            if (exprLine[i] == ' ') {
+            if (exprLine[i] == 32) {
                 spacePos = i
                 break
             }
         }
-        let mode = Int64.parse(exprLine[0..spacePos].toString())  // 舍入方式：1/2/3
+        let mode = Int64.parse(exprLine[0..spacePos])  // 舍入方式：1/2/3
         let numStr = exprLine[(spacePos + 1)..]                   // 待处理数字字符串
 
         // 将数字拆分为整数部分和小数部分
+        var negative = false
+        var magnitude = numStr
+        if (magnitude.size > 0 && magnitude[0] == 45) {
+            negative = true
+            magnitude = magnitude[1..]
+        }
         var intPart = ""
         var decPart = ""
         var hasDot = false
-        for (i in 0..numStr.size) {
-            if (numStr[i] == '.') {
-                intPart = numStr[0..i]       // 小数点前为整数部分
-                decPart = numStr[(i + 1)..]  // 小数点后为小数部分
+        for (i in 0..magnitude.size) {
+            if (magnitude[i] == 46) {
+                intPart = magnitude[0..i]       // 小数点前为整数部分
+                decPart = magnitude[(i + 1)..]  // 小数点后为小数部分
                 hasDot = true
                 break
             }
         }
         if (!hasDot) {
-            intPart = numStr  // 无小数点，整个数字为整数部分
+            intPart = magnitude  // 无小数点，整个数字为整数部分
             decPart = ""
         }
 
@@ -69,7 +75,7 @@ main() {
             // 截断模式：直接舍去多余位数，不需要进位
             needRoundUp = false
         } else if (decPart.size > D) {
-            let extraDigit = Int64.parse(decPart[D].toString())  // 第D+1位（要判断的位）
+            let extraDigit = Int64(decPart[D]) - 48  // 第D+1位（要判断的位）
 
             if (mode == 1) {
                 // 四舍五入：看第D+1位，>=5则进位
@@ -85,7 +91,7 @@ main() {
                     var hasNonZero = false
                     var j = D + 1
                     while (j < decPart.size) {
-                        if (decPart[j] != '0') {
+                        if (decPart[j] != 48) {
                             hasNonZero = true  // 5后面有非零数字，进位
                             break
                         }
@@ -96,11 +102,11 @@ main() {
                     } else {
                         // 5后面全是0，看保留的最后一位：奇数进位，偶数舍去
                         if (D > 0) {
-                            let dth = Int64.parse(decPart[D - 1].toString())
+                            let dth = Int64(decPart[D - 1]) - 48
                             needRoundUp = (dth % 2 == 1)  // 奇数进位
                         } else {
                             // D==0的情况，看整数部分最后一位
-                            let lastInt = Int64.parse(intPart[intPart.size - 1].toString())
+                            let lastInt = Int64(intPart[intPart.size - 1]) - 48
                             needRoundUp = (lastInt % 2 == 1)
                         }
                     }
@@ -132,11 +138,18 @@ main() {
         }
 
         // 输出结果
+        var output = if (D == 0) { intPart } else { intPart + "." + decPart }
+        if (negative) {
+            var isZero = true
+            for (c in output) {
+                if (c >= 49 && c <= 57) { isZero = false; break }
+            }
+            if (!isZero) { output = "-" + output }
+        }
         if (D == 0) {
-            println(intPart)
+            println(output)
         } else {
-            println(intPart + "." + decPart)
+            println(output)
         }
     }
 }
-

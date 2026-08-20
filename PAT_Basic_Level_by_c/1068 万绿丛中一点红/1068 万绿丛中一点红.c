@@ -13,26 +13,58 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 int arr[1002][1002] = {0};  // 图像像素值，四周留一圈 0 便于统一处理边界
-long long count_color[17000000] = {0};  // 每种颜色值出现的次数（颜色可能为负数，故用下标）
+static int cmp_int(const void *a, const void *b)
+{
+    int x = *(const int *)a;
+    int y = *(const int *)b;
+    return (x > y) - (x < y);
+}
+
+static int lower_bound_int(const int *a, int n, int value)
+{
+    int left = 0, right = n;
+    while (left < right) {
+        int middle = left + (right - left) / 2;
+        if (a[middle] < value) left = middle + 1;
+        else right = middle;
+    }
+    return left;
+}
+
+static int upper_bound_int(const int *a, int n, int value)
+{
+    int left = 0, right = n;
+    while (left < right) {
+        int middle = left + (right - left) / 2;
+        if (a[middle] <= value) left = middle + 1;
+        else right = middle;
+    }
+    return left;
+}
 
 int main() {
     int M, N, TOL;  // 宽 M、高 N，颜色差阈值 TOL
     scanf("%d %d %d", &M, &N, &TOL);
+    int total = M * N;
+    int *colors = malloc((size_t)total * sizeof(*colors));
+    if (colors == NULL) return 1;
     
     for (int i = 1; i <= N; i++) {  // 读入图像并统计每种颜色出现次数
         for (int j = 1; j <= M; j++) {
             scanf("%d", &arr[i][j]);
-            count_color[arr[i][j]]++;
+            colors[(i - 1) * M + (j - 1)] = arr[i][j];
         }
     }
+    qsort(colors, (size_t)total, sizeof(*colors), cmp_int);
     
     int x = 0, y = 0, cnt = 0;  // 特殊点坐标 (x, y) 及找到的个数
     for (int i = 1; i <= N; i++) {
         for (int j = 1; j <= M; j++) {
-            if (count_color[arr[i][j]] == 1) {  // 只检查出现一次的颜色
+            int first = lower_bound_int(colors, total, arr[i][j]);
+            int last = upper_bound_int(colors, total, arr[i][j]);
+            if (last - first == 1) {  // 只检查出现一次的颜色
                 int flag = 1;  // 标记是否满足与 8 邻域差值都大于 TOL
                 for (int dx = -1; dx <= 1 && flag; dx++) {
                     for (int dy = -1; dy <= 1 && flag; dy++) {
@@ -63,5 +95,6 @@ int main() {
         printf("Not Unique\n");
     }
     
+    free(colors);
     return 0;
 }

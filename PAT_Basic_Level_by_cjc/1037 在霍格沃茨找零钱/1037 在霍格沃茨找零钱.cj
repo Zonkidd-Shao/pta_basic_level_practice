@@ -32,7 +32,7 @@ main(): Int64 {
 
     // 如果差值为负，输出负号，取绝对值计算
     if (diff < 0) {
-        Console.stdOut.write("-")
+        print("-")
     }
 
     let absDiff = abs(diff)

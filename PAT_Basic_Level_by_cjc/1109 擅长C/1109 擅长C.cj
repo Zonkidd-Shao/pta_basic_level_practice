@@ -6,12 +6,13 @@
 
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 main() {
     // 读取 26 个字母（A-Z）的点阵图案，每个字母 7 行，每行 5 个字符
-    var letters = Array<Array<String>>(26, item: [])
+    var letters = Array<Array<String>>(26, repeat: [])
     for (i in 0..26) {
-        letters[i] = Array<String>(7, item: "")
+        letters[i] = Array<String>(7, repeat: "")
         for (row in 0..7) {
             letters[i][row] = getStdIn().readln().getOrThrow()
         }
@@ -25,7 +26,7 @@ main() {
     var curWord = ""
     for (ch in sentence) {
         if (ch >= 65 && ch <= 90) {     // 大写字母 A-Z（ASCII 65-90）
-            curWord += ch.toString()
+            curWord += Rune(ch).toString()
         } else {
             if (curWord != "") {
                 words.add(curWord)      // 遇到非大写字母，结束当前单词
@@ -62,4 +63,3 @@ main() {
         }
     }
 }
-

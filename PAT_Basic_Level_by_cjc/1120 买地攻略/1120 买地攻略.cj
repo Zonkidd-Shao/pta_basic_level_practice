@@ -13,7 +13,7 @@ main() {
 
     let pricesLine = getStdIn().readln().getOrThrow()
     let priceParts = pricesLine.split(" ")
-    var prices = Array<Int64>(N, item: 0)  // 每块土地的价格
+    var prices = Array<Int64>(N, repeat: 0)  // 每块土地的价格
     for (i in 0..N) {
         prices[i] = Int64.parse(priceParts[Int64(i)])
     }

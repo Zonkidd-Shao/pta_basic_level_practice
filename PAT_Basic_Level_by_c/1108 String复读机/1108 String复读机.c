@@ -14,7 +14,8 @@
 
 int main() {
     char str[10001];        // 输入字符串
-    gets(str);
+    fgets(str, sizeof(str), stdin);
+    str[strcspn(str, "\n")] = '\0';
     int count[6] = {0};     // 统计 'S' 't' 'r' 'i' 'n' 'g' 各字符出现次数
     char target[] = "String";
     int len = strlen(str);

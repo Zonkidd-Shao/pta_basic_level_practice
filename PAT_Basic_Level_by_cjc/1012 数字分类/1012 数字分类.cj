@@ -71,7 +71,7 @@ main(): Int64 {
     // A4 — 计算平均值，精确到小数点后 1 位
     result = result + " "
     if (a4Count > 0) {
-        let avg = a4Sum * 10 / a4Count   // 乘以 10 再整除得到保留一位小数的结果
+        let avg = (a4Sum * 10 + a4Count / 2) / a4Count   // 四舍五入到一位小数
         result = result + (avg / 10).toString() + "." + (avg % 10).toString()
     } else {
         result = result + "N"

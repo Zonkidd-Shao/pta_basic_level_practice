@@ -26,7 +26,7 @@ void print(long long a, long long b) {
         return;
     }
     int flag = 0;  // 标记是否为负数（负数需用括号包裹）
-    if (a < 0 && b > 0 || a > 0 && b < 0) {  // 分子分母异号 → 负分数
+    if ((a < 0 && b > 0) || (a > 0 && b < 0)) {  // 分子分母异号 → 负分数
         printf("(-");
         flag = 1;
     }

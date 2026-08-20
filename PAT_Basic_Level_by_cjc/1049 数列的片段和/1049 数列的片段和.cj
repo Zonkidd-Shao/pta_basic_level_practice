@@ -23,5 +23,9 @@ main() {
     }
     
     // 输出结果，精确到小数点后2位
-    println("${sum.format("0.00")}")
+    let scaled = Int64(sum * 100.0 + 0.5)
+    let integerPart = scaled / 100
+    let fractionPart = scaled % 100
+    if (fractionPart < 10) { println("${integerPart}.0${fractionPart}") }
+    else { println("${integerPart}.${fractionPart}") }
 }

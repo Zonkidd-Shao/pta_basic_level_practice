@@ -12,9 +12,11 @@
 #include <string.h>
 
 int main() {
-    char A[1000001], B[1000001];
-    gets(A);
-    gets(B);
+    char A[1000002], B[1000002];
+    fgets(A, sizeof(A), stdin);
+    fgets(B, sizeof(B), stdin);
+    A[strcspn(A, "\n")] = '\0';
+    B[strcspn(B, "\n")] = '\0';
     int com[129] = {0};     // com[c]标记ASCII码c的字符是否已输出
     int lenA = strlen(A), lenB = strlen(B);
     for (int i = 0; i < lenA; i++) {    // 先输出A中首次出现的字符

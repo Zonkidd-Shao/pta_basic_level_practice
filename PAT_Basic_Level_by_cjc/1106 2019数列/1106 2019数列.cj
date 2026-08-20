@@ -16,7 +16,7 @@ main() {
     }
 
     // 初始化长度为 n 的数组
-    var arr = Array<Int64>(n, item: 0)
+    var arr = Array<Int64>(n, repeat: 0)
     // 设置前 4 项的初始值
     if (n >= 1) { arr[0] = 2 }
     if (n >= 2) { arr[1] = 0 }

@@ -3,6 +3,7 @@
 // 然后输出第 m 到第 n 个素数，每 10 个数换行。
 import std.env.*
 import std.convert.*
+import std.collection.*
 
 main(): Int64 {
     // 读入 m 和 n，表示需要输出第 m 到第 n 个素数
@@ -12,7 +13,7 @@ main(): Int64 {
     let n = Int64.parse(parts[1])
     // 筛法求素数的上限：n <= 10000，第 10000 个素数约为 104729，取 110000 确保足够
     let maxN: Int64 = 110000
-    let isPrime = Array<Bool>(maxN + 1, item: true)
+    let isPrime = Array<Bool>(maxN + 1, repeat: true)
     isPrime[0] = false
     isPrime[1] = false
     var i: Int64 = 2
@@ -31,7 +32,7 @@ main(): Int64 {
     var primes = ArrayList<Int64>()
     for (i in 2..=maxN) {
         if (isPrime[i]) {
-            primes.append(i)
+            primes.add(i)
         }
     }
     // 输出第 m 到第 n 个素数，每行 10 个数，空格分隔

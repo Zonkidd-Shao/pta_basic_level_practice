@@ -37,7 +37,7 @@ main(): Int64 {
             }
             // 未重复则添加到结果字符串
             if (!found) {
-                result = result + upperCh.toString()
+                result = result + Rune(upperCh).toString()
             }
         }
     }
@@ -46,4 +46,3 @@ main(): Int64 {
     println(result)
     return 0
 }
-

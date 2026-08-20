@@ -17,7 +17,7 @@ int main() {
     char pinyin[10][5] = {"ling", "yi", "er", "san", "si", "wu", "liu", "qi", "ba", "jiu"};  // 数字0~9对应的拼音
     scanf("%s", num);
     int sum = 0;                                        // 各位数字之和
-    for (int i = 0; i < strlen(num); i++) {
+    for (size_t i = 0; i < strlen(num); i++) {
         sum += num[i] - '0';                            // 将字符数字转为数值并累加
     }
     int digits[10], len = 0;                            // digits 逆序存放和的各位数字，len 为位数

@@ -19,15 +19,15 @@ main(): Int64 {
         if (i == 0 || i == rows - 1) {
             // 第一行和最后一行：打印 N 个字符
             for (_ in 0..N) {
-                Console.stdOut.write(ch)
+                print(ch)
             }
         } else {
             // 中间行：两端打印字符，中间打印空格
-            Console.stdOut.write(ch)
+            print(ch)
             for (_ in 0..N-2) {
-                Console.stdOut.write(" ")
+                print(" ")
             }
-            Console.stdOut.write(ch)
+            print(ch)
         }
         println("")
     }
